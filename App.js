@@ -13,6 +13,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "./Style/ThemeColors";
 import { NavigationContainer } from "@react-navigation/native";
 import Splash from "./Screens/Splash";
+import Onboarding1 from "./Screens/Onboarding/Onboarding1";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,8 +38,14 @@ export default function App() {
           screenOptions={{ headerShown: false, animation: "slide_from_left" }}
         >
           <Stack.Screen name="splash" component={Splash} />
+
+          {/* Onboarding */}
+          <Stack.Group>
+            <Stack.Screen name="Onboarding1" component={Onboarding1} />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
+      <StatusBar style="light" />
     </SafeAreaProvider>
   );
 }
