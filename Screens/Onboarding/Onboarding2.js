@@ -3,6 +3,8 @@ import React from "react";
 import { useState } from "react";
 import GeneralStyle from "../../Style/General.style";
 import Colors from "../../Style/ThemeColors";
+import OnboardingProgress from "../../Components/Onboarding/OnboardingProgress";
+import { AntDesign } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -60,7 +62,39 @@ const Onboarding2 = ({ navigation }) => {
         </View>
         {/* button */}
         <TouchableOpacity style={GeneralStyle.Btn} onPress={() => next()}>
-          <Text style={[GeneralStyle.MediumText]}>Let's Go</Text>
+          <Text style={[GeneralStyle.MediumText]}>Why wait!</Text>
+        </TouchableOpacity>
+      </View>
+      {/* onboarding progress */}
+      <View
+        style={{
+          height: height * 0.2,
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "flex-end",
+          paddingBottom: 50,
+        }}
+      >
+        <TouchableOpacity activeOpacity={0.8}>
+          <Text
+            style={
+              ([GeneralStyle.MediumText],
+              { color: Colors.mediumSeaGreen, fontSize: 24 })
+            }
+          >
+            Skip
+          </Text>
+        </TouchableOpacity>
+        <OnboardingProgress
+          totalScreens={totalScreens}
+          activeScreenIndex={activeScreenIndex}
+        />
+        <TouchableOpacity onPress={() => next()}>
+          <AntDesign
+            name="arrowright"
+            size={28}
+            color={Colors.mediumSeaGreen}
+          />
         </TouchableOpacity>
       </View>
     </View>
