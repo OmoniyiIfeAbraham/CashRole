@@ -1,5 +1,7 @@
 import { View, Text, Image, Dimensions } from "react-native";
 import React from "react";
+import OnboardStyleStyle from "../../Style/OnboardStyle.style";
+import Colors from "../../Style/ThemeColors";
 
 const { width, height } = Dimensions.get("window");
 
@@ -12,7 +14,7 @@ const Onboarding1 = () => {
           height: height * 0.4,
           justifyContent: "center",
           alignItems: "center",
-          paddingRight: 25
+          paddingRight: 25,
         }}
       >
         <Image
@@ -20,6 +22,14 @@ const Onboarding1 = () => {
           style={{ width: "70%", height: "70%" }}
         />
       </View>
+      <Text
+        style={[
+          OnboardStyleStyle.BoldText,
+          { color: Colors.black, fontSize: 36, textAlign: "center" },
+        ]}
+      >
+        Financial Transactions made easy
+      </Text>
     </View>
   );
 };

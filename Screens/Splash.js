@@ -35,7 +35,7 @@ const Splash = () => {
           transform: [{ scale: animValue }],
         }}
       >
-        <Text style={OnboardStyleStyle.Title}>CASHROLE</Text>
+        <Text style={OnboardStyleStyle.ExtraBoldText}>CASHROLE</Text>
       </Animated.View>
     </View>
   );
