@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, Animated, Easing } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Assuming you're using React Navigation for navigation
 import Colors from "../Style/ThemeColors";
-import OnboardStyleStyle from "../Style/OnboardStyle.style";
+import OnboardStyleStyle from "../Style/General.style";
 
 const Splash = () => {
   const navigation = useNavigation();
