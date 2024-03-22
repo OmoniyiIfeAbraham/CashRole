@@ -62,10 +62,12 @@ const Onboarding1 = ({ navigation }) => {
             Get Easy Access to Global Payment Solutions.
           </Text>
         </View>
+        {/* button */}
         <TouchableOpacity style={GeneralStyle.Btn} onPress={() => next()}>
           <Text style={[GeneralStyle.MediumText]}>Let's Go</Text>
         </TouchableOpacity>
       </View>
+      {/* onboarding progress */}
       <View
         style={{
           height: height * 0.2,
