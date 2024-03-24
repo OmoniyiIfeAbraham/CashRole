@@ -12,8 +12,8 @@ const Onboarding2 = ({ navigation }) => {
   const [activeScreenIndex, setActiveScreenIndex] = useState(1);
   const totalScreens = 3; // Total number of onboarding screens
 
-  const next = () => {
-    navigation.navigate("Onboarding3");
+  const next = (screen) => {
+    navigation.replace(screen);
   };
   return (
     <View style={{ padding: 25 }}>
@@ -61,7 +61,10 @@ const Onboarding2 = ({ navigation }) => {
           </Text>
         </View>
         {/* button */}
-        <TouchableOpacity style={GeneralStyle.Btn} onPress={() => next()}>
+        <TouchableOpacity
+          style={GeneralStyle.Btn}
+          onPress={() => next("Register")}
+        >
           <Text style={[GeneralStyle.MediumText]}>Why wait!</Text>
         </TouchableOpacity>
       </View>
@@ -75,7 +78,10 @@ const Onboarding2 = ({ navigation }) => {
           paddingBottom: 50,
         }}
       >
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => next("Onboarding3")}
+        >
           <Text
             style={
               ([GeneralStyle.MediumText],
@@ -89,7 +95,7 @@ const Onboarding2 = ({ navigation }) => {
           totalScreens={totalScreens}
           activeScreenIndex={activeScreenIndex}
         />
-        <TouchableOpacity onPress={() => next()}>
+        <TouchableOpacity onPress={() => next("Onboarding3")}>
           <AntDesign
             name="arrowright"
             size={28}

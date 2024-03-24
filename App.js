@@ -16,6 +16,7 @@ import Splash from "./Screens/Splash";
 import Onboarding1 from "./Screens/Onboarding/Onboarding1";
 import Onboarding2 from "./Screens/Onboarding/Onboarding2";
 import Onboarding3 from "./Screens/Onboarding/Onboarding3";
+import Register from "./Screens/Auth/Register";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,11 @@ export default function App() {
             <Stack.Screen name="Onboarding1" component={Onboarding1} />
             <Stack.Screen name="Onboarding2" component={Onboarding2} />
             <Stack.Screen name="Onboarding3" component={Onboarding3} />
+          </Stack.Group>
+
+          {/* Auth */}
+          <Stack.Group>
+            <Stack.Screen name="Register" component={Register} />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>

@@ -21,7 +21,7 @@ const Splash = () => {
 
     // Navigate to the onboarding screens after the animation
     const timeout = setTimeout(() => {
-      navigation.navigate("Onboarding1"); // Replace 'Onboarding' with your actual screen name
+      navigation.replace("Onboarding1"); // Replace 'Onboarding' with your actual screen name
     }, 5000);
 
     return () => clearTimeout(timeout); // Clear the timeout if component unmounts

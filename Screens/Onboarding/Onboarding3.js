@@ -10,8 +10,8 @@ const Onboarding3 = ({ navigation }) => {
   const [activeScreenIndex, setActiveScreenIndex] = useState(2);
   const totalScreens = 3; // Total number of onboarding screens
 
-  const next = () => {
-    // navigation.navigate("Onboarding3");
+  const next = (screen) => {
+    navigation.replace(screen);
   };
   return (
     <View style={{ padding: 25 }}>
@@ -63,7 +63,7 @@ const Onboarding3 = ({ navigation }) => {
         {/* button */}
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.tomato }]}
-          onPress={() => next()}
+          onPress={() => next("Register")}
         >
           <Text style={[GeneralStyle.MediumText]}>Let's Start</Text>
         </TouchableOpacity>
@@ -83,7 +83,7 @@ const Onboarding3 = ({ navigation }) => {
           totalScreens={totalScreens}
           activeScreenIndex={activeScreenIndex}
         />
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => next("Register")}>
           <Text
             style={
               ([GeneralStyle.MediumText],
