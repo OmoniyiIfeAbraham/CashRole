@@ -48,4 +48,26 @@ export default StyleSheet.create({
     height: 16,
     borderRadius: 16 / 2,
   },
+  TextInputView: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    height: 50,
+    backgroundColor: Colors.white,
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    marginBottom: 20,
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 8,
+  },
+  TextInput: {
+    flex: 1,
+    color: Colors.black,
+  },
 });

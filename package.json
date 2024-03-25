@@ -11,6 +11,8 @@
   "dependencies": {
     "@expo-google-fonts/alegreya-sans": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
+    "@react-native-community/datetimepicker": "^7.6.3",
+    "@react-native-picker/picker": "^2.7.0",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "expo": "~50.0.14",
@@ -22,6 +24,7 @@
     "react-native-alert-notification": "^0.4.0",
     "react-native-gesture-handler": "^2.15.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-otp": "^1.0.0",
     "react-native-otp-textinput": "^1.1.5",
     "react-native-phone-number-input": "^2.1.0",
