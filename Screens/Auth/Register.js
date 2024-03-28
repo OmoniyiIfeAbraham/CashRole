@@ -241,7 +241,7 @@ const Register = ({ navigation }) => {
             justifyContent: "center",
           }}
         >
-          <Text style={[GeneralStyle.MediumText, { color: Colors.black }]}>
+          <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
             +234
           </Text>
         </View>
@@ -256,11 +256,11 @@ const Register = ({ navigation }) => {
           />
           <TextInput
             style={GeneralStyle.TextInput}
-            placeholder="Phone Number"
+            placeholder="8** **** ***"
             placeholderTextColor="#aaa"
             autoCapitalize="none"
-            autoComplete="password"
-            secureTextEntry={passwordVisible}
+            autoComplete="tel"
+            keyboardType="phone-pad"
           />
         </View>
       </View>
@@ -293,7 +293,7 @@ const Register = ({ navigation }) => {
             { color: Colors.black, fontSize: 16 },
           ]}
         >
-          A memeber of cashrole already?{" "}
+          A member of cashrole already?{" "}
         </Text>
         <Pressable onPress={() => navigation.navigate("Login")}>
           <Text
