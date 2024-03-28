@@ -70,4 +70,14 @@ export default StyleSheet.create({
     flex: 1,
     color: Colors.black,
   },
+  BackBtn: {
+    backgroundColor: Colors.white,
+    width: 50,
+    height: 50,
+    marginTop: 25,
+    marginLeft: 15,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+  },
 });
