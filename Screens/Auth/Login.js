@@ -84,7 +84,7 @@ const Login = ({ navigation }) => {
           <FontAwesome
             name="phone"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginRight: 10,
             }}
@@ -92,7 +92,7 @@ const Login = ({ navigation }) => {
           <TextInput
             style={GeneralStyle.TextInput}
             placeholder="8** **** ***"
-            placeholderTextColor="#aaa"
+            placeholderTextColor={Colors.ash}
             autoCapitalize="none"
             autoComplete="tel"
             keyboardType="phone-pad"
@@ -104,7 +104,7 @@ const Login = ({ navigation }) => {
         <MaterialIcons
           name="lock-outline"
           size={24}
-          color="#aaa"
+          color={Colors.ash}
           style={{
             marginRight: 10,
           }}
@@ -112,7 +112,7 @@ const Login = ({ navigation }) => {
         <TextInput
           style={GeneralStyle.TextInput}
           placeholder="Your Password"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={Colors.ash}
           autoCapitalize="none"
           autoComplete="password"
           secureTextEntry={passwordVisible}
@@ -121,7 +121,7 @@ const Login = ({ navigation }) => {
           <Ionicons
             name="eye"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginLeft: 10,
             }}
@@ -131,7 +131,7 @@ const Login = ({ navigation }) => {
           <Ionicons
             name="eye-off"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginLeft: 10,
             }}
@@ -139,7 +139,7 @@ const Login = ({ navigation }) => {
           />
         )}
       </View>
-      {/* forgot password */}
+      {/* forgot password link */}
       <Pressable>
         <Text
           style={[
@@ -175,7 +175,7 @@ const Login = ({ navigation }) => {
         }}
       >
         <Text
-          style={[GeneralStyle.RegularText, { color: "#aaa", fontSize: 20 }]}
+          style={[GeneralStyle.RegularText, { color: Colors.ash, fontSize: 20 }]}
         >
           Not a member of cashrole?{" "}
         </Text>

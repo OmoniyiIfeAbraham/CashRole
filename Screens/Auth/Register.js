@@ -82,7 +82,7 @@ const Register = ({ navigation }) => {
         <MaterialCommunityIcons
           name="account-circle-outline"
           size={24}
-          color="#aaa"
+          color={Colors.ash}
           style={{
             marginRight: 10,
           }}
@@ -90,7 +90,7 @@ const Register = ({ navigation }) => {
         <TextInput
           style={GeneralStyle.TextInput}
           placeholder="Your First Name"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={Colors.ash}
         />
       </View>
       {/* lastname */}
@@ -98,7 +98,7 @@ const Register = ({ navigation }) => {
         <MaterialCommunityIcons
           name="account-circle-outline"
           size={24}
-          color="#aaa"
+          color={Colors.ash}
           style={{
             marginRight: 10,
           }}
@@ -106,7 +106,7 @@ const Register = ({ navigation }) => {
         <TextInput
           style={GeneralStyle.TextInput}
           placeholder="Your Last Name"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={Colors.ash}
         />
       </View>
       {/* email */}
@@ -114,7 +114,7 @@ const Register = ({ navigation }) => {
         <MaterialIcons
           name="mail-outline"
           size={24}
-          color="#aaa"
+          color={Colors.ash}
           style={{
             marginRight: 10,
           }}
@@ -122,7 +122,7 @@ const Register = ({ navigation }) => {
         <TextInput
           style={GeneralStyle.TextInput}
           placeholder="your@gmail.com"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={Colors.ash}
           keyboardType="email-address"
           autoCapitalize="none"
         />
@@ -132,7 +132,7 @@ const Register = ({ navigation }) => {
         <Feather
           name="calendar"
           size={24}
-          color="#aaa"
+          color={Colors.ash}
           style={{
             marginRight: 10,
           }}
@@ -141,7 +141,7 @@ const Register = ({ navigation }) => {
           style={GeneralStyle.TextInput}
           onPress={() => showDatePicker()}
         >
-          <Text style={{ color: date == "yyyy-mm-dd" ? "#aaa" : Colors.black }}>
+          <Text style={{ color: date == "yyyy-mm-dd" ? Colors.ash : Colors.black }}>
             {date}
           </Text>
         </TouchableOpacity>
@@ -158,7 +158,7 @@ const Register = ({ navigation }) => {
         <MaterialIcons
           name="lock-outline"
           size={24}
-          color="#aaa"
+          color={Colors.ash}
           style={{
             marginRight: 10,
           }}
@@ -166,7 +166,7 @@ const Register = ({ navigation }) => {
         <TextInput
           style={GeneralStyle.TextInput}
           placeholder="Your Password"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={Colors.ash}
           autoCapitalize="none"
           autoComplete="password"
           secureTextEntry={passwordVisible}
@@ -175,7 +175,7 @@ const Register = ({ navigation }) => {
           <Ionicons
             name="eye"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginLeft: 10,
             }}
@@ -185,7 +185,7 @@ const Register = ({ navigation }) => {
           <Ionicons
             name="eye-off"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginLeft: 10,
             }}
@@ -198,7 +198,7 @@ const Register = ({ navigation }) => {
         <MaterialIcons
           name="lock-outline"
           size={24}
-          color="#aaa"
+          color={Colors.ash}
           style={{
             marginRight: 10,
           }}
@@ -206,7 +206,7 @@ const Register = ({ navigation }) => {
         <TextInput
           style={GeneralStyle.TextInput}
           placeholder="Confirm Password"
-          placeholderTextColor="#aaa"
+          placeholderTextColor={Colors.ash}
           autoCapitalize="none"
           autoComplete="password"
           secureTextEntry={passwordVisible}
@@ -215,7 +215,7 @@ const Register = ({ navigation }) => {
           <Ionicons
             name="eye"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginLeft: 10,
             }}
@@ -225,7 +225,7 @@ const Register = ({ navigation }) => {
           <Ionicons
             name="eye-off"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginLeft: 10,
             }}
@@ -251,7 +251,7 @@ const Register = ({ navigation }) => {
           <FontAwesome
             name="phone"
             size={24}
-            color="#aaa"
+            color={Colors.ash}
             style={{
               marginRight: 10,
             }}
@@ -259,7 +259,7 @@ const Register = ({ navigation }) => {
           <TextInput
             style={GeneralStyle.TextInput}
             placeholder="8** **** ***"
-            placeholderTextColor="#aaa"
+            placeholderTextColor={Colors.ash}
             autoCapitalize="none"
             autoComplete="tel"
             keyboardType="phone-pad"

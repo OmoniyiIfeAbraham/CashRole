@@ -3,7 +3,8 @@ let Colors = {
     black: '#0F0F0F',
     midnightBlue: '#061347',
     mediumSeaGreen: '#4DB151',
-    tomato: '#FA3F33'
+    tomato: '#FA3F33',
+    ash: '#aaa'
 }
 
 export default Colors
