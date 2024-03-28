@@ -102,6 +102,48 @@ const Otp = ({ navigation }) => {
               />
             </View>
           </View>
+          {/* btn */}
+          <View
+            style={{ width: "100%", paddingHorizontal: 100, marginTop: 30 }}
+          >
+            <TouchableOpacity
+              style={[
+                GeneralStyle.Btn,
+                { borderRadius: 15, backgroundColor: Colors.midnightBlue },
+              ]}
+            >
+              <Text style={GeneralStyle.RegularText}>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+          {/* resend link */}
+          <View
+            style={{
+              width: "100%",
+              height: 60,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                { color: Colors.ash, fontSize: 20 },
+              ]}
+            >
+              Did not receive OTP?{" "}
+            </Text>
+            <Pressable onPress={() => navigation.navigate("Register")}>
+              <Text
+                style={[
+                  GeneralStyle.ExtraBoldText,
+                  { color: Colors.midnightBlue, fontSize: 22 },
+                ]}
+              >
+                Resend
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </Pressable>
     </SafeAreaView>
