@@ -24,7 +24,7 @@ const { width, height } = Dimensions.get("window");
 
 const Register = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [date, setDate] = useState("yyy-mm-dd");
+  const [date, setDate] = useState("yyyy-mm-dd");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -141,7 +141,9 @@ const Register = ({ navigation }) => {
           style={GeneralStyle.TextInput}
           onPress={() => showDatePicker()}
         >
-          <Text style={{ color: Colors.black }}>{date}</Text>
+          <Text style={{ color: date == "yyyy-mm-dd" ? "#aaa" : Colors.black }}>
+            {date}
+          </Text>
         </TouchableOpacity>
 
         <DateTimePickerModal
@@ -274,6 +276,7 @@ const Register = ({ navigation }) => {
             backgroundColor: Colors.midnightBlue,
           },
         ]}
+        onPress={() => navigation.navigate("Otp")}
       >
         <Text style={GeneralStyle.RegularText}>Sign up</Text>
       </TouchableOpacity>

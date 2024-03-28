@@ -18,6 +18,7 @@ import Onboarding2 from "./Screens/Onboarding/Onboarding2";
 import Onboarding3 from "./Screens/Onboarding/Onboarding3";
 import Register from "./Screens/Auth/Register";
 import Login from "./Screens/Auth/Login";
+import Otp from "./Screens/Auth/Otp";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,6 +55,7 @@ export default function App() {
           <Stack.Group>
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Otp" component={Otp} />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
