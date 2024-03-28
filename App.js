@@ -19,6 +19,7 @@ import Onboarding3 from "./Screens/Onboarding/Onboarding3";
 import Register from "./Screens/Auth/Register";
 import Login from "./Screens/Auth/Login";
 import Otp from "./Screens/Auth/Otp";
+import MainTabNavigator from "./Components/Navigators/MainTabNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,9 @@ export default function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Otp" component={Otp} />
           </Stack.Group>
+
+          {/* Home Screen */}
+          <Stack.Screen name="Home" component={MainTabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="light" />
