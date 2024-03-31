@@ -60,7 +60,7 @@ export default function App() {
           </Stack.Group>
 
           {/* Home Screen */}
-          <Stack.Screen name="Home" component={MainTabNavigator} />
+          <Stack.Screen name="HomeTabs" component={MainTabNavigator} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="light" />

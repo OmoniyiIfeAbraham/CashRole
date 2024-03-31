@@ -111,6 +111,7 @@ const Otp = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { borderRadius: 15, backgroundColor: Colors.midnightBlue },
               ]}
+              onPress={() => navigation.replace("HomeTabs")}
             >
               <Text style={GeneralStyle.RegularText}>Confirm</Text>
             </TouchableOpacity>

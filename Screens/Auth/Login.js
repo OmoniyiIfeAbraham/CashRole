@@ -161,6 +161,7 @@ const Login = ({ navigation }) => {
             marginBottom: 20,
           },
         ]}
+        onPress={() => navigation.replace('HomeTabs')}
       >
         <Text style={GeneralStyle.RegularText}>Sign in</Text>
       </TouchableOpacity>
