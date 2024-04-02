@@ -1,10 +1,12 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   AntDesign,
   FontAwesome5,
+  Ionicons,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import Colors from "../Style/ThemeColors";
 import GeneralStyle from "../Style/General.style";
@@ -38,13 +40,15 @@ const Home = () => {
               Hello, Eclipse
             </Text>
           </View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <TouchableOpacity
+            style={{ justifyContent: "center", alignItems: "center" }}
+          >
             <MaterialCommunityIcons
               name="bell"
               size={35}
               color={Colors.midnightBlue}
             />
-          </View>
+          </TouchableOpacity>
         </View>
         {/* balance */}
         <View style={{ marginTop: 30 }}>
@@ -70,6 +74,64 @@ const Home = () => {
         </View>
         {/* withdraw */}
         <WithdrawComponent />
+        {/* links */}
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 30,
+            width: "100%",
+            justifyContent: "space-between",
+            paddingHorizontal: 75,
+            alignItems: "center",
+          }}
+        >
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.midnightBlue,
+                padding: 25,
+                borderRadius: 50,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <MaterialIcons
+                name="content-copy"
+                size={36}
+                color={Colors.white}
+              />
+            </TouchableOpacity>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                { color: Colors.ash, marginTop: 5 },
+              ]}
+            >
+              Store Link
+            </Text>
+          </View>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: Colors.midnightBlue,
+                padding: 25,
+                borderRadius: 50,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons name="person-add" size={36} color={Colors.white} />
+            </TouchableOpacity>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                { color: Colors.ash, marginTop: 5 },
+              ]}
+            >
+              Create a seller
+            </Text>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

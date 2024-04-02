@@ -10,7 +10,7 @@ const WithdrawComponent = () => {
         width: "100%",
         height: 300,
         backgroundColor: Colors.white,
-        elevation: 20,
+        elevation: 10,
         marginTop: 10,
         borderRadius: 5,
         shadowColor: Colors.black,
