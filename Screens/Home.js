@@ -11,11 +11,12 @@ import {
 import Colors from "../Style/ThemeColors";
 import GeneralStyle from "../Style/General.style";
 import WithdrawComponent from "../Components/HomeScreen/WithdrawComponent";
+import RecentStores from "../Components/HomeScreen/RecentStores";
 
 const Home = () => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 25 }}>
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         {/* header */}
         <View
           style={{
@@ -132,6 +133,16 @@ const Home = () => {
             </Text>
           </View>
         </View>
+        {/* recent store */}
+        <Text
+          style={[
+            GeneralStyle.BoldText,
+            { color: Colors.black, fontSize: 32, marginTop: 20 },
+          ]}
+        >
+          Recent Stores
+        </Text>
+        <RecentStores />
       </ScrollView>
     </SafeAreaView>
   );
