@@ -21,7 +21,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.lo_swift.Cashrole"
     },
     "web": {
       "favicon": "./assets/logo.png"
