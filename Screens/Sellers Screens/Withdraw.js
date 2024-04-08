@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -169,7 +170,6 @@ const Withdraw = ({ navigation }) => {
             placeholder="Account Number"
             placeholderTextColor={Colors.ash}
             autoCapitalize="none"
-            autoComplete="tel"
             keyboardType="numeric"
             value={accountNo}
             onChangeText={(text) => setAccountNo(text)}
@@ -196,6 +196,37 @@ const Withdraw = ({ navigation }) => {
             keyboardType="default"
           />
         </View>
+        {/* amount */}
+        <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+          <MaterialCommunityIcons
+            name="card-multiple"
+            size={24}
+            color={Colors.ash}
+            style={{
+              marginRight: 10,
+            }}
+          />
+          <TextInput
+            style={GeneralStyle.TextInput}
+            placeholder="Amount"
+            placeholderTextColor={Colors.ash}
+            autoCapitalize="none"
+            keyboardType="numeric"
+          />
+        </View>
+        {/* btn */}
+        <TouchableOpacity
+          style={[
+            GeneralStyle.Btn,
+            {
+              marginTop: 20,
+              borderRadius: 15,
+              backgroundColor: Colors.midnightBlue,
+            },
+          ]}
+        >
+          <Text style={GeneralStyle.RegularText}>Withdraw</Text>
+        </TouchableOpacity>
       </Pressable>
     </SafeAreaView>
   );

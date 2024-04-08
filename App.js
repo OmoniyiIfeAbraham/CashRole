@@ -24,6 +24,7 @@ import CreateSeller from "./Screens/Sellers Screens/CreateSeller";
 import ConnectSeller from "./Screens/Sellers Screens/ConnectSeller";
 import RegisteredSellers from "./Screens/Sellers Screens/RegisteredSellers";
 import Withdraw from "./Screens/Sellers Screens/Withdraw";
+import { AlertNotificationRoot } from "react-native-alert-notification";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,53 +42,46 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider style={{ flex: 1, backgroundColor: Colors.white }}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="splash"
-          screenOptions={{ headerShown: false, animation: "slide_from_left" }}
-        >
-          <Stack.Screen name="splash" component={Splash} />
+    <AlertNotificationRoot theme="light">
+      <SafeAreaProvider style={{ flex: 1, backgroundColor: Colors.white }}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="splash"
+            screenOptions={{ headerShown: false, animation: "slide_from_left" }}
+          >
+            <Stack.Screen name="splash" component={Splash} />
 
-          {/* Onboarding */}
-          <Stack.Group>
-            <Stack.Screen name="Onboarding1" component={Onboarding1} />
-            <Stack.Screen name="Onboarding2" component={Onboarding2} />
-            <Stack.Screen name="Onboarding3" component={Onboarding3} />
-          </Stack.Group>
+            {/* Onboarding */}
+            <Stack.Group>
+              <Stack.Screen name="Onboarding1" component={Onboarding1} />
+              <Stack.Screen name="Onboarding2" component={Onboarding2} />
+              <Stack.Screen name="Onboarding3" component={Onboarding3} />
+            </Stack.Group>
 
-          {/* Auth */}
-          <Stack.Group>
-            <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Otp" component={Otp} />
-          </Stack.Group>
+            {/* Auth */}
+            <Stack.Group>
+              <Stack.Screen name="Register" component={Register} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Otp" component={Otp} />
+            </Stack.Group>
 
-          {/* Home Screen */}
-          <Stack.Screen name="HomeTabs" component={MainTabNavigator} />
+            {/* Home Screen */}
+            <Stack.Screen name="HomeTabs" component={MainTabNavigator} />
 
-          {/* Sellers Screens */}
-          <Stack.Group>
-            <Stack.Screen name="CreateSeller" component={CreateSeller} />
-            <Stack.Screen name="ConnectSeller" component={ConnectSeller} />
-            <Stack.Screen
-              name="RegisteredSellers"
-              component={RegisteredSellers}
-            />
-            <Stack.Screen name="Withdraw" component={Withdraw} />
-          </Stack.Group>
-        </Stack.Navigator>
-      </NavigationContainer>
-      <StatusBar style="light" />
-    </SafeAreaProvider>
+            {/* Sellers Screens */}
+            <Stack.Group>
+              <Stack.Screen name="CreateSeller" component={CreateSeller} />
+              <Stack.Screen name="ConnectSeller" component={ConnectSeller} />
+              <Stack.Screen
+                name="RegisteredSellers"
+                component={RegisteredSellers}
+              />
+              <Stack.Screen name="Withdraw" component={Withdraw} />
+            </Stack.Group>
+          </Stack.Navigator>
+        </NavigationContainer>
+        <StatusBar style="light" />
+      </SafeAreaProvider>
+    </AlertNotificationRoot>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
