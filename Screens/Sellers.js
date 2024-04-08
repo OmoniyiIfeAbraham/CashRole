@@ -263,6 +263,7 @@ const Sellers = ({ navigation }) => {
             justifyContent: "space-between",
             marginVertical: 10,
           }}
+          onPress={() => navigation.navigate("Stores")}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View

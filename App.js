@@ -25,6 +25,7 @@ import ConnectSeller from "./Screens/Sellers Screens/ConnectSeller";
 import RegisteredSellers from "./Screens/Sellers Screens/RegisteredSellers";
 import Withdraw from "./Screens/Sellers Screens/Withdraw";
 import { AlertNotificationRoot } from "react-native-alert-notification";
+import Stores from "./Screens/Sellers Screens/Stores";
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +78,7 @@ export default function App() {
                 component={RegisteredSellers}
               />
               <Stack.Screen name="Withdraw" component={Withdraw} />
+              <Stack.Screen name="Stores" component={Stores} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
