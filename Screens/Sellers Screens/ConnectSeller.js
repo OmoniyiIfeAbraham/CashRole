@@ -1,4 +1,11 @@
-import { View, Text, Pressable, Keyboard, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  Keyboard,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
@@ -57,38 +64,37 @@ const ConnectSeller = ({ navigation }) => {
         </Text>
         {/* form */}
         {/* phone number */}
-        <View style={{ width: "100%", height: 50, flexDirection: "row" }}>
-          <View
+        <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+          <FontAwesome
+            name="phone"
+            size={24}
+            color={Colors.ash}
             style={{
-              width: "30%",
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
+              marginRight: 10,
             }}
-          >
-            <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
-              +234
-            </Text>
-          </View>
-          <View style={[GeneralStyle.TextInputView, { width: "70%" }]}>
-            <FontAwesome
-              name="phone"
-              size={24}
-              color={Colors.ash}
-              style={{
-                marginRight: 10,
-              }}
-            />
-            <TextInput
-              style={GeneralStyle.TextInput}
-              placeholder="8** **** ***"
-              placeholderTextColor={Colors.ash}
-              autoCapitalize="none"
-              autoComplete="tel"
-              keyboardType="phone-pad"
-            />
-          </View>
+          />
+          <TextInput
+            style={GeneralStyle.TextInput}
+            placeholder="Phone Number"
+            placeholderTextColor={Colors.ash}
+            autoCapitalize="none"
+            autoComplete="tel"
+            keyboardType="phone-pad"
+          />
         </View>
+        {/* btn */}
+        <TouchableOpacity
+          style={[
+            GeneralStyle.Btn,
+            {
+              marginTop: 20,
+              borderRadius: 15,
+              backgroundColor: Colors.midnightBlue,
+            },
+          ]}
+        >
+          <Text style={GeneralStyle.RegularText}>Connect</Text>
+        </TouchableOpacity>
       </Pressable>
     </SafeAreaView>
   );
