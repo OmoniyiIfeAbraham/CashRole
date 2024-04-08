@@ -23,6 +23,7 @@ import MainTabNavigator from "./Components/Navigators/MainTabNavigator";
 import CreateSeller from "./Screens/Sellers Screens/CreateSeller";
 import ConnectSeller from "./Screens/Sellers Screens/ConnectSeller";
 import RegisteredSellers from "./Screens/Sellers Screens/RegisteredSellers";
+import Withdraw from "./Screens/Sellers Screens/Withdraw";
 
 const Stack = createNativeStackNavigator();
 
@@ -73,6 +74,7 @@ export default function App() {
               name="RegisteredSellers"
               component={RegisteredSellers}
             />
+            <Stack.Screen name="Withdraw" component={Withdraw} />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
