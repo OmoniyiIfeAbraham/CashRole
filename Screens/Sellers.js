@@ -105,6 +105,7 @@ const Sellers = ({ navigation }) => {
             justifyContent: "space-between",
             marginVertical: 10,
           }}
+          onPress={() => navigation.navigate("ConnectSeller")}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View

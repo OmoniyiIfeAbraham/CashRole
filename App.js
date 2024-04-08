@@ -21,6 +21,7 @@ import Login from "./Screens/Auth/Login";
 import Otp from "./Screens/Auth/Otp";
 import MainTabNavigator from "./Components/Navigators/MainTabNavigator";
 import CreateSeller from "./Screens/Sellers Screens/CreateSeller";
+import ConnectSeller from "./Screens/Sellers Screens/ConnectSeller";
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,7 @@ export default function App() {
           {/* Sellers Screens */}
           <Stack.Group>
             <Stack.Screen name="CreateSeller" component={CreateSeller} />
+            <Stack.Screen name="ConnectSeller" component={ConnectSeller} />
           </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
