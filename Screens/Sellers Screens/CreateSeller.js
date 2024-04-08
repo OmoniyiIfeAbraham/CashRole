@@ -68,7 +68,6 @@ const CreateSeller = ({ navigation }) => {
               name="keyboard-arrow-left"
               size={40}
               color={Colors.midnightBlue}
-              onPress={() => navigation.goBack()}
             />
           </View>
         </View>
