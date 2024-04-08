@@ -16,6 +16,7 @@
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
+    "axios": "^1.6.8",
     "expo": "~50.0.14",
     "expo-constants": "^15.4.5",
     "expo-splash-screen": "^0.26.4",
@@ -37,5 +38,8 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "resolutions": {
+    "react-native-picker-select/@react-native-picker/picker": "2.4.10"
+  }
 }
