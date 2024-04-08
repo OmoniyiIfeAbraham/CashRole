@@ -141,7 +141,9 @@ const Register = ({ navigation }) => {
           style={GeneralStyle.TextInput}
           onPress={() => showDatePicker()}
         >
-          <Text style={{ color: date == "yyyy-mm-dd" ? Colors.ash : Colors.black }}>
+          <Text
+            style={{ color: date == "yyyy-mm-dd" ? Colors.ash : Colors.black }}
+          >
             {date}
           </Text>
         </TouchableOpacity>
@@ -288,6 +290,7 @@ const Register = ({ navigation }) => {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
+          marginBottom: 30,
         }}
       >
         <Text

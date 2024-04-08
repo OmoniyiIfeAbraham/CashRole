@@ -192,7 +192,7 @@ const RecentStores = () => {
     </TouchableOpacity>
   ));
   return (
-    <View style={{ paddingVertical: 20 }}>
+    <View style={{ paddingVertical: 5, flex: 1 }}>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={stores}

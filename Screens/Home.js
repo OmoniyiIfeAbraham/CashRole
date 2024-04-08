@@ -16,7 +16,6 @@ import RecentStores from "../Components/HomeScreen/RecentStores";
 const Home = () => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 25 }}>
-      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         {/* header */}
         <View
           style={{
@@ -81,16 +80,21 @@ const Home = () => {
             flexDirection: "row",
             marginTop: 30,
             width: "100%",
-            justifyContent: "space-between",
-            paddingHorizontal: 75,
+            justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginRight: 10,
+            }}
+          >
             <TouchableOpacity
               style={{
                 backgroundColor: Colors.midnightBlue,
-                padding: 25,
+                padding: 20,
                 borderRadius: 50,
                 justifyContent: "center",
                 alignItems: "center",
@@ -111,11 +115,17 @@ const Home = () => {
               Store Link
             </Text>
           </View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: 10,
+            }}
+          >
             <TouchableOpacity
               style={{
                 backgroundColor: Colors.midnightBlue,
-                padding: 25,
+                padding: 20,
                 borderRadius: 50,
                 justifyContent: "center",
                 alignItems: "center",
@@ -137,13 +147,12 @@ const Home = () => {
         <Text
           style={[
             GeneralStyle.BoldText,
-            { color: Colors.black, fontSize: 32, marginTop: 20 },
+            { color: Colors.black, fontSize: 32 },
           ]}
         >
           Recent Stores
         </Text>
         <RecentStores />
-      </ScrollView>
     </SafeAreaView>
   );
 };
