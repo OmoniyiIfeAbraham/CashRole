@@ -16,7 +16,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-const Sellers = () => {
+const Sellers = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       <ScrollView style={{ flex: 1 }}>
@@ -50,6 +50,7 @@ const Sellers = () => {
             justifyContent: "space-between",
             marginVertical: 10,
           }}
+          onPress={() => navigation.navigate("CreateSeller")}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <View

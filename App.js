@@ -20,6 +20,7 @@ import Register from "./Screens/Auth/Register";
 import Login from "./Screens/Auth/Login";
 import Otp from "./Screens/Auth/Otp";
 import MainTabNavigator from "./Components/Navigators/MainTabNavigator";
+import CreateSeller from "./Screens/Sellers Screens/CreateSeller";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,11 @@ export default function App() {
 
           {/* Home Screen */}
           <Stack.Screen name="HomeTabs" component={MainTabNavigator} />
+
+          {/* Sellers Screens */}
+          <Stack.Group>
+            <Stack.Screen name="CreateSeller" component={CreateSeller} />
+          </Stack.Group>
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="light" />

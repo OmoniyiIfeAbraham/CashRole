@@ -20,8 +20,6 @@ import {
 } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const { width, height } = Dimensions.get("window");
-
 const Register = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState("yyyy-mm-dd");
