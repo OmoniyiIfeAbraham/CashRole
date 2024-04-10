@@ -3,7 +3,7 @@ import React from "react";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 
-const WithdrawComponent = () => {
+const WithdrawComponent = ({ navigation }) => {
   return (
     <View
       style={{
@@ -35,6 +35,7 @@ const WithdrawComponent = () => {
       <View style={{ width: "100%", paddingHorizontal: 50, marginTop: 25 }}>
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
+          onPress={() => navigation.navigate("Withdraw")}
         >
           <Text style={[GeneralStyle.BoldText]}>Withdraw</Text>
         </TouchableOpacity>

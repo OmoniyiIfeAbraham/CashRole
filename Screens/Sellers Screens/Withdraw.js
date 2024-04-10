@@ -14,6 +14,8 @@ import {
   MaterialIcons,
   Octicons,
   MaterialCommunityIcons,
+  FontAwesome,
+  FontAwesome5,
 } from "@expo/vector-icons";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
@@ -81,7 +83,7 @@ const Withdraw = ({ navigation }) => {
         marginTop: 0,
         height: "auto",
         color: Colors.black,
-        width: width * 0.9,
+        width: width * 0.8,
       },
     ],
     placeholder: {
@@ -142,6 +144,7 @@ const Withdraw = ({ navigation }) => {
         {/* form */}
         {/* bank */}
         <View style={GeneralStyle.TextInputView}>
+          <FontAwesome name="bank" size={24} color={Colors.ash} />
           <RNPickerSelect
             onValueChange={(value) => setSelectedValue(value)}
             items={Banks}
@@ -198,8 +201,8 @@ const Withdraw = ({ navigation }) => {
         </View>
         {/* amount */}
         <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
-          <MaterialCommunityIcons
-            name="card-multiple"
+          <FontAwesome5
+            name="money-bill"
             size={24}
             color={Colors.ash}
             style={{
