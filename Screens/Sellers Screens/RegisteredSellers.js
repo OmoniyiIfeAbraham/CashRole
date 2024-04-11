@@ -1,12 +1,15 @@
 import { View, Text, Pressable, Keyboard } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 import NoRegisteredSellers from "../../Components/Sellers/RegisteredSellers/NoRegisteredSellers";
+import RegisteredSeller from "../../Components/Sellers/RegisteredSellers/RegisteredSeller";
 
 const RegisteredSellers = ({ navigation }) => {
+  const [isSellers, setIsSellers] = useState(true);
+
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* header */}
@@ -40,7 +43,11 @@ const RegisteredSellers = ({ navigation }) => {
         </View>
       </View>
       {/* body */}
-      <NoRegisteredSellers navigation={navigation} />
+      {isSellers ? (
+        <RegisteredSeller navigation={navigation} />
+      ) : (
+        <NoRegisteredSellers navigation={navigation} />
+      )}
     </SafeAreaView>
   );
 };
