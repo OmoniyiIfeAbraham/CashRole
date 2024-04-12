@@ -28,6 +28,7 @@ import { AlertNotificationRoot } from "react-native-alert-notification";
 import Stores from "./Screens/Sellers Screens/Stores";
 import SellersProfile from "./Screens/Sellers Screens/SellersProfile";
 import EditSellerProfile from "./Screens/Sellers Screens/editSellerProfile";
+import AddStore from "./Screens/Sellers Screens/Stores/AddStore";
 
 const Stack = createNativeStackNavigator();
 
@@ -82,7 +83,15 @@ export default function App() {
               <Stack.Screen name="Withdraw" component={Withdraw} />
               <Stack.Screen name="Stores" component={Stores} />
               <Stack.Screen name="SellersProfile" component={SellersProfile} />
-              <Stack.Screen name="EditSellerProfile" component={EditSellerProfile} />
+              <Stack.Screen
+                name="EditSellerProfile"
+                component={EditSellerProfile}
+              />
+            </Stack.Group>
+
+            {/* Stores Screens */}
+            <Stack.Group>
+              <Stack.Screen name="AddStore" component={AddStore} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>

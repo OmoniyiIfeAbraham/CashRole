@@ -46,6 +46,7 @@ const SellersProfile = ({ navigation }) => {
               name="store-plus"
               size={40}
               color={Colors.midnightBlue}
+              onPress={() => navigation.navigate("AddStore")}
             />
           </View>
         </View>

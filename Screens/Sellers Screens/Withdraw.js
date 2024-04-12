@@ -25,6 +25,7 @@ import Banks from "./../../Components/Sellers/Withdraw/Banks";
 import axios from "axios";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import LoadingModal from "./../../Components/LoadingModal/LoadingModal";
+import Header from "../../Components/Header/Header";
 
 const { width, height } = Dimensions.get("window");
 
@@ -98,35 +99,7 @@ const Withdraw = ({ navigation }) => {
       {/* keyboard dismiss */}
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
-        <View
-          style={{
-            width: "100%",
-            height: 50,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={40}
-            color={Colors.midnightBlue}
-            onPress={() => navigation.goBack()}
-          />
-          <Text
-            style={[GeneralStyle.ExtraBoldText, { color: Colors.midnightBlue }]}
-          >
-            Withdraw
-          </Text>
-          {/* invisible view */}
-          <View style={{ opacity: 0 }}>
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={40}
-              color={Colors.midnightBlue}
-            />
-          </View>
-        </View>
+        <Header navigation={navigation} title="Withdraw" />
         {/* form title */}
         <Text
           style={[

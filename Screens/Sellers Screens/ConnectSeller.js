@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
+import Header from "../../Components/Header/Header";
 
 const ConnectSeller = ({ navigation }) => {
   return (
@@ -18,35 +19,7 @@ const ConnectSeller = ({ navigation }) => {
       {/* keyboard dismiss */}
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
-        <View
-          style={{
-            width: "100%",
-            height: 50,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={40}
-            color={Colors.midnightBlue}
-            onPress={() => navigation.goBack()}
-          />
-          <Text
-            style={[GeneralStyle.ExtraBoldText, { color: Colors.midnightBlue }]}
-          >
-            Connect Seller
-          </Text>
-          {/* invisible view */}
-          <View style={{ opacity: 0 }}>
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={40}
-              color={Colors.midnightBlue}
-            />
-          </View>
-        </View>
+        <Header navigation={navigation} title="Connect Seller" />
         {/* form title */}
         <Text
           style={[

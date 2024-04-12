@@ -18,6 +18,7 @@ import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useState } from "react";
+import Header from "../../Components/Header/Header";
 
 const CreateSeller = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -42,35 +43,7 @@ const CreateSeller = ({ navigation }) => {
       {/* keyboard dismiss */}
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
-        <View
-          style={{
-            width: "100%",
-            height: 50,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={40}
-            color={Colors.midnightBlue}
-            onPress={() => navigation.goBack()}
-          />
-          <Text
-            style={[GeneralStyle.ExtraBoldText, { color: Colors.midnightBlue }]}
-          >
-            Create Seller
-          </Text>
-          {/* invisible view */}
-          <View style={{ opacity: 0 }}>
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={40}
-              color={Colors.midnightBlue}
-            />
-          </View>
-        </View>
+        <Header navigation={navigation} title="Create Seller" />
         {/* form title */}
         <Text
           style={[
