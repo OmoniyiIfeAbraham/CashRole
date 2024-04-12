@@ -6,8 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
 import {
   FontAwesome5,
   MaterialCommunityIcons,
@@ -15,8 +14,27 @@ import {
 } from "@expo/vector-icons";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
+import { SafeAreaView } from "react-native-safe-area-context";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const SellersProfile = ({ navigation }) => {
+const EditSellerProfile = ({ navigation }) => {
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState("yyyy-mm-dd");
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (selectedDate) => {
+    const formattedDate = selectedDate.toLocaleDateString();
+    setDate(formattedDate);
+    hideDatePicker();
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
@@ -120,7 +138,6 @@ const SellersProfile = ({ navigation }) => {
             style={GeneralStyle.TextInput}
             placeholder="First Name"
             placeholderTextColor={Colors.ash}
-            editable={false}
           />
         </View>
         {/* lastname */}
@@ -129,7 +146,6 @@ const SellersProfile = ({ navigation }) => {
             style={GeneralStyle.TextInput}
             placeholder="Last Name"
             placeholderTextColor={Colors.ash}
-            editable={false}
           />
         </View>
         {/* phone number */}
@@ -141,27 +157,47 @@ const SellersProfile = ({ navigation }) => {
             autoCapitalize="none"
             autoComplete="tel"
             keyboardType="phone-pad"
-            editable={false}
           />
         </View>
         {/* dob */}
         <View style={[GeneralStyle.TextInputView, { borderRadius: 5 }]}>
-          <TouchableOpacity style={GeneralStyle.TextInput} activeOpacity={1}>
+          <TouchableOpacity
+            style={GeneralStyle.TextInput}
+            onPress={() => showDatePicker()}
+          >
             <Text
               style={{
-                color: Colors.ash,
+                color: date == "yyyy-mm-dd" ? Colors.ash : Colors.black,
               }}
             >
-              yyyy-mm-dd
+              {date}
             </Text>
           </TouchableOpacity>
+
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
         </View>
+        {/* btn */}
+        <TouchableOpacity
+          style={[
+            GeneralStyle.Btn,
+            {
+              marginTop: 10,
+              borderRadius: 15,
+              backgroundColor: Colors.midnightBlue,
+            },
+          ]}
+          onPress={() => navigation.navigate("SellersProfile")}
+        >
+          <Text style={GeneralStyle.RegularText}>Done</Text>
+        </TouchableOpacity>
         {/* logout link */}
         <Pressable
-          style={{
-            marginTop: 20,
-            width: 100,
-          }}
+          style={{ marginTop: 40, width: 100 }}
           onPress={() => navigation.replace("Login")}
         >
           <Text
@@ -173,7 +209,6 @@ const SellersProfile = ({ navigation }) => {
             Log Out
           </Text>
         </Pressable>
-
         {/* delete seller link */}
         <Pressable
           style={{ marginTop: 50, width: 200 }}
@@ -188,4 +223,4 @@ const SellersProfile = ({ navigation }) => {
   );
 };
 
-export default SellersProfile;
+export default EditSellerProfile;
