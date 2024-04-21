@@ -1,40 +1,31 @@
 import {
   View,
   Text,
-  TouchableOpacity,
   Pressable,
   Keyboard,
+  TouchableOpacity,
   TextInput,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../../Style/ThemeColors";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import GeneralStyle from "../../Style/General.style";
+import Colors from "../../../Style/ThemeColors";
+import GeneralStyle from "../../../Style/General.style";
+import Header from "../../../Components/Header/Header";
 
-const Otp = ({ navigation }) => {
+const Forgot = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.midnightBlue }}>
       <Pressable onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
-        <View style={{ height: "30%" }}>
-          {/* back btn */}
-          <TouchableOpacity
-            style={GeneralStyle.BackBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <AntDesign name="arrowleft" size={30} color={Colors.black} />
-          </TouchableOpacity>
-        </View>
         {/* body view */}
         <View
           style={{
             width: "100%",
-            height: "70%",
+            height: "100%",
             backgroundColor: Colors.white,
-            borderTopLeftRadius: 25,
-            borderTopRightRadius: 25,
           }}
         >
+          {/* header */}
+          <Header navigation={navigation} title="Forgot Password" />
           {/* title */}
           <View
             style={{
@@ -50,7 +41,7 @@ const Otp = ({ navigation }) => {
                 { color: Colors.black, fontSize: 25 },
               ]}
             >
-              Enter One Time Password
+              Mail Address Here
             </Text>
           </View>
           {/* sub title */}
@@ -67,11 +58,10 @@ const Otp = ({ navigation }) => {
                 { color: Colors.black, fontSize: 17 },
               ]}
             >
-              We have sent the verification code to the number you entered for
-              registeration earlier
+              Enter the email address associated with your account
             </Text>
           </View>
-          {/* otp input */}
+          {/* email input */}
           <View style={{ paddingHorizontal: 25 }}>
             <View
               style={[
@@ -84,21 +74,13 @@ const Otp = ({ navigation }) => {
                 },
               ]}
             >
-              <MaterialIcons
-                name="lock-outline"
-                size={24}
-                color={Colors.ash}
-                style={{
-                  marginRight: 10,
-                }}
-              />
               <TextInput
                 style={GeneralStyle.TextInput}
-                placeholder="Your OTP"
+                placeholder="Your Email"
                 placeholderTextColor={Colors.ash}
                 autoCapitalize="none"
-                autoComplete="cc-number"
-                keyboardType="number-pad"
+                autoComplete="email"
+                keyboardType="email-address"
               />
             </View>
           </View>
@@ -111,39 +93,10 @@ const Otp = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { borderRadius: 15, backgroundColor: Colors.midnightBlue },
               ]}
-              onPress={() => navigation.replace("HomeTabs")}
+              onPress={() => navigation.replace("ForgotOtp")}
             >
-              <Text style={GeneralStyle.RegularText}>Confirm</Text>
+              <Text style={GeneralStyle.RegularText}>Recover Password</Text>
             </TouchableOpacity>
-          </View>
-          {/* resend link */}
-          <View
-            style={{
-              width: "100%",
-              height: 60,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={[
-                GeneralStyle.RegularText,
-                { color: Colors.ash, fontSize: 20 },
-              ]}
-            >
-              Did not receive OTP?{" "}
-            </Text>
-            <Pressable>
-              <Text
-                style={[
-                  GeneralStyle.ExtraBoldText,
-                  { color: Colors.midnightBlue, fontSize: 22 },
-                ]}
-              >
-                Resend
-              </Text>
-            </Pressable>
           </View>
         </View>
       </Pressable>
@@ -151,4 +104,4 @@ const Otp = ({ navigation }) => {
   );
 };
 
-export default Otp;
+export default Forgot;

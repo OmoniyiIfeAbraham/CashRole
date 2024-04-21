@@ -29,6 +29,8 @@ import Stores from "./Screens/Sellers Screens/Stores";
 import SellersProfile from "./Screens/Sellers Screens/SellersProfile";
 import EditSellerProfile from "./Screens/Sellers Screens/editSellerProfile";
 import AddStore from "./Screens/Sellers Screens/Stores/AddStore";
+import Forgot from "./Screens/Auth/Forgot Password/Forgot";
+import ForgotOtp from "./Screens/Auth/Forgot Password/ForgotOtp";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +69,8 @@ export default function App() {
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Otp" component={Otp} />
+              <Stack.Screen name="Forgot" component={Forgot} />
+              <Stack.Screen name="ForgotOtp" component={ForgotOtp} />
             </Stack.Group>
 
             {/* Home Screen */}

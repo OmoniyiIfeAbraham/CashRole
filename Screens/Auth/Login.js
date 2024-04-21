@@ -146,6 +146,7 @@ const Login = ({ navigation }) => {
             GeneralStyle.ExtraBoldText,
             { color: Colors.midnightBlue, fontSize: 22, marginBottom: 20 },
           ]}
+          onPress={() => navigation.navigate("Forgot")}
         >
           Forgot Password?
         </Text>
@@ -161,7 +162,7 @@ const Login = ({ navigation }) => {
             marginBottom: 20,
           },
         ]}
-        onPress={() => navigation.replace('HomeTabs')}
+        onPress={() => navigation.replace("HomeTabs")}
       >
         <Text style={GeneralStyle.RegularText}>Sign in</Text>
       </TouchableOpacity>
@@ -176,7 +177,10 @@ const Login = ({ navigation }) => {
         }}
       >
         <Text
-          style={[GeneralStyle.RegularText, { color: Colors.ash, fontSize: 20 }]}
+          style={[
+            GeneralStyle.RegularText,
+            { color: Colors.ash, fontSize: 20 },
+          ]}
         >
           Not a member of cashrole?{" "}
         </Text>

@@ -1,18 +1,18 @@
 import {
   View,
   Text,
-  TouchableOpacity,
   Pressable,
   Keyboard,
+  TouchableOpacity,
   TextInput,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Colors from "../../Style/ThemeColors";
+import Colors from "../../../Style/ThemeColors";
+import GeneralStyle from "../../../Style/General.style";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import GeneralStyle from "../../Style/General.style";
 
-const Otp = ({ navigation }) => {
+const ForgotOtp = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.midnightBlue }}>
       <Pressable onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
@@ -67,8 +67,8 @@ const Otp = ({ navigation }) => {
                 { color: Colors.black, fontSize: 17 },
               ]}
             >
-              We have sent the verification code to the number you entered for
-              registeration earlier
+              We have sent the verification code to the email you entered
+              earlier
             </Text>
           </View>
           {/* otp input */}
@@ -111,7 +111,7 @@ const Otp = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { borderRadius: 15, backgroundColor: Colors.midnightBlue },
               ]}
-              onPress={() => navigation.replace("HomeTabs")}
+              //   onPress={() => navigation.replace("HomeTabs")}
             >
               <Text style={GeneralStyle.RegularText}>Confirm</Text>
             </TouchableOpacity>
@@ -151,4 +151,4 @@ const Otp = ({ navigation }) => {
   );
 };
 
-export default Otp;
+export default ForgotOtp;
