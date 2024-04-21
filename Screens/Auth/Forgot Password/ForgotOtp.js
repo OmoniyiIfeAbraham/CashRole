@@ -111,7 +111,7 @@ const ForgotOtp = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { borderRadius: 15, backgroundColor: Colors.midnightBlue },
               ]}
-              //   onPress={() => navigation.replace("HomeTabs")}
+              onPress={() => navigation.replace("Reset")}
             >
               <Text style={GeneralStyle.RegularText}>Confirm</Text>
             </TouchableOpacity>
