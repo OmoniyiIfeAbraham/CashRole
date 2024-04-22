@@ -140,7 +140,6 @@ const RecentStores = () => {
     <TouchableOpacity
       style={{
         width: "100%",
-        height: 100,
         backgroundColor: Colors.white,
         elevation: 1,
         flexDirection: "row",

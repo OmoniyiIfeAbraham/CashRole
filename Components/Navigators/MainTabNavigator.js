@@ -5,7 +5,12 @@ import Home from "../../Screens/Home";
 import Sellers from "../../Screens/Sellers";
 import History from "../../Screens/History";
 import Colors from "../../Style/ThemeColors";
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import {
+  Entypo,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
+import Stores from "../../Screens/Sellers Screens/Stores";
 
 const Tab = createBottomTabNavigator();
 
@@ -54,6 +59,27 @@ const MainTabNavigator = () => {
               <MaterialIcons name="people" size={36} color={Colors.white} />
             ) : (
               <MaterialIcons name="people" size={30} color={Colors.ash} />
+            ),
+        }}
+      />
+      <Tab.Screen
+        name="Stores"
+        component={Stores}
+        options={{
+          title: "Stores",
+          tabBarIcon: ({ color, size, focused }) =>
+            focused ? (
+              <MaterialCommunityIcons
+                name="store"
+                size={36}
+                color={Colors.white}
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="store"
+                size={30}
+                color={Colors.ash}
+              />
             ),
         }}
       />

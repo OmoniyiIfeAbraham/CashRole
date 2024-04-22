@@ -8,7 +8,7 @@ const WithdrawComponent = ({ navigation }) => {
     <View
       style={{
         width: "100%",
-        height: 300,
+        height: "100%",
         backgroundColor: Colors.white,
         elevation: 10,
         marginTop: 10,
@@ -30,7 +30,7 @@ const WithdrawComponent = ({ navigation }) => {
       <Text
         style={[GeneralStyle.BoldText, { color: Colors.black, fontSize: 30 }]}
       >
-        0.00
+        NGN5,000.00
       </Text>
       <View style={{ width: "100%", paddingHorizontal: 50, marginTop: 25 }}>
         <TouchableOpacity

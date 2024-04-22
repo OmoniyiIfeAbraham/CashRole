@@ -134,7 +134,7 @@ const Withdraw = ({ navigation }) => {
         {/* account number */}
         <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
           <Octicons
-            name="number"
+            name="person-add"
             size={24}
             color={Colors.ash}
             style={{
@@ -173,7 +173,12 @@ const Withdraw = ({ navigation }) => {
           />
         </View>
         {/* amount */}
-        <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+        <View
+          style={[
+            GeneralStyle.TextInputView,
+            { width: "100%", marginBottom: 5 },
+          ]}
+        >
           <FontAwesome5
             name="money-bill"
             size={24}
@@ -184,25 +189,34 @@ const Withdraw = ({ navigation }) => {
           />
           <TextInput
             style={GeneralStyle.TextInput}
-            placeholder="Amount"
+            placeholder="Amount (min 100.00)"
             placeholderTextColor={Colors.ash}
             autoCapitalize="none"
             keyboardType="numeric"
           />
         </View>
-        {/* btn */}
-        <TouchableOpacity
+        <Text
           style={[
-            GeneralStyle.Btn,
-            {
-              marginTop: 20,
-              borderRadius: 15,
-              backgroundColor: Colors.midnightBlue,
-            },
+            GeneralStyle.LightText,
+            { color: Colors.ash, fontSize: 16, marginBottom: 20 },
           ]}
         >
-          <Text style={GeneralStyle.RegularText}>Withdraw</Text>
-        </TouchableOpacity>
+          Withdrawable Balance (NGN) 5,000.00
+        </Text>
+        {/* btn */}
+        <View style={{ width: "100%", paddingHorizontal: 50, marginTop: 20 }}>
+          <TouchableOpacity
+            style={[
+              GeneralStyle.Btn,
+              {
+                borderRadius: 15,
+                backgroundColor: Colors.midnightBlue,
+              },
+            ]}
+          >
+            <Text style={GeneralStyle.RegularText}>Withdraw</Text>
+          </TouchableOpacity>
+        </View>
       </Pressable>
     </SafeAreaView>
   );
