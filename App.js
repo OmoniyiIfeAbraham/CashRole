@@ -32,6 +32,7 @@ import AddStore from "./Screens/Sellers Screens/Stores/AddStore";
 import Forgot from "./Screens/Auth/Forgot Password/Forgot";
 import ForgotOtp from "./Screens/Auth/Forgot Password/ForgotOtp";
 import Reset from "./Screens/Auth/Forgot Password/Reset";
+import ConfirmWithdrawal from "./Screens/Sellers Screens/Withdraw Screens/ConfirmWithdrawal";
 
 const Stack = createNativeStackNavigator();
 
@@ -92,6 +93,10 @@ export default function App() {
               <Stack.Screen
                 name="EditSellerProfile"
                 component={EditSellerProfile}
+              />
+              <Stack.Screen
+                name="ConfirmWithdrawal"
+                component={ConfirmWithdrawal}
               />
             </Stack.Group>
 

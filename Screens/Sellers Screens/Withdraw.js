@@ -213,6 +213,7 @@ const Withdraw = ({ navigation }) => {
                 backgroundColor: Colors.midnightBlue,
               },
             ]}
+            onPress={() => navigation.navigate("ConfirmWithdrawal")}
           >
             <Text style={GeneralStyle.RegularText}>Withdraw</Text>
           </TouchableOpacity>
