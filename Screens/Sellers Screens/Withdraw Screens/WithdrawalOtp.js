@@ -110,7 +110,7 @@ const WithdrawalOtp = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { borderRadius: 15, backgroundColor: Colors.midnightBlue },
               ]}
-            //   onPress={() => navigation.replace("HomeTabs")}
+              onPress={() => navigation.replace("WithdrawSuccess")}
             >
               <Text style={GeneralStyle.RegularText}>Withdraw</Text>
             </TouchableOpacity>
