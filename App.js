@@ -35,6 +35,7 @@ import Reset from "./Screens/Auth/Forgot Password/Reset";
 import ConfirmWithdrawal from "./Screens/Sellers Screens/Withdraw Screens/ConfirmWithdrawal";
 import WithdrawalOtp from "./Screens/Sellers Screens/Withdraw Screens/WithdrawalOtp";
 import WithdrawSuccess from "./Screens/Sellers Screens/Withdraw Screens/WithdrawSuccess";
+import Deal from "./Screens/Deal/Deal";
 
 const Stack = createNativeStackNavigator();
 
@@ -110,6 +111,11 @@ export default function App() {
             {/* Stores Screens */}
             <Stack.Group>
               <Stack.Screen name="AddStore" component={AddStore} />
+            </Stack.Group>
+
+            {/* Deal Screens */}
+            <Stack.Group>
+              <Stack.Screen name="Deal" component={Deal} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>

@@ -198,12 +198,9 @@ const Home = ({ navigation }) => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onPress={() => navigation.navigate("Deal")}
             >
-              <FontAwesome5
-                name="handshake"
-                size={30}
-                color={Colors.white}
-              />
+              <FontAwesome5 name="handshake" size={30} color={Colors.white} />
             </TouchableOpacity>
             <Text
               style={[
