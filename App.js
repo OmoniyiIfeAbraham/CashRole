@@ -33,6 +33,7 @@ import Forgot from "./Screens/Auth/Forgot Password/Forgot";
 import ForgotOtp from "./Screens/Auth/Forgot Password/ForgotOtp";
 import Reset from "./Screens/Auth/Forgot Password/Reset";
 import ConfirmWithdrawal from "./Screens/Sellers Screens/Withdraw Screens/ConfirmWithdrawal";
+import WithdrawalOtp from "./Screens/Sellers Screens/Withdraw Screens/WithdrawalOtp";
 
 const Stack = createNativeStackNavigator();
 
@@ -98,6 +99,7 @@ export default function App() {
                 name="ConfirmWithdrawal"
                 component={ConfirmWithdrawal}
               />
+              <Stack.Screen name="WithdrawalOtp" component={WithdrawalOtp} />
             </Stack.Group>
 
             {/* Stores Screens */}

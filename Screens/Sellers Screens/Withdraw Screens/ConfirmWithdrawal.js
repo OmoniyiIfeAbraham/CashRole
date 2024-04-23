@@ -195,6 +195,7 @@ const ConfirmWithdrawal = ({ navigation }) => {
                 backgroundColor: Colors.black,
               },
             ]}
+            onPress={() => navigation.navigate("WithdrawalOtp")}
           >
             <Text
               style={[
