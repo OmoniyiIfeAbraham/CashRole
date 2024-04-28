@@ -11,9 +11,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../Components/Header/Header";
 import GeneralStyle from "../../Style/General.style";
 import Colors from "../../Style/ThemeColors";
-import { FontAwesome } from "@expo/vector-icons";
 
-const Deal = ({ navigation }) => {
+const DealOtp = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
@@ -42,41 +41,36 @@ const Deal = ({ navigation }) => {
                 },
               ]}
             >
-              Enter phone number of seller
+              Enter OTP sent to seller
             </Text>
             {/* form */}
-            {/* phone number */}
-            <View style={{ width: "80%", height: 50, flexDirection: "row" }}>
+            {/* otp */}
+            <View style={{ width: "100%", height: 50, alignItems: "center" }}>
               <View
-                style={{
-                  width: "20%",
-                  height: 50,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                style={[
+                  GeneralStyle.TextInputView,
+                  { width: "80%", marginBottom: 10 },
+                ]}
               >
-                <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
-                  +234
-                </Text>
-              </View>
-              <View style={[GeneralStyle.TextInputView, { width: "80%" }]}>
-                <FontAwesome
-                  name="phone"
-                  size={24}
-                  color={Colors.ash}
-                  style={{
-                    marginRight: 10,
-                  }}
-                />
                 <TextInput
                   style={GeneralStyle.TextInput}
-                  placeholder="Phone Number"
+                  placeholder="Enter OTP"
                   placeholderTextColor={Colors.ash}
                   autoCapitalize="none"
-                  autoComplete="tel"
-                  keyboardType="phone-pad"
+                  keyboardType="number-pad"
                 />
               </View>
+              {/* resend link */}
+              <Pressable>
+                <Text
+                  style={[
+                    GeneralStyle.RegularText,
+                    { color: Colors.black, fontSize: 18 },
+                  ]}
+                >
+                  Resend OTP
+                </Text>
+              </Pressable>
             </View>
             {/* btn */}
             <View style={{ width: "100%", paddingHorizontal: 50 }}>
@@ -85,9 +79,9 @@ const Deal = ({ navigation }) => {
                   GeneralStyle.Btn,
                   { backgroundColor: Colors.midnightBlue },
                 ]}
-                onPress={() => navigation.navigate("DealOtp")}
+                // onPress={() => navigation.replace("HomeTabs")}
               >
-                <Text style={[GeneralStyle.BoldText]}>Send OTP</Text>
+                <Text style={[GeneralStyle.BoldText]}>Confirm</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -97,4 +91,4 @@ const Deal = ({ navigation }) => {
   );
 };
 
-export default Deal;
+export default DealOtp;
