@@ -38,23 +38,24 @@ const Home = ({ navigation }) => {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <View
+            <TouchableOpacity
               style={{
                 padding: 15,
                 backgroundColor: Colors.ash,
                 borderRadius: 50,
                 marginRight: 10,
               }}
+              onPress={() => navigation.navigate("MyProfile")}
             >
               <FontAwesome5 name="user-alt" size={30} color={Colors.white} />
-            </View>
+            </TouchableOpacity>
             <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
               Hello, Eclipse
             </Text>
           </View>
           <TouchableOpacity
             style={{ justifyContent: "center", alignItems: "center" }}
-            onPress={() => navigation.navigate("Sellers")}
+            // onPress={() => navigation.navigate("Sellers")}
           >
             <MaterialCommunityIcons
               name="bell"
