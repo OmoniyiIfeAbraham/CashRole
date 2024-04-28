@@ -3,7 +3,7 @@ import React from "react";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 
-const WithdrawComponent = ({ navigation }) => {
+const WithdrawComponent = ({ navigation, title, amount }) => {
   return (
     <View
       style={{
@@ -25,12 +25,12 @@ const WithdrawComponent = ({ navigation }) => {
       }}
     >
       <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
-        Available funds
+        {title}
       </Text>
       <Text
         style={[GeneralStyle.BoldText, { color: Colors.black, fontSize: 30 }]}
       >
-        NGN5,000.00
+        NGN{amount}
       </Text>
       <View style={{ width: "100%", paddingHorizontal: 50, marginTop: 25 }}>
         <TouchableOpacity

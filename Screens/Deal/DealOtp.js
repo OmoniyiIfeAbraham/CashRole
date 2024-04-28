@@ -79,7 +79,7 @@ const DealOtp = ({ navigation }) => {
                   GeneralStyle.Btn,
                   { backgroundColor: Colors.midnightBlue },
                 ]}
-                // onPress={() => navigation.replace("HomeTabs")}
+                onPress={() => navigation.navigate("SellerProfile")}
               >
                 <Text style={[GeneralStyle.BoldText]}>Confirm</Text>
               </TouchableOpacity>

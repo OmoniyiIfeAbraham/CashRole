@@ -37,6 +37,7 @@ import WithdrawalOtp from "./Screens/Sellers Screens/Withdraw Screens/Withdrawal
 import WithdrawSuccess from "./Screens/Sellers Screens/Withdraw Screens/WithdrawSuccess";
 import Deal from "./Screens/Deal/Deal";
 import DealOtp from "./Screens/Deal/DealOtp";
+import SellerProfile from "./Screens/Deal/SellerProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -118,6 +119,7 @@ export default function App() {
             <Stack.Group>
               <Stack.Screen name="Deal" component={Deal} />
               <Stack.Screen name="DealOtp" component={DealOtp} />
+              <Stack.Screen name="SellerProfile" component={SellerProfile} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>

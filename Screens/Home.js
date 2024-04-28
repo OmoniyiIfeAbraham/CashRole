@@ -138,7 +138,11 @@ const Home = ({ navigation }) => {
         </Modal>
         {/* withdraw */}
         <View style={{ height: "50%" }}>
-          <WithdrawComponent navigation={navigation} />
+          <WithdrawComponent
+            navigation={navigation}
+            title="Available funds"
+            amount="5,000"
+          />
         </View>
         {/* links */}
         <View

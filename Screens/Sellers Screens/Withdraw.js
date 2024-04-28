@@ -112,7 +112,7 @@ const Withdraw = ({ navigation }) => {
             },
           ]}
         >
-          Withdraw
+          Withdraw to
         </Text>
         {/* form */}
         {/* bank */}
