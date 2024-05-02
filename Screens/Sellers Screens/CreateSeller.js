@@ -21,29 +21,29 @@ import { useState } from "react";
 import Header from "../../Components/Header/Header";
 
 const CreateSeller = ({ navigation }) => {
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [date, setDate] = useState("yyyy-mm-dd");
+  // const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  // const [date, setDate] = useState("yyyy-mm-dd");
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
+  // const showDatePicker = () => {
+  //   setDatePickerVisibility(true);
+  // };
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
+  // const hideDatePicker = () => {
+  //   setDatePickerVisibility(false);
+  // };
 
-  const handleConfirm = (selectedDate) => {
-    const formattedDate = selectedDate.toLocaleDateString();
-    setDate(formattedDate);
-    hideDatePicker();
-  };
+  // const handleConfirm = (selectedDate) => {
+  //   const formattedDate = selectedDate.toLocaleDateString();
+  //   setDate(formattedDate);
+  //   hideDatePicker();
+  // };
 
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
-        <Header navigation={navigation} title="Create Seller" />
+        <Header navigation={navigation} title="Add Seller" />
         {/* form title */}
         <Text
           style={[
@@ -56,7 +56,7 @@ const CreateSeller = ({ navigation }) => {
             },
           ]}
         >
-          Create a new seller
+          Add a new seller
         </Text>
         {/* form */}
         {/* firstname */}
@@ -92,7 +92,7 @@ const CreateSeller = ({ navigation }) => {
           />
         </View>
         {/* dob */}
-        <View style={GeneralStyle.TextInputView}>
+        {/* <View style={GeneralStyle.TextInputView}>
           <Feather
             name="calendar"
             size={24}
@@ -120,7 +120,7 @@ const CreateSeller = ({ navigation }) => {
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
           />
-        </View>
+        </View> */}
         {/* phone number */}
         <View style={{ width: "100%", height: 50, flexDirection: "row" }}>
           <View
@@ -136,17 +136,9 @@ const CreateSeller = ({ navigation }) => {
             </Text>
           </View>
           <View style={[GeneralStyle.TextInputView, { width: "70%" }]}>
-            <FontAwesome
-              name="phone"
-              size={24}
-              color={Colors.ash}
-              style={{
-                marginRight: 10,
-              }}
-            />
             <TextInput
               style={GeneralStyle.TextInput}
-              placeholder="8** **** ***"
+              placeholder="Phone Number"
               placeholderTextColor={Colors.ash}
               autoCapitalize="none"
               autoComplete="tel"
@@ -165,7 +157,7 @@ const CreateSeller = ({ navigation }) => {
             },
           ]}
         >
-          <Text style={GeneralStyle.RegularText}>Create Seller</Text>
+          <Text style={GeneralStyle.RegularText}>Add Seller</Text>
         </TouchableOpacity>
       </Pressable>
     </SafeAreaView>
