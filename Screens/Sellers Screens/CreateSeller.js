@@ -147,18 +147,20 @@ const CreateSeller = ({ navigation }) => {
           </View>
         </View>
         {/* btn */}
-        <TouchableOpacity
-          style={[
-            GeneralStyle.Btn,
-            {
-              marginTop: 50,
-              borderRadius: 15,
-              backgroundColor: Colors.midnightBlue,
-            },
-          ]}
-        >
-          <Text style={GeneralStyle.RegularText}>Add Seller</Text>
-        </TouchableOpacity>
+        <View style={{ width: "100%", paddingHorizontal: 50, marginTop: 20 }}>
+          <TouchableOpacity
+            style={[
+              GeneralStyle.Btn,
+              {
+                marginTop: 50,
+                borderRadius: 15,
+                backgroundColor: Colors.midnightBlue,
+              },
+            ]}
+          >
+            <Text style={GeneralStyle.RegularText}>Add Seller</Text>
+          </TouchableOpacity>
+        </View>
       </Pressable>
     </SafeAreaView>
   );
