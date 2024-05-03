@@ -39,6 +39,7 @@ import Deal from "./Screens/Deal/Deal";
 import DealOtp from "./Screens/Deal/DealOtp";
 import SellerProfile from "./Screens/Deal/SellerProfile";
 import MyProfile from "./Screens/HomeScreens/MyProfile";
+import AddSellerOtp from "./Screens/Sellers Screens/AddSellerOtp";
 
 const Stack = createNativeStackNavigator();
 
@@ -114,6 +115,7 @@ export default function App() {
                 name="WithdrawSuccess"
                 component={WithdrawSuccess}
               />
+              <Stack.Screen name="AddSellerOtp" component={AddSellerOtp} />
             </Stack.Group>
 
             {/* Stores Screens */}

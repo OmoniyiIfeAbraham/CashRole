@@ -157,6 +157,7 @@ const CreateSeller = ({ navigation }) => {
                 backgroundColor: Colors.midnightBlue,
               },
             ]}
+            onPress={() => navigation.navigate("AddSellerOtp")}
           >
             <Text style={GeneralStyle.RegularText}>Add Seller</Text>
           </TouchableOpacity>

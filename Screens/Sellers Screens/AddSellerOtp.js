@@ -12,13 +12,13 @@ import Header from "../../Components/Header/Header";
 import GeneralStyle from "../../Style/General.style";
 import Colors from "../../Style/ThemeColors";
 
-const DealOtp = ({ navigation }) => {
+const AddSellerOtp = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
-        <Header navigation={navigation} title="Deal" />
+        <Header navigation={navigation} title="Add Seller" />
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
@@ -41,7 +41,7 @@ const DealOtp = ({ navigation }) => {
                 },
               ]}
             >
-              Enter OTP sent to seller
+              Enter OTP sent to new seller
             </Text>
             {/* form */}
             {/* otp */}
@@ -80,7 +80,7 @@ const DealOtp = ({ navigation }) => {
                   { backgroundColor: Colors.midnightBlue },
                 ]}
                 onPress={() =>
-                  navigation.navigate("SellerProfile", { from: "Deal" })
+                  navigation.navigate("SellerProfile", { from: "AddSeller" })
                 }
               >
                 <Text style={[GeneralStyle.BoldText]}>Confirm</Text>
@@ -93,4 +93,4 @@ const DealOtp = ({ navigation }) => {
   );
 };
 
-export default DealOtp;
+export default AddSellerOtp;
