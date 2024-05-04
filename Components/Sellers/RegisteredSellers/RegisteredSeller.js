@@ -8,13 +8,28 @@ const RegisteredSeller = ({ navigation }) => {
   const sellers = [
     {
       id: 0,
-      name: "Jasmin Judy Love",
-      phone: "+2347896582342",
+      name: "Vivian Nnaji",
+      phone: "+2347030473033",
     },
     {
       id: 1,
-      name: "Rock Bass Lander",
-      phone: "+2348523789512",
+      name: "Adeolu Abimbola",
+      phone: "+2347030473033",
+    },
+    {
+      id: 2,
+      name: "Vivian Nnaji",
+      phone: "+2347030473033",
+    },
+    {
+      id: 3,
+      name: "Adeolu Abimbola",
+      phone: "+2347030473033",
+    },
+    {
+      id: 4,
+      name: "Adeolu Abimbola",
+      phone: "+2347030473033",
     },
   ];
 
@@ -23,27 +38,31 @@ const RegisteredSeller = ({ navigation }) => {
     <TouchableOpacity
       style={{
         width: "100%",
-        height: 70,
+        height: 64,
         backgroundColor: Colors.white,
-        elevation: 1,
+        elevation: 5,
         flexDirection: "row",
         paddingVertical: 2,
         justifyContent: "space-around",
         alignItems: "center",
         marginBottom: 20,
+        borderRadius: 10,
       }}
-      onPress={() => navigation.navigate("SellersProfile")}
+      onPress={() =>
+        navigation.navigate("SellerProfile", { from: "AddSeller" })
+      }
     >
       <View
         style={{
           backgroundColor: Colors.ash,
-          borderRadius: 15,
-          padding: 18,
+          borderRadius: 10,
+          padding: 10,
           justifyContent: "center",
           alignItems: "center",
+          // marginVertical: 15,
         }}
       >
-        <FontAwesome5 name="user-circle" size={25} color={Colors.black} />
+        <FontAwesome5 name="user-circle" size={18} color={Colors.black} />
       </View>
       <View style={{ justifyContent: "center" }}>
         <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
@@ -75,7 +94,7 @@ const RegisteredSeller = ({ navigation }) => {
   ));
 
   return (
-    <View style={{ paddingVertical: 5, flex: 1 }}>
+    <View style={{ paddingVertical: 5, flex: 1, paddingHorizontal: 25 }}>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={sellers}

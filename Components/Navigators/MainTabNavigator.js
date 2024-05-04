@@ -11,6 +11,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import Stores from "../../Screens/Sellers Screens/Stores";
+import RegisteredSellers from "../../Screens/Sellers Screens/RegisteredSellers";
 
 const Tab = createBottomTabNavigator();
 
@@ -51,7 +52,7 @@ const MainTabNavigator = () => {
       />
       <Tab.Screen
         name="Sellers"
-        component={Sellers}
+        component={RegisteredSellers}
         options={{
           title: "Sellers",
           tabBarIcon: ({ color, size, focused }) =>
