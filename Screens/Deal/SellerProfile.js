@@ -116,7 +116,7 @@ const SellerProfile = ({ navigation, route }) => {
                     backgroundColor: Colors.midnightBlue,
                   },
                 ]}
-                // onPress={() => navigation.navigate("WithdrawalOtp")}
+                onPress={() => navigation.navigate("AddStore")}
               >
                 <Text
                   style={[

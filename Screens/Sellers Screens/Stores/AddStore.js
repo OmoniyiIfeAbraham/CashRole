@@ -5,6 +5,9 @@ import {
   Keyboard,
   TextInput,
   TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,104 +20,144 @@ import {
 import Colors from "../../../Style/ThemeColors";
 import GeneralStyle from "../../../Style/General.style";
 import Header from "../../../Components/Header/Header";
+import RNPickerSelect from "react-native-picker-select";
+import { useState } from "react";
+import States from "../../../Components/Stores/States";
+import Cities from "../../../Components/Stores/Cities";
+
+const { width, height } = Dimensions.get("window");
 
 const AddStore = ({ navigation }) => {
+  const [selectedState, setSelectedState] = useState(null);
+  const [selectedCity, setSelectedCity] = useState(null);
+
+  const pickerSelectStyles = StyleSheet.create({
+    inputAndroid: [
+      GeneralStyle.TextInput,
+      {
+        fontWeight: "500",
+        paddingRight: 30, // to ensure the text is never behind the icon
+        marginTop: 0,
+        height: "auto",
+        color: Colors.black,
+        width: width * 0.9,
+      },
+    ],
+    placeholder: {
+      color: Colors.ash,
+    },
+  });
+
+  // Function to filter cities based on the selected state
+  const filteredCities = selectedState
+    ? Cities.filter((city) => city.state === selectedState)
+    : [];
+
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
-      <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
-        {/* header */}
-        <Header navigation={navigation} title="Add Store" />
-        {/* form */}
-        {/* store name */}
-        <View style={[GeneralStyle.TextInputView, { marginTop: 100 }]}>
-          <MaterialCommunityIcons
-            name="account-circle-outline"
-            size={24}
-            color={Colors.ash}
-            style={{
-              marginRight: 10,
-            }}
-          />
-          <TextInput
-            style={GeneralStyle.TextInput}
-            placeholder="Store-Name"
-            placeholderTextColor={Colors.ash}
-          />
-        </View>
-        {/* note text */}
-        <Text
-          style={[
-            GeneralStyle.RegularText,
-            { color: Colors.black, fontSize: 20, textAlign: "center" },
-          ]}
-        >
-          Note your Store-Link-Name will be required in product screen
-        </Text>
-        {/* store link name */}
-        <View style={[GeneralStyle.TextInputView, { marginTop: 20 }]}>
-          <AntDesign
-            name="copy1"
-            size={24}
-            color={Colors.ash}
-            style={{
-              marginRight: 10,
-            }}
-          />
-          <TextInput
-            style={GeneralStyle.TextInput}
-            placeholder="Store-Link-Name"
-            placeholderTextColor={Colors.ash}
-            keyboardType="url"
-          />
-        </View>
-        {/* phone number */}
-        <View style={{ width: "100%", height: 50, flexDirection: "row" }}>
-          <View
-            style={{
-              width: "30%",
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
-              +234
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+          {/* header */}
+          <Header navigation={navigation} title="Add new store" />
+          {/* form */}
+          {/* store name */}
+          <View style={{ marginTop: 75 }}>
+            <Text
+              style={[
+                GeneralStyle.MediumText,
+                { color: Colors.black, marginLeft: 10 },
+              ]}
+            >
+              Name of Store
             </Text>
+            <View style={[GeneralStyle.TextInputView, { marginTop: 10 }]}>
+              <TextInput
+                style={GeneralStyle.TextInput}
+                placeholder="Enter store name here"
+                placeholderTextColor={Colors.ash}
+              />
+            </View>
           </View>
-          <View style={[GeneralStyle.TextInputView, { width: "70%" }]}>
-            <FontAwesome
-              name="phone"
-              size={24}
-              color={Colors.ash}
+          {/* state */}
+          <Text
+            style={[
+              GeneralStyle.MediumText,
+              { color: Colors.black, marginLeft: 10 },
+            ]}
+          >
+            Choose Store State
+          </Text>
+          <View style={[GeneralStyle.TextInputView, { marginTop: 10 }]}>
+            <RNPickerSelect
+              onValueChange={(value) => setSelectedState(value)}
+              items={States}
+              value={selectedState}
+              placeholder={{ label: "Choose state", value: null }}
               style={{
-                marginRight: 10,
+                ...pickerSelectStyles,
+              }}
+              Icon={() => {
+                return <View></View>;
               }}
             />
-            <TextInput
-              style={GeneralStyle.TextInput}
-              placeholder="8** **** ***"
-              placeholderTextColor={Colors.ash}
-              autoCapitalize="none"
-              autoComplete="tel"
-              keyboardType="phone-pad"
+          </View>
+          {/* city */}
+          <Text
+            style={[
+              GeneralStyle.MediumText,
+              { color: Colors.black, marginLeft: 10 },
+            ]}
+          >
+            Choose Store City
+          </Text>
+          <View style={[GeneralStyle.TextInputView, { marginTop: 10 }]}>
+            <RNPickerSelect
+              onValueChange={(value) => setSelectedCity(value)}
+              items={filteredCities}
+              value={selectedCity}
+              placeholder={{ label: "Choose city", value: null }}
+              style={{
+                ...pickerSelectStyles,
+              }}
+              Icon={() => {
+                return <View></View>;
+              }}
             />
           </View>
-        </View>
-        {/* btn */}
-        <TouchableOpacity
-          style={[
-            GeneralStyle.Btn,
-            {
-              marginTop: 50,
-              borderRadius: 15,
-              backgroundColor: Colors.midnightBlue,
-            },
-          ]}
-        >
-          <Text style={GeneralStyle.RegularText}>Add</Text>
-        </TouchableOpacity>
-      </Pressable>
+          {/* store address */}
+          <Text
+            style={[
+              GeneralStyle.MediumText,
+              { color: Colors.black, marginLeft: 10 },
+            ]}
+          >
+            Enter Store Address
+          </Text>
+          <View style={[GeneralStyle.TextInputView, { marginTop: 10 }]}>
+            <TextInput
+              style={GeneralStyle.TextInput}
+              placeholder="Enter store address"
+              placeholderTextColor={Colors.ash}
+            />
+          </View>
+          {/* btn */}
+          <View style={{ width: "100%", paddingHorizontal: 50 }}>
+            <TouchableOpacity
+              style={[
+                GeneralStyle.Btn,
+                {
+                  marginTop: 50,
+                  borderRadius: 15,
+                  backgroundColor: Colors.midnightBlue,
+                },
+              ]}
+            >
+              <Text style={GeneralStyle.RegularText}>Open Store</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </ScrollView>
     </SafeAreaView>
   );
 };
