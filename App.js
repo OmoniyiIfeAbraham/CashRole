@@ -40,6 +40,7 @@ import DealOtp from "./Screens/Deal/DealOtp";
 import SellerProfile from "./Screens/Deal/SellerProfile";
 import MyProfile from "./Screens/HomeScreens/MyProfile";
 import AddSellerOtp from "./Screens/Sellers Screens/AddSellerOtp";
+import OpenStore from "./Screens/Sellers Screens/Stores/OpenStore";
 
 const Stack = createNativeStackNavigator();
 
@@ -121,6 +122,7 @@ export default function App() {
             {/* Stores Screens */}
             <Stack.Group>
               <Stack.Screen name="AddStore" component={AddStore} />
+              <Stack.Screen name="OpenStore" component={OpenStore} />
             </Stack.Group>
 
             {/* Deal Screens */}

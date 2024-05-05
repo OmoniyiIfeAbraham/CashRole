@@ -152,6 +152,7 @@ const AddStore = ({ navigation }) => {
                   backgroundColor: Colors.midnightBlue,
                 },
               ]}
+              onPress={() => navigation.navigate("OpenStore")}
             >
               <Text style={GeneralStyle.RegularText}>Open Store</Text>
             </TouchableOpacity>
