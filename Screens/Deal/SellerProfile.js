@@ -94,7 +94,7 @@ const SellerProfile = ({ navigation, route }) => {
                     borderColor: Colors.black,
                   },
                 ]}
-                // onPress={() => navigation.goBack()}
+                onPress={() => navigation.navigate("ManageStore")}
               >
                 <Text
                   style={[
