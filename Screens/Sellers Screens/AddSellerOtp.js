@@ -19,6 +19,7 @@ const AddSellerOtp = ({ navigation }) => {
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
         <Header navigation={navigation} title="Add Seller" />
+        {/* body */}
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
