@@ -11,138 +11,80 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../../Style/ThemeColors";
 import GeneralStyle from "../../../Style/General.style";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import Header from "../../../Components/Header/Header";
 
 const WithdrawalOtp = ({ navigation }) => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.midnightBlue }}>
-      <Pressable onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
-        <View style={{ height: "30%" }}>
-          {/* back btn */}
-          <TouchableOpacity
-            style={GeneralStyle.BackBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <AntDesign name="arrowleft" size={30} color={Colors.black} />
-          </TouchableOpacity>
-        </View>
-        {/* body view */}
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
+      {/* keyboard dismiss */}
+      <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+        {/* header */}
+        <Header navigation={navigation} title="Withdraw" />
         <View
-          style={{
-            width: "100%",
-            height: "70%",
-            backgroundColor: Colors.white,
-            borderTopLeftRadius: 25,
-            borderTopRightRadius: 25,
-          }}
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          {/* title */}
           <View
             style={{
               width: "100%",
-              height: 100,
-              justifyContent: "flex-end",
+              justifyContent: "space-evenly",
               alignItems: "center",
+              height: "70%",
             }}
           >
-            <Text
-              style={[
-                GeneralStyle.BoldText,
-                { color: Colors.black, fontSize: 25 },
-              ]}
-            >
-              Enter One Time Password
-            </Text>
-          </View>
-          {/* sub title */}
-          <View
-            style={{
-              width: "100%",
-              paddingVertical: 20,
-              paddingHorizontal: 25,
-            }}
-          >
+            {/* form title */}
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.black, fontSize: 17 },
+                {
+                  color: Colors.midnightBlue,
+                  fontSize: 30,
+                  textAlign: "center",
+                },
               ]}
             >
               Enter withdrawal OTP sent to you
             </Text>
-          </View>
-          {/* otp input */}
-          <View style={{ paddingHorizontal: 25 }}>
-            <View
-              style={[
-                GeneralStyle.TextInputView,
-                {
-                  marginBottom: 10,
-                  elevation: 0,
-                  borderColor: Colors.ash,
-                  borderWidth: 1,
-                },
-              ]}
-            >
-              <MaterialIcons
-                name="lock-outline"
-                size={24}
-                color={Colors.ash}
-                style={{
-                  marginRight: 10,
-                }}
-              />
-              <TextInput
-                style={GeneralStyle.TextInput}
-                placeholder="Enter OTP"
-                placeholderTextColor={Colors.ash}
-                autoCapitalize="none"
-                autoComplete="cc-number"
-                keyboardType="number-pad"
-              />
-            </View>
-          </View>
-          {/* btn */}
-          <View
-            style={{ width: "100%", paddingHorizontal: 100, marginTop: 30 }}
-          >
-            <TouchableOpacity
-              style={[
-                GeneralStyle.Btn,
-                { borderRadius: 15, backgroundColor: Colors.midnightBlue },
-              ]}
-              onPress={() => navigation.replace("WithdrawSuccess")}
-            >
-              <Text style={GeneralStyle.RegularText}>Withdraw</Text>
-            </TouchableOpacity>
-          </View>
-          {/* resend link */}
-          <View
-            style={{
-              width: "100%",
-              height: 60,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={[
-                GeneralStyle.RegularText,
-                { color: Colors.ash, fontSize: 20 },
-              ]}
-            >
-              Did not receive OTP?{" "}
-            </Text>
-            <Pressable>
-              <Text
+            {/* form */}
+            {/* otp */}
+            <View style={{ width: "100%", height: 50, alignItems: "center" }}>
+              <View
                 style={[
-                  GeneralStyle.ExtraBoldText,
-                  { color: Colors.midnightBlue, fontSize: 22 },
+                  GeneralStyle.TextInputView,
+                  { width: "80%", marginBottom: 10 },
                 ]}
               >
-                Resend
-              </Text>
-            </Pressable>
+                <TextInput
+                  style={GeneralStyle.TextInput}
+                  placeholder="Enter OTP"
+                  placeholderTextColor={Colors.ash}
+                  autoCapitalize="none"
+                  keyboardType="number-pad"
+                />
+              </View>
+              {/* resend link */}
+              <Pressable>
+                <Text
+                  style={[
+                    GeneralStyle.RegularText,
+                    { color: Colors.black, fontSize: 18 },
+                  ]}
+                >
+                  Resend OTP
+                </Text>
+              </Pressable>
+            </View>
+            {/* btn */}
+            <View style={{ width: "100%", paddingHorizontal: 50 }}>
+              <TouchableOpacity
+                style={[
+                  GeneralStyle.Btn,
+                  { backgroundColor: Colors.midnightBlue },
+                ]}
+                onPress={() => navigation.replace("WithdrawSuccess")}
+              >
+                <Text style={[GeneralStyle.BoldText]}>Withdraw</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Pressable>
