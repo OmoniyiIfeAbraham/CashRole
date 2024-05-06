@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../../Components/Header/Header";
 import Colors from "../../../Style/ThemeColors";
 import GeneralStyle from "../../../Style/General.style";
+import YourStores from "../../../Components/Stores/YourStores";
 
 const ManageStore = ({ navigation }) => {
   return (
@@ -22,6 +23,8 @@ const ManageStore = ({ navigation }) => {
           <Text style={[GeneralStyle.BoldText]}>Add Store</Text>
         </TouchableOpacity>
       </View>
+      {/* stores */}
+      <YourStores />
     </SafeAreaView>
   );
 };

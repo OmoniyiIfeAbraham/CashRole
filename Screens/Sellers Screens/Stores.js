@@ -56,6 +56,7 @@ const Stores = ({ navigation }) => {
           <Text style={[GeneralStyle.BoldText]}>Add Store</Text>
         </TouchableOpacity>
       </View>
+      {/* stores */}
       <RecentStores />
     </SafeAreaView>
   );
