@@ -19,13 +19,22 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const Register = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState("yyyy-mm-dd");
-  const [password, setPassword] = useState("");
+  const [Password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -36,16 +45,111 @@ const Register = ({ navigation }) => {
   };
 
   const handleConfirm = (selectedDate) => {
-    const formattedDate = selectedDate.toLocaleDateString();
-    setDate(formattedDate);
+    const formattedDate = selectedDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const parts = formattedDate.split("/");
+    const reformattedDate = `${parts[2]}-${parts[0]}-${parts[1]}`;
+    setDate(reformattedDate);
     hideDatePicker();
   };
 
   const handlePasswordVisbility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  // function to handle first name input changes
+  const handleFirstNameChange = (text) => {
+    setFirstName(text); // Update the state with the current input value
+  };
+
+  // function to handle last name input changes
+  const handleLastNameChange = (text) => {
+    setLastName(text); // Update the state with the current input value
+  };
+
+  // function to handle email input changes
+  const handleEmailChange = (text) => {
+    setEmail(text); // Update the state with the current input value
+  };
+
+  // function to handle password input changes
+  const handlePasswordChange = (text) => {
+    setPassword(text); // Update the state with the current input value
+  };
+
+  // function to handle confirm password input changes
+  const handleConfirmPasswordChange = (text) => {
+    setConfirmPassword(text); // Update the state with the current input value
+  };
+
+  // function to handle phone number input changes
+  const handlePhoneChange = (text) => {
+    setPhone(text); // Update the state with the current input value
+  };
+
+  // sign up btn
+  const signUpBtn = () => {
+    setIsLoading(true);
+
+    const url = `${baseAPIUrl}/authentication/register/`;
+
+    const password = Password
+    const password2 = confirmPassword;
+    const first_name = firstName;
+    const last_name = lastName;
+    const dob = date;
+    const phoneNumber = `+234${Phone}`;
+    const phone = phoneNumber;
+    const email = Email
+
+    // console.log(password)
+    // console.log(password2)
+    // console.log(first_name)
+    // console.log(last_name)
+    // console.log(dob)
+    // console.log(phone)
+    // console.log(email)
+
+    axios
+      .post(
+        url,
+        {
+          first_name,
+          last_name,
+          email,
+          password,
+          password2,
+        },
+        {
+          headers: {
+            "Api-Key": `${ApiKey}`,
+            "Api-Sec-Key": `${ApiSecKey}`,
+          },
+        }
+      )
+      .then((response) => {
+        const result = response.data;
+        console.log(result);
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        Toast.show({
+          type: ALERT_TYPE.WARNING,
+          title: error.message,
+        });
+        setIsLoading(false);
+      });
+    // navigation.navigate("Otp")
+  };
   return (
     <ScrollView style={{ padding: 25, flex: 1 }}>
+      {/* modal */}
+      <LoadingModal Visible={isLoading} />
       {/* cashrole title */}
       <View
         style={{
@@ -89,6 +193,8 @@ const Register = ({ navigation }) => {
           style={GeneralStyle.TextInput}
           placeholder="Your First Name"
           placeholderTextColor={Colors.ash}
+          value={firstName}
+          onChangeText={handleFirstNameChange}
         />
       </View>
       {/* lastname */}
@@ -105,6 +211,8 @@ const Register = ({ navigation }) => {
           style={GeneralStyle.TextInput}
           placeholder="Your Last Name"
           placeholderTextColor={Colors.ash}
+          value={lastName}
+          onChangeText={handleLastNameChange}
         />
       </View>
       {/* email */}
@@ -123,6 +231,8 @@ const Register = ({ navigation }) => {
           placeholderTextColor={Colors.ash}
           keyboardType="email-address"
           autoCapitalize="none"
+          value={Email}
+          onChangeText={handleEmailChange}
         />
       </View>
       {/* dob */}
@@ -170,6 +280,8 @@ const Register = ({ navigation }) => {
           autoCapitalize="none"
           autoComplete="password"
           secureTextEntry={passwordVisible}
+          value={Password}
+          onChangeText={handlePasswordChange}
         />
         {!passwordVisible ? (
           <Ionicons
@@ -210,6 +322,8 @@ const Register = ({ navigation }) => {
           autoCapitalize="none"
           autoComplete="password"
           secureTextEntry={passwordVisible}
+          value={confirmPassword}
+          onChangeText={handleConfirmPasswordChange}
         />
         {!passwordVisible ? (
           <Ionicons
@@ -263,6 +377,9 @@ const Register = ({ navigation }) => {
             autoCapitalize="none"
             autoComplete="tel"
             keyboardType="phone-pad"
+            value={Phone}
+            onChangeText={handlePhoneChange}
+            maxLength={10}
           />
         </View>
       </View>
@@ -276,7 +393,7 @@ const Register = ({ navigation }) => {
             backgroundColor: Colors.midnightBlue,
           },
         ]}
-        onPress={() => navigation.navigate("Otp")}
+        onPress={signUpBtn}
       >
         <Text style={GeneralStyle.RegularText}>Sign up</Text>
       </TouchableOpacity>
