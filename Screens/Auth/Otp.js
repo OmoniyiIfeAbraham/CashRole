@@ -104,11 +104,14 @@ const Otp = ({ navigation }) => {
           console.log(JSON.stringify(response.data));
           // saving necessary info
           const saveData = async () => {
-            await AsyncStorage.setItem("OTP", response.data.data.otp);
-            await AsyncStorage.setItem("DOB", response.data.data.dob);
-            await AsyncStorage.setItem("Phone", response.data.data.phone);
+            await AsyncStorage.setItem("fName", response.data.data.first_name);
+            await AsyncStorage.setItem("lName", response.data.data.last_name);
+            await AsyncStorage.setItem(
+              "userName",
+              response.data.data.profile.username
+            );
           };
-          // saveData();
+          saveData();
           Toast.show({
             type: ALERT_TYPE.SUCCESS,
             title: "Phone Number Verified!!!",

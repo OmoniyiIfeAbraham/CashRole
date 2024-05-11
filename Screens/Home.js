@@ -19,11 +19,44 @@ import Colors from "../Style/ThemeColors";
 import GeneralStyle from "../Style/General.style";
 import WithdrawComponent from "../Components/HomeScreen/WithdrawComponent";
 import RecentStores from "../Components/HomeScreen/RecentStores";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { width, height } = Dimensions.get("window");
 
 const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState("");
+
+  // Function to retrieve otp
+  async function getItem(item1Key, item2Key) {
+    try {
+      const [item1Value] = await Promise.all([AsyncStorage.getItem(item1Key)]);
+
+      if (item1Value !== null) {
+        // Items found in AsyncStorage
+        console.log("Item 1:", item1Value);
+        return { item1: item1Value };
+      } else {
+        // One or both items not found
+        console.log("One or all items not found");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving items:", error);
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const items = await getItem("fName");
+      if (items) {
+        setName(items.item1);
+      }
+    }
+    fetchData();
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 25 }}>
       {/* upper part */}
@@ -50,7 +83,7 @@ const Home = ({ navigation }) => {
               <FontAwesome5 name="user-alt" size={30} color={Colors.white} />
             </TouchableOpacity>
             <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
-              Hello, Eclipse
+              Hello, {name}
             </Text>
           </View>
           <TouchableOpacity
