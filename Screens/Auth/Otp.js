@@ -11,8 +11,49 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../Style/ThemeColors";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import GeneralStyle from "../../Style/General.style";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Otp = ({ navigation }) => {
+  const [savedOtp, setSavedOtp] = useState("");
+  const [phone, setPhone] = useState("");
+
+  // Function to retrieve otp
+  async function getItem(item1Key, item2Key) {
+    try {
+      const [item1Value, item2Value] = await Promise.all([
+        AsyncStorage.getItem(item1Key),
+        AsyncStorage.getItem(item2Key),
+      ]);
+
+      if (item1Value !== null || item2Value !== null) {
+        // Items found in AsyncStorage
+        console.log("Item 1:", item1Value);
+        console.log("Item 2:", item2Value);
+        return { item1: item1Value, item2: item2Value };
+      } else {
+        // One or both items not found
+        console.log("One or all items not found");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving items:", error);
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const items = await getItem("OTP", "Phone");
+      if (items) {
+        setSavedOtp(items.item1);
+        setPhone(items.item2);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.midnightBlue }}>
       <Pressable onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>

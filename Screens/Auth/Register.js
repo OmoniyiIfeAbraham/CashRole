@@ -24,6 +24,7 @@ import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import QueryString from "qs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Register = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -180,7 +181,19 @@ const Register = ({ navigation }) => {
         .request(config)
         .then((response) => {
           console.log(JSON.stringify(response.data));
+          // saving necessary info
+          const saveData = async () => {
+            await AsyncStorage.setItem("OTP", response.data.data.otp);
+            await AsyncStorage.setItem("DOB", response.data.data.dob);
+            await AsyncStorage.setItem("Phone", response.data.data.phone);
+          };
+          saveData();
+          Toast.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: "Successfully Registered",
+          });
           setIsLoading(false);
+          navigation.navigate("Otp");
         })
         .catch((error) => {
           if (
@@ -211,7 +224,6 @@ const Register = ({ navigation }) => {
           setIsLoading(false);
         });
     }
-    // navigation.navigate("Otp");
   };
   return (
     <ScrollView style={{ padding: 25, flex: 1 }}>
