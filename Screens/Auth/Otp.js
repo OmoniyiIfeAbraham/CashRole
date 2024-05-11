@@ -14,10 +14,16 @@ import GeneralStyle from "../../Style/General.style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
 
 const Otp = ({ navigation }) => {
   const [savedOtp, setSavedOtp] = useState("");
-  const [phone, setPhone] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [Otp, setOtp] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Function to retrieve otp
   async function getItem(item1Key, item2Key) {
@@ -54,9 +60,101 @@ const Otp = ({ navigation }) => {
     fetchData();
   }, []);
 
+  // function to handle otp input changes
+  const handleOtpChange = (text) => {
+    setOtp(text);
+  };
+
+  // confirm btn
+  const confirmBtn = async () => {
+    if (Otp === "") {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Fill Otp Field!!!",
+      });
+    } else if (Otp !== savedOtp) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Incorrect Otp!!!",
+      });
+    } else {
+      setIsLoading(true);
+      const url = `${baseAPIUrl}/api/v1/merchant/verify-otp/`;
+
+      const otp = Otp;
+      const phone = Phone;
+
+      let data = JSON.stringify({ otp: otp, phone: phone });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${url}`,
+        headers: {
+          "Api-Key": `${ApiKey}`,
+          "Api-Sec-Key": `${ApiSecKey}`,
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          // saving necessary info
+          const saveData = async () => {
+            await AsyncStorage.setItem("OTP", response.data.data.otp);
+            await AsyncStorage.setItem("DOB", response.data.data.dob);
+            await AsyncStorage.setItem("Phone", response.data.data.phone);
+          };
+          // saveData();
+          Toast.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: "Phone Number Verified!!!",
+          });
+          setIsLoading(false);
+          navigation.replace("HomeTabs");
+        })
+        .catch((error) => {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.error
+          ) {
+            const errorMessage = error.response.data.error.message;
+            // Check if the error message is in the expected format
+            if (errorMessage === "Error processing your request") {
+              const userData = error.response.data.data;
+              if (
+                userData.non_field_errors &&
+                userData.non_field_errors.length > 0
+              ) {
+                Toast.show({
+                  type: ALERT_TYPE.WARNING,
+                  title: userData.non_field_errors[0], // Assuming the first element is the relevant message
+                });
+                setIsLoading(false);
+                return;
+              }
+            }
+          }
+          // If the error format is unexpected or doesn't contain the specific message, show the default error message
+          console.log(error);
+          Toast.show({
+            type: ALERT_TYPE.WARNING,
+            title: error.message,
+          });
+          setIsLoading(false);
+        });
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.midnightBlue }}>
       <Pressable onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
+        {/* modal */}
+        <LoadingModal Visible={isLoading} />
         <View style={{ height: "30%" }}>
           {/* back btn */}
           <TouchableOpacity
@@ -140,6 +238,8 @@ const Otp = ({ navigation }) => {
                 autoCapitalize="none"
                 autoComplete="cc-number"
                 keyboardType="number-pad"
+                value={Otp}
+                onChangeText={handleOtpChange}
               />
             </View>
           </View>
@@ -152,7 +252,7 @@ const Otp = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { borderRadius: 15, backgroundColor: Colors.midnightBlue },
               ]}
-              onPress={() => navigation.replace("HomeTabs")}
+              onPress={confirmBtn}
             >
               <Text style={GeneralStyle.RegularText}>Confirm</Text>
             </TouchableOpacity>
