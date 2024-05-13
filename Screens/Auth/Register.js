@@ -208,7 +208,7 @@ const Register = ({ navigation }) => {
               if (userData.email && userData.email.length > 0) {
                 Toast.show({
                   type: ALERT_TYPE.WARNING,
-                  title: userData.email[0], // Assuming the first element is the relevant message
+                  title: `${userData.email[0]} Try Login!!!`, // Assuming the first element is the relevant message
                 });
                 setIsLoading(false);
                 return;

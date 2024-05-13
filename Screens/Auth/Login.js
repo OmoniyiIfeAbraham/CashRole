@@ -10,18 +10,141 @@ import React, { useState } from "react";
 import GeneralStyle from "../../Style/General.style";
 import Colors from "../../Style/ThemeColors";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [Phone, setPhone] = useState("");
+  const [Password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePasswordVisbility = () => {
     setPasswordVisible(!passwordVisible);
+  };
+
+  // function to handle phone number input changes
+  const handlePhoneChange = (text) => {
+    setPhone(text);
+  };
+
+  // function to handle phone number input changes
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+  };
+
+  // login btn
+  const loginBtn = async () => {
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%^&*?])[A-Za-z\d@#$!%^&*?]{8,}$/;
+    const isPasswordValid = passwordPattern.test(Password);
+
+    if (Phone === "" || Password === "") {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Fill all Fields!!!",
+      });
+    } else if (Password.length < 8) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Password must be at least 8 Characters Long!!!",
+      });
+    } else if (isPasswordValid === false) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Password is too weak!!!",
+      });
+    } else if (Phone.length < 10) {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Invalid Phone Number!!!",
+      });
+    } else {
+      setIsLoading(true);
+      const url = `${baseAPIUrl}/api/v1/merchant/login/`;
+
+      const phone = `+234${Phone}`;
+      const password = Password;
+
+      let data = JSON.stringify({
+        phone: phone,
+        password: password,
+      });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: `${url}`,
+        headers: {
+          "Api-Key": `${ApiKey}`,
+          "Api-Sec-Key": `${ApiSecKey}`,
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          Toast.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: "Login Successfull",
+          });
+          setIsLoading(false);
+          navigation.replace("HomeTabs");
+        })
+        .catch((error) => {
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.error
+          ) {
+            const errorMessage = error.response.data.error.message;
+            // Check if the error message is in the expected format
+            if (errorMessage === "Error processing your request") {
+              const userData = error.response.data.data;
+              if (userData.phone && userData.phone.length > 0) {
+                Toast.show({
+                  type: ALERT_TYPE.WARNING,
+                  title: userData.phone[0], // Assuming the first element is the relevant message
+                });
+                setIsLoading(false);
+                return;
+              } else if (userData.message && userData.message.length > 0) {
+                Toast.show({
+                  type: ALERT_TYPE.WARNING,
+                  title: userData.message, // Assuming the first element is the relevant message
+                });
+                const saveNewOtp = async () => {
+                  await AsyncStorage.setItem("OTP", userData.otp);
+                };
+                saveNewOtp();
+                setIsLoading(false);
+                navigation.navigate("Otp");
+                return;
+              }
+            }
+          }
+          // If the error format is unexpected or doesn't contain the specific message, show the default error message
+          console.log(error);
+          Toast.show({
+            type: ALERT_TYPE.WARNING,
+            title: error.message,
+          });
+          setIsLoading(false);
+        });
+    }
   };
   return (
     <Pressable
       style={{ padding: 25, flex: 1 }}
       onPress={() => Keyboard.dismiss()}
     >
+      <LoadingModal Visible={isLoading} />
       {/* cashrole title */}
       <View
         style={{
@@ -96,6 +219,9 @@ const Login = ({ navigation }) => {
             autoCapitalize="none"
             autoComplete="tel"
             keyboardType="phone-pad"
+            value={Phone}
+            maxLength={10}
+            onChangeText={handlePhoneChange}
           />
         </View>
       </View>
@@ -116,6 +242,8 @@ const Login = ({ navigation }) => {
           autoCapitalize="none"
           autoComplete="password"
           secureTextEntry={passwordVisible}
+          value={Password}
+          onChangeText={handlePasswordChange}
         />
         {!passwordVisible ? (
           <Ionicons
@@ -162,7 +290,7 @@ const Login = ({ navigation }) => {
             marginBottom: 20,
           },
         ]}
-        onPress={() => navigation.replace("HomeTabs")}
+        onPress={loginBtn}
       >
         <Text style={GeneralStyle.RegularText}>Sign in</Text>
       </TouchableOpacity>
