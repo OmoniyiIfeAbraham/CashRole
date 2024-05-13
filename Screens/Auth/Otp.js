@@ -18,6 +18,7 @@ import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Otp = ({ navigation }) => {
   const [savedOtp, setSavedOtp] = useState("");
@@ -49,7 +50,7 @@ const Otp = ({ navigation }) => {
     }
   }
 
-  useEffect(() => {
+  useFocusEffect(() => {
     async function fetchData() {
       const items = await getItem("OTP", "Phone");
       if (items) {
@@ -58,7 +59,7 @@ const Otp = ({ navigation }) => {
       }
     }
     fetchData();
-  }, []);
+  });
 
   // function to handle otp input changes
   const handleOtpChange = (text) => {
@@ -106,6 +107,8 @@ const Otp = ({ navigation }) => {
           const saveData = async () => {
             await AsyncStorage.setItem("fName", response.data.data.first_name);
             await AsyncStorage.setItem("lName", response.data.data.last_name);
+            await AsyncStorage.setItem("Email", response.data.data.email);
+            await AsyncStorage.setItem("Phone", response.data.data.phone);
             await AsyncStorage.setItem(
               "userName",
               response.data.data.profile.username
@@ -153,6 +156,54 @@ const Otp = ({ navigation }) => {
     }
   };
 
+  // resend btn
+  const resendBtn = async () => {
+    setIsLoading(true);
+    const url = `${baseAPIUrl}/api/v1/merchant/resend-otp/`;
+
+    const phone = Phone;
+
+    let data = JSON.stringify({
+      phone: phone,
+    });
+
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${url}`,
+      headers: {
+        "Api-Key": `${ApiKey}`,
+        "Api-Sec-Key": `${ApiSecKey}`,
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios
+      .request(config)
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        // saving necessary info
+        const saveData = async () => {
+          await AsyncStorage.setItem("OTP", response.data.data.otp);
+        };
+        saveData();
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "OTP Sent!!!",
+        });
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        // If the error format is unexpected or doesn't contain the specific message, show the default error message
+        console.log(error);
+        Toast.show({
+          type: ALERT_TYPE.WARNING,
+          title: error.message,
+        });
+        setIsLoading(false);
+      });
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.midnightBlue }}>
       <Pressable onPress={() => Keyboard.dismiss()} style={{ flex: 1 }}>
@@ -284,6 +335,7 @@ const Otp = ({ navigation }) => {
                   GeneralStyle.ExtraBoldText,
                   { color: Colors.midnightBlue, fontSize: 22 },
                 ]}
+                onPress={resendBtn}
               >
                 Resend
               </Text>

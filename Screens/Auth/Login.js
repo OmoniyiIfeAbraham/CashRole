@@ -90,6 +90,28 @@ const Login = ({ navigation }) => {
         .request(config)
         .then((response) => {
           console.log(JSON.stringify(response.data));
+          // saving necessary info
+          const saveData = async () => {
+            await AsyncStorage.setItem(
+              "rToken",
+              response.data.data.tokens.refresh
+            );
+            await AsyncStorage.setItem("Email", response.data.data.user.email);
+            await AsyncStorage.setItem(
+              "fName",
+              response.data.data.user.first_name
+            );
+            await AsyncStorage.setItem(
+              "lName",
+              response.data.data.user.last_name
+            );
+            await AsyncStorage.setItem("Phone", response.data.data.user.phone);
+            await AsyncStorage.setItem(
+              "userName",
+              response.data.data.profile.username
+            );
+          };
+          saveData();
           Toast.show({
             type: ALERT_TYPE.SUCCESS,
             title: "Login Successfull",
