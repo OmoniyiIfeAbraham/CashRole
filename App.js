@@ -42,6 +42,7 @@ import MyProfile from "./Screens/HomeScreens/MyProfile";
 import AddSellerOtp from "./Screens/Sellers Screens/AddSellerOtp";
 import OpenStore from "./Screens/Sellers Screens/Stores/OpenStore";
 import ManageStore from "./Screens/Sellers Screens/Stores/ManageStore";
+import Notification from "./Screens/Notifications/Notification";
 
 const Stack = createNativeStackNavigator();
 
@@ -132,6 +133,11 @@ export default function App() {
               <Stack.Screen name="Deal" component={Deal} />
               <Stack.Screen name="DealOtp" component={DealOtp} />
               <Stack.Screen name="SellerProfile" component={SellerProfile} />
+            </Stack.Group>
+
+            {/* Notification Screens */}
+            <Stack.Group>
+              <Stack.Screen name="Notification" component={Notification} />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>

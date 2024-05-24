@@ -88,7 +88,7 @@ const Home = ({ navigation }) => {
           </View>
           <TouchableOpacity
             style={{ justifyContent: "center", alignItems: "center" }}
-            // onPress={() => navigation.navigate("Sellers")}
+            onPress={() => navigation.navigate("Notification")}
           >
             <MaterialCommunityIcons
               name="bell"

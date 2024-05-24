@@ -108,7 +108,7 @@ const Login = ({ navigation }) => {
             await AsyncStorage.setItem("Phone", response.data.data.user.phone);
             await AsyncStorage.setItem(
               "userName",
-              response.data.data.profile.username
+              response.data.data.user.profile.username
             );
           };
           saveData();
