@@ -43,6 +43,8 @@ import AddSellerOtp from "./Screens/Sellers Screens/AddSellerOtp";
 import OpenStore from "./Screens/Sellers Screens/Stores/OpenStore";
 import ManageStore from "./Screens/Sellers Screens/Stores/ManageStore";
 import Notification from "./Screens/Notifications/Notification";
+import NotificationDetails from "./Screens/Notifications/NotificationDetails";
+import StoreLink from "./Screens/HomeScreens/StoreLink";
 
 const Stack = createNativeStackNavigator();
 
@@ -92,6 +94,7 @@ export default function App() {
             {/* Home Screens */}
             <Stack.Group>
               <Stack.Screen name="MyProfile" component={MyProfile} />
+              <Stack.Screen name="StoreLink" component={StoreLink} />
             </Stack.Group>
 
             {/* Sellers Screens */}
@@ -138,10 +141,14 @@ export default function App() {
             {/* Notification Screens */}
             <Stack.Group>
               <Stack.Screen name="Notification" component={Notification} />
+              <Stack.Screen
+                name="NotificationDetails"
+                component={NotificationDetails}
+              />
             </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
-        <StatusBar style="light" />
+        <StatusBar style="dark" />
       </SafeAreaProvider>
     </AlertNotificationRoot>
   );

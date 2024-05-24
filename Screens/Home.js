@@ -204,6 +204,7 @@ const Home = ({ navigation }) => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onPress={() => navigation.navigate("StoreLink")}
             >
               <MaterialIcons
                 name="content-copy"

@@ -93,6 +93,7 @@ const Notifications = ({ navigation }) => {
         marginVertical: 8,
         borderRadius: 8,
       }}
+      onPress={() => navigation.navigate("NotificationDetails")}
     >
       {/* main view */}
       <View style={{ height: "100%", width: "90%" }}>
