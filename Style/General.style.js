@@ -80,4 +80,24 @@ export default StyleSheet.create({
     alignItems: "center",
     borderRadius: 15,
   },
+  carouselContainer: {
+    position: "relative",
+    height: 320,
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  prevButton: {
+    position: "absolute",
+    left: 10,
+    top: "50%",
+    zIndex: 1,
+    transform: [{ translateY: -15 }],
+  },
+  nextButton: {
+    position: "absolute",
+    right: 10,
+    top: "50%",
+    zIndex: 1,
+    transform: [{ translateY: -15 }],
+  },
 });

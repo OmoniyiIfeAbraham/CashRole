@@ -19,30 +19,6 @@ import CustomCarousel from "carousel-with-pagination-rn";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { dummyData } from "../../Components/StoreLink/data";
 
-// const dummyData = [
-//   {
-//     id: 1,
-//     img: "https://picsum.photos/400/600?random=1",
-//     title: "Element 1",
-//     description: "Pressable and animated pagination",
-//     price: "Fast",
-//   },
-//   {
-//     id: 2,
-//     img: "https://picsum.photos/400/600?random=2",
-//     title: "Element 2",
-//     description: "Full customization for carousel",
-//     price: "Simple",
-//   },
-//   {
-//     id: 3,
-//     img: "https://picsum.photos/400/600?random=3",
-//     title: "Element 3",
-//     description: "Accessible for VoiceOver",
-//     price: "Efficient",
-//   },
-// ];
-
 const { width } = Dimensions.get("screen");
 
 const StoreLink = () => {
@@ -56,10 +32,19 @@ const StoreLink = () => {
 
   const renderItemView = ({ item }) => {
     return (
-      <View style={styles.container}>
+      <View
+        style={{
+          width,
+          height: 400,
+          alignItems: "center",
+        }}
+      >
         <Image
-          source={{ uri: item }}
-          style={styles.image}
+          source={{ item }}
+          style={{
+            width,
+            height: 320,
+          }}
           resizeMode="contain"
         />
       </View>
@@ -79,6 +64,7 @@ const StoreLink = () => {
             justifyContent: "space-evenly",
             alignItems: "center",
             backgroundColor: Colors.midnightBlue,
+            marginBottom: 10,
           }}
         >
           {/* search bar */}
@@ -137,47 +123,111 @@ const StoreLink = () => {
         </View>
         {/* Multiple Carousels */}
         <ScrollView>
-          {dummyData.map((item, index) => {
+          {dummyData.map((item) => {
             const carouselRef = useRef(null); // Initialize the ref for each carousel
             return (
               <GestureHandlerRootView
                 key={item.id}
                 style={{
                   justifyContent: "center",
-                  alignItems: "center",
+                  // alignItems: "center",
                   marginBottom: 20,
+                  height: 500,
+                  backgroundColor: Colors.midnightBlue,
                 }}
               >
-                <CustomCarousel
-                  ref={carouselRef}
-                  data={item.imgs} // Pass only the images array to the carousel
-                  renderItem={renderItemView}
-                  disablePagination={true}
-                />
                 <View
-                  style={{
-                    flexDirection: "row",
-                    width: 100,
-                    justifyContent: "space-between",
-                    marginVertical: 10,
-                  }}
+                  style={[GeneralStyle.carouselContainer, { width: width }]}
                 >
                   <TouchableOpacity
+                    style={GeneralStyle.prevButton}
                     onPress={() => handlePreviousClick(carouselRef)}
                   >
-                    <Text>Previous</Text>
+                    <FontAwesome
+                      name="chevron-left"
+                      size={30}
+                      color={Colors.white}
+                    />
                   </TouchableOpacity>
+                  <CustomCarousel
+                    ref={carouselRef}
+                    data={item.imgs} // Pass only the images array to the carousel
+                    renderItem={renderItemView}
+                    disablePagination={true}
+                  />
                   <TouchableOpacity
+                    style={GeneralStyle.nextButton}
                     onPress={() => handleNextClick(carouselRef)}
                   >
-                    <Text>Next</Text>
+                    <FontAwesome
+                      name="chevron-right"
+                      size={30}
+                      color={Colors.white}
+                    />
                   </TouchableOpacity>
                 </View>
                 {/* Static content */}
-                <View style={styles.content}>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.description}>{item.description}</Text>
-                  <Text style={styles.extraDesc}>{item.price}</Text>
+                <View style={{ width, flexDirection: "row" }}>
+                  {/* text */}
+                  <View
+                    style={{
+                      width: "65%",
+                      paddingHorizontal: 5,
+                      height: "auto",
+                    }}
+                  >
+                    <Text
+                      style={[
+                        GeneralStyle.MediumText,
+                        { color: Colors.white, fontSize: 25 },
+                      ]}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text
+                      style={[
+                        GeneralStyle.MediumText,
+                        {
+                          color: Colors.white,
+                          fontSize: 25,
+                        },
+                      ]}
+                    >
+                      {item.location}
+                    </Text>
+                    <Text
+                      style={[
+                        GeneralStyle.BoldText,
+                        { color: Colors.white, fontSize: 30 },
+                      ]}
+                    >
+                      NGN{item.price}
+                    </Text>
+                  </View>
+                  {/* btn */}
+                  <View
+                    style={{
+                      width: "30%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <TouchableOpacity
+                      style={[
+                        GeneralStyle.Btn,
+                        { height: 39, backgroundColor: Colors.white },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          GeneralStyle.MediumText,
+                          { color: Colors.black, fontSize: 12 },
+                        ]}
+                      >
+                        PAY FOR THIS ITEM
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </GestureHandlerRootView>
             );
@@ -187,35 +237,5 @@ const StoreLink = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width,
-    height: 400,
-    alignItems: "center",
-  },
-  image: {
-    width,
-    height: 400,
-  },
-  content: {
-    alignItems: "center",
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  description: {
-    fontSize: 18,
-    marginVertical: 12,
-    color: "#333",
-  },
-  extraDesc: {
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-});
 
 export default StoreLink;
