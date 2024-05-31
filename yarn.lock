@@ -2272,6 +2272,11 @@ caniuse-lite@^1.0.30001587:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001599.tgz#571cf4f3f1506df9bf41fcbb6d10d5d017817bce"
   integrity sha512-LRAQHZ4yT1+f9LemSMeqdMpMxZcc4RMWdj4tiFe3G8tNkWK+E58g+/tzotb5cU6TbcVJLr4fySiAW7XmxQvZQA==
 
+carousel-with-pagination-rn@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/carousel-with-pagination-rn/-/carousel-with-pagination-rn-1.1.8.tgz#19f49b0686b954821dba3b2b562d1b21e0e7231b"
+  integrity sha512-O45IT4+V+dt/H8GE16aaGpERB/Dp0g86lvuKUEFIR8pBjixzA4vlxjcjSJ+FutLeDusmw2IVdnULWePKmKeshQ==
+
 chalk@^2.0.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
