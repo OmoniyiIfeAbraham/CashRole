@@ -27,12 +27,22 @@ const SellerProfile = ({ navigation, route }) => {
             justifyContent: "space-between",
           }}
         >
-          <MaterialIcons
-            name="keyboard-arrow-left"
-            size={40}
-            color={Colors.midnightBlue}
-            onPress={() => navigation.goBack()}
-          />
+          {route.params.from !== "AddSeller" && (
+            <MaterialIcons
+              name="keyboard-arrow-left"
+              size={40}
+              color={Colors.midnightBlue}
+              onPress={() => navigation.goBack()}
+            />
+          )}
+          {route.params.from === "AddSeller" && (
+            <MaterialIcons
+              name="keyboard-arrow-left"
+              size={40}
+              color={Colors.midnightBlue}
+              onPress={() => navigation.navigate("RegisteredSellers")}
+            />
+          )}
           <Text
             style={[GeneralStyle.ExtraBoldText, { color: Colors.midnightBlue }]}
           >

@@ -81,9 +81,9 @@ const OpenStore = ({ navigation }) => {
                   GeneralStyle.Btn,
                   { backgroundColor: Colors.midnightBlue },
                 ]}
-                // onPress={() =>
-                //   navigation.navigate("SellerProfile", { from: "AddSeller" })
-                // }
+                onPress={() =>
+                  navigation.navigate("ManageStore")
+                }
               >
                 <Text style={[GeneralStyle.BoldText]}>Confirm</Text>
               </TouchableOpacity>
