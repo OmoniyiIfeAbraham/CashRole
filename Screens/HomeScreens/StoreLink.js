@@ -31,6 +31,8 @@ const StoreLink = () => {
   };
 
   const renderItemView = ({ item }) => {
+    console.log(item)
+    // console.log(dummyData)
     return (
       <View
         style={{
@@ -40,7 +42,7 @@ const StoreLink = () => {
         }}
       >
         <Image
-          source={{ item }}
+          source={ item }
           style={{
             width,
             height: 320,
