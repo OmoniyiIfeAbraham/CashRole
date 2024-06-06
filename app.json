@@ -11,9 +11,7 @@
       "resizeMode": "center",
       "backgroundColor": "#000"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -31,6 +29,14 @@
       "eas": {
         "projectId": "d2554008-338d-4bc8-a00d-00d933a4f40e"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   }
 }
