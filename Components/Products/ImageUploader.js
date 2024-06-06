@@ -77,7 +77,7 @@ export default function ImageUploader({ width, height }) {
           style={{
             width: width,
             maxHeight: 350,
-            marginTop: 10,
+            marginTop: 5,
           }}
           showsVerticalScrollIndicator={false}
         >
@@ -99,7 +99,7 @@ export default function ImageUploader({ width, height }) {
                   backgroundColor: "blue",
                   justifyContent: "center",
                   alignItems: "center",
-                  marginBottom: 10,
+                  marginBottom: 5,
                 }}
               >
                 <Image

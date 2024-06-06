@@ -28,12 +28,13 @@ const AddProduct = ({ navigation }) => {
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{ paddingBottom: 20 }}
+          showsVerticalScrollIndicator={false}
         >
           {/* title */}
           <Text
             style={[
               GeneralStyle.RegularText,
-              { color: Colors.black, marginBottom: 5, marginTop: 25 },
+              { color: Colors.black, marginBottom: 5 },
             ]}
           >
             Product name
@@ -50,7 +51,41 @@ const AddProduct = ({ navigation }) => {
           {/* Upload Photo */}
           <ImageUploader width="100%" height="60%" />
           {/* Other components can go here */}
-          <Text>zdxgfhcgjwervbk</Text>
+          {/* title */}
+          <Text
+            style={[
+              GeneralStyle.RegularText,
+              { color: Colors.black, marginBottom: 5 },
+            ]}
+          >
+            Describe the product details
+          </Text>
+          <View
+            style={[GeneralStyle.TextInputView, { width: "100%", height: 150 }]}
+          >
+            <TextInput
+              style={GeneralStyle.TextInput}
+              autoCapitalize="none"
+              keyboardType="default"
+              multiline={true}
+              numberOfLines={8}
+            />
+          </View>
+
+          {/* btn */}
+          <View
+            style={{ width: "100%", paddingHorizontal: 50, marginVertical: 10 }}
+          >
+            <TouchableOpacity
+              style={[
+                GeneralStyle.Btn,
+                { backgroundColor: Colors.midnightBlue },
+              ]}
+              // onPress={() => navigation.navigate("AddProduct")}
+            >
+              <Text style={[GeneralStyle.BoldText]}>Next {">>>"}</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </Pressable>
     </SafeAreaView>
