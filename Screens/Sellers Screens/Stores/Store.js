@@ -36,7 +36,7 @@ const Store = ({ navigation }) => {
       >
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
-          //   onPress={() => navigation.navigate("AddStore")}
+            onPress={() => navigation.navigate("AddProduct")}
         >
           <Text style={[GeneralStyle.BoldText]}>Add Product</Text>
         </TouchableOpacity>

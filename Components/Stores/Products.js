@@ -9,7 +9,6 @@ import {
 import React from "react";
 import { useCallback } from "react";
 import Colors from "../../Style/ThemeColors";
-import { FontAwesome5 } from "@expo/vector-icons";
 import GeneralStyle from "../../Style/General.style";
 
 const { width } = Dimensions.get("screen");
@@ -19,7 +18,7 @@ const Products = ({ navigation }) => {
     {
       id: 1,
       img: require("./../../assets/Notifications/tomatoes.jpg"),
-      name: "One bag of tomatoes cooked",
+      name: "One bag of tomatoes",
       address: "Alagbaka. Akure",
       amount: "10,000",
     },
@@ -32,20 +31,19 @@ const Products = ({ navigation }) => {
     },
   ];
 
-  //   render flat list items
+  // Render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <View
       style={{
         flexDirection: "row",
         width: "100%",
-        height: "auto",
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
       <TouchableOpacity
         style={{
-          width: "75%",
+          width: "100%",
           backgroundColor: Colors.white,
           elevation: 5,
           flexDirection: "row",
@@ -53,29 +51,28 @@ const Products = ({ navigation }) => {
           justifyContent: "start",
           alignItems: "center",
           marginBottom: 20,
-          height: "auto",
           borderRadius: 10,
         }}
+        activeOpacity={0.7}
         // onPress={() => navigation.navigate("Store")}
       >
         <View
           style={{
             flexDirection: "row",
             width: "75%",
-            height: 64,
             paddingVertical: 5,
             paddingLeft: 5,
           }}
         >
-          {/* image */}
+          {/* Image */}
           <View
             style={{
               backgroundColor: Colors.white,
               justifyContent: "center",
               alignItems: "center",
               marginRight: 10,
-              width: "25%",
-              height: "100%",
+              width: 64,
+              height: 64,
             }}
           >
             <Image
@@ -88,51 +85,99 @@ const Products = ({ navigation }) => {
               resizeMode="cover"
             />
           </View>
-          {/* name and address */}
-          <View style={{ justifyContent: "flex-start", width: "75%" }}>
-            <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
+          {/* Name and address */}
+          <View
+            style={{
+              flexShrink: 1,
+              flexGrow: 1,
+            }}
+          >
+            <Text
+              style={[
+                GeneralStyle.BoldText,
+                { color: Colors.black, flexWrap: "wrap" },
+              ]}
+            >
               {item.name}
             </Text>
             <Text
               style={[
                 GeneralStyle.LightText,
-                { color: Colors.black, fontSize: 20 },
+                { color: Colors.black, fontSize: 20, flexWrap: "wrap" },
               ]}
             >
               {item.address}
             </Text>
           </View>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          width: "20%",
-          backgroundColor: Colors.tomato,
-          flexWrap: "wrap",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          height: 54,
-          borderRadius: 5,
-        }}
-      >
-        <Text
-          style={[
-            GeneralStyle.LightText,
-            { color: Colors.white, textAlign: "center", borderRadius: 5 },
-          ]}
+        {/* buttons */}
+        <View
+          style={{
+            width: "25%",
+            height: "auto",
+            paddingVertical: 2,
+          }}
         >
-          Delete Store
-        </Text>
+          <TouchableOpacity
+            style={{
+              width: "95%",
+              backgroundColor: Colors.midnightBlue,
+              justifyContent: "center",
+              alignItems: "center",
+              height: "auto",
+              borderRadius: 5,
+              marginBottom: 2,
+            }}
+          >
+            <Text
+              style={[
+                GeneralStyle.LightText,
+                {
+                  color: Colors.white,
+                  textAlign: "center",
+                  borderRadius: 5,
+                  fontSize: 21,
+                },
+              ]}
+            >
+              Edit Product
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: "95%",
+              backgroundColor: Colors.tomato,
+              justifyContent: "center",
+              alignItems: "center",
+              height: "auto",
+              borderRadius: 5,
+            }}
+          >
+            <Text
+              style={[
+                GeneralStyle.LightText,
+                {
+                  color: Colors.white,
+                  textAlign: "center",
+                  borderRadius: 5,
+                  fontSize: 21,
+                },
+              ]}
+            >
+              Delete Product
+            </Text>
+          </TouchableOpacity>
+        </View>
       </TouchableOpacity>
     </View>
   ));
+
   return (
     <View style={{ paddingVertical: 5, flex: 1, paddingHorizontal: 25 }}>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={products}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={renderFlatListItems}
         nestedScrollEnabled={true}
       />
