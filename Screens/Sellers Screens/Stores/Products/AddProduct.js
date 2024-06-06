@@ -81,7 +81,7 @@ const AddProduct = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { backgroundColor: Colors.midnightBlue },
               ]}
-              // onPress={() => navigation.navigate("AddProduct")}
+              onPress={() => navigation.navigate("AddProduct2")}
             >
               <Text style={[GeneralStyle.BoldText]}>Next {">>>"}</Text>
             </TouchableOpacity>
