@@ -57,7 +57,7 @@ const Stores = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       {/* stores */}
-      <RecentStores />
+      <RecentStores navigation={navigation} />
     </SafeAreaView>
   );
 };

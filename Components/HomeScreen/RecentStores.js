@@ -4,7 +4,7 @@ import Colors from "../../Style/ThemeColors";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import GeneralStyle from "../../Style/General.style";
 
-const RecentStores = () => {
+const RecentStores = ({ navigation }) => {
   const stores = [
     {
       id: 1,
@@ -38,6 +38,7 @@ const RecentStores = () => {
         height: 64,
         borderRadius: 10,
       }}
+      onPress={() => navigation.navigate("Store")}
     >
       <View style={{ flexDirection: "row", width: "auto" }}>
         {/* icon */}

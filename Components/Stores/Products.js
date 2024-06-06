@@ -1,21 +1,34 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+} from "react-native";
 import React from "react";
 import { useCallback } from "react";
 import Colors from "../../Style/ThemeColors";
-import { Feather, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import GeneralStyle from "../../Style/General.style";
 
-const YourStores = ({ navigation }) => {
-  const stores = [
+const { width } = Dimensions.get("screen");
+
+const Products = ({ navigation }) => {
+  const products = [
     {
       id: 1,
-      name: "Glamour Boutique",
-      address: "Alagbaka, Akure",
+      img: require("./../../assets/Notifications/tomatoes.jpg"),
+      name: "One bag of tomatoes cooked",
+      address: "Alagbaka. Akure",
+      amount: "10,000",
     },
     {
       id: 2,
+      img: require("./../../assets/Notifications/nike.png"),
       name: "Glamour Boutique",
-      address: "Surulere, Lagos",
+      address: "Alagbaka. Akure",
+      amount: "70,000",
     },
   ];
 
@@ -37,30 +50,46 @@ const YourStores = ({ navigation }) => {
           elevation: 5,
           flexDirection: "row",
           paddingVertical: 2,
-          justifyContent: "space-around",
+          justifyContent: "start",
           alignItems: "center",
           marginBottom: 20,
-          height: 64,
+          height: "auto",
           borderRadius: 10,
         }}
-        onPress={() => navigation.navigate("Store")}
+        // onPress={() => navigation.navigate("Store")}
       >
-        <View style={{ flexDirection: "row", width: "auto" }}>
-          {/* icon */}
+        <View
+          style={{
+            flexDirection: "row",
+            width: "75%",
+            height: 64,
+            paddingVertical: 5,
+            paddingLeft: 5,
+          }}
+        >
+          {/* image */}
           <View
             style={{
-              backgroundColor: Colors.ash,
-              borderRadius: 10,
-              padding: 10,
+              backgroundColor: Colors.white,
               justifyContent: "center",
               alignItems: "center",
               marginRight: 10,
+              width: "25%",
+              height: "100%",
             }}
           >
-            <FontAwesome5 name="store-alt" size={18} color={Colors.black} />
+            <Image
+              source={item.img}
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: 5,
+              }}
+              resizeMode="cover"
+            />
           </View>
           {/* name and address */}
-          <View style={{ justifyContent: "flex-start" }}>
+          <View style={{ justifyContent: "flex-start", width: "75%" }}>
             <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
               {item.name}
             </Text>
@@ -98,12 +127,11 @@ const YourStores = ({ navigation }) => {
       </TouchableOpacity>
     </View>
   ));
-
   return (
     <View style={{ paddingVertical: 5, flex: 1, paddingHorizontal: 25 }}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={stores}
+        data={products}
         keyExtractor={(item) => item.id}
         renderItem={renderFlatListItems}
         nestedScrollEnabled={true}
@@ -112,4 +140,4 @@ const YourStores = ({ navigation }) => {
   );
 };
 
-export default YourStores;
+export default Products;

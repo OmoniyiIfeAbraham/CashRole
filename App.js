@@ -45,6 +45,7 @@ import ManageStore from "./Screens/Sellers Screens/Stores/ManageStore";
 import Notification from "./Screens/Notifications/Notification";
 import NotificationDetails from "./Screens/Notifications/NotificationDetails";
 import StoreLink from "./Screens/HomeScreens/StoreLink";
+import Store from "./Screens/Sellers Screens/Stores/Store";
 
 const Stack = createNativeStackNavigator();
 
@@ -129,6 +130,7 @@ export default function App() {
               <Stack.Screen name="AddStore" component={AddStore} />
               <Stack.Screen name="OpenStore" component={OpenStore} />
               <Stack.Screen name="ManageStore" component={ManageStore} />
+              <Stack.Screen name="Store" component={Store} />
             </Stack.Group>
 
             {/* Deal Screens */}

@@ -24,7 +24,7 @@ const ManageStore = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       {/* stores */}
-      <YourStores />
+      <YourStores navigation={navigation} />
     </SafeAreaView>
   );
 };
