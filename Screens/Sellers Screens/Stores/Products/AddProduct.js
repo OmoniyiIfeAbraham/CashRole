@@ -61,7 +61,10 @@ const AddProduct = ({ navigation }) => {
             Describe the product details
           </Text>
           <View
-            style={[GeneralStyle.TextInputView, { width: "100%", height: 150 }]}
+            style={[
+              GeneralStyle.TextInputView,
+              { width: "100%", height: 150, alignItems: "flex-start" },
+            ]}
           >
             <TextInput
               style={GeneralStyle.TextInput}

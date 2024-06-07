@@ -94,12 +94,12 @@ export default function ImageUploader({ width, height }) {
               <View
                 key={index}
                 style={{
-                  width: "48%",
-                  height: 150,
-                  backgroundColor: "blue",
+                  width: "33%",
+                  height: 112,
                   justifyContent: "center",
                   alignItems: "center",
                   marginBottom: 5,
+                  zIndex: -10,
                 }}
               >
                 <Image
