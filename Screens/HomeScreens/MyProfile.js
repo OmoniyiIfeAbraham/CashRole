@@ -5,8 +5,77 @@ import Header from "../../Components/Header/Header";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 import { AntDesign } from "@expo/vector-icons";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
 
 const MyProfile = ({ navigation }) => {
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+
+  // Function to retrieve data
+  async function getItem(item1Key, item2Key, item3Key, item4Key, item5Key) {
+    try {
+      const [item1Value, item2Value, item3Value, item4Value, item5Value] =
+        await Promise.all([
+          AsyncStorage.getItem(item1Key),
+          AsyncStorage.getItem(item2Key),
+          AsyncStorage.getItem(item3Key),
+          AsyncStorage.getItem(item4Key),
+          AsyncStorage.getItem(item5Key),
+        ]);
+
+      if (
+        item1Value !== null ||
+        item2Value !== null ||
+        item3Value !== null ||
+        item4Value !== null ||
+        item5Value !== null
+      ) {
+        // Items found in AsyncStorage
+        console.log("Item 1:", item1Value);
+        console.log("Item 2:", item2Value);
+        console.log("Item 3:", item3Value);
+        console.log("Item 4:", item4Value);
+        console.log("Item 5:", item5Value);
+        return {
+          item1: item1Value,
+          item2: item2Value,
+          item3: item3Value,
+          item4: item4Value,
+          item5: item5Value,
+        };
+      } else {
+        // One or both items not found
+        console.log("One or all items not found");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving items:", error);
+      return null;
+    }
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      const items = await getItem(
+        "fName",
+        "lName",
+        "address",
+        "Phone",
+        "Email"
+      );
+      if (items) {
+        setName(items.item1 + " " + items.item2);
+        setAddress(items.item3);
+        setPhone(items.item4);
+        setEmail(items.item5);
+      }
+    }
+    fetchData();
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* header */}
@@ -92,7 +161,7 @@ const MyProfile = ({ navigation }) => {
                 { color: Colors.mediumSeaGreen },
               ]}
             >
-              Vivian Nnaji
+              {name}
             </Text>
           </View>
           {/* dob row */}
@@ -134,7 +203,7 @@ const MyProfile = ({ navigation }) => {
                 { color: Colors.mediumSeaGreen },
               ]}
             >
-              0009004187
+              No. 25 Jadaga Street, Malaysia
             </Text>
           </View>
           {/* phone number row */}
@@ -155,7 +224,7 @@ const MyProfile = ({ navigation }) => {
                 { color: Colors.mediumSeaGreen },
               ]}
             >
-              07030473033
+              {phone}
             </Text>
           </View>
           {/* email row */}
@@ -176,7 +245,7 @@ const MyProfile = ({ navigation }) => {
                 { color: Colors.mediumSeaGreen },
               ]}
             >
-              example@gmail.com
+              {email}
             </Text>
           </View>
         </View>

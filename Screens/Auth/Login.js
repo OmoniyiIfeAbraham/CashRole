@@ -110,6 +110,10 @@ const Login = ({ navigation }) => {
               "userName",
               response.data.data.user.profile.username
             );
+            await AsyncStorage.setItem(
+              "address",
+              response.data.data.user.profile.address
+            );
           };
           saveData();
           Toast.show({

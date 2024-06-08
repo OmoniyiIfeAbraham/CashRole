@@ -2,11 +2,9 @@ import {
   View,
   Text,
   Pressable,
-  Keyboard,
   TextInput,
   ScrollView,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
 import GeneralStyle from "../../Style/General.style";
@@ -23,7 +21,6 @@ import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
-import QueryString from "qs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Register = ({ navigation }) => {

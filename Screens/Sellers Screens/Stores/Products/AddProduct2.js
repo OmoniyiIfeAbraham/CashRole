@@ -39,7 +39,7 @@ const AddProduct2 = ({ navigation }) => {
         title: "Error!! Sharing does not match total amount.",
       });
     } else {
-      navigation.navigate("ProductConfirm");
+      // navigation.navigate("ProductConfirm");
     }
   };
   return (

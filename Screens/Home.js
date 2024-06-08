@@ -28,7 +28,7 @@ const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState("");
 
-  // Function to retrieve otp
+  // Function to retrieve data
   async function getItem(item1Key, item2Key) {
     try {
       const [item1Value] = await Promise.all([AsyncStorage.getItem(item1Key)]);

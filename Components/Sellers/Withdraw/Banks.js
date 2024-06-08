@@ -23,7 +23,6 @@ export default Banks = [
   { id: 21, label: "Union Bank Of Nigeria Plc", value: "032" },
   { id: 22, label: "Unity Bank Plc", value: "215" },
   { id: 23, label: "Wema Bank Plc", value: "035" },
-  ,
   { id: 24, label: "Zenith Bank Plc", value: "057" },
   ,
 ];
