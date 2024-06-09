@@ -36,16 +36,16 @@ const YourStores = ({ navigation }) => {
           backgroundColor: Colors.white,
           elevation: 5,
           flexDirection: "row",
-          paddingVertical: 2,
+          paddingVertical: 5,
           justifyContent: "space-around",
           alignItems: "center",
           marginBottom: 20,
-          height: 64,
+          maxHeight: 200,
           borderRadius: 10,
         }}
         onPress={() => navigation.navigate("Store")}
       >
-        <View style={{ flexDirection: "row", width: "auto" }}>
+        <View style={{ flexDirection: "row", width: "100%" }}>
           {/* icon */}
           <View
             style={{
@@ -54,13 +54,14 @@ const YourStores = ({ navigation }) => {
               padding: 10,
               justifyContent: "center",
               alignItems: "center",
-              marginRight: 10,
+              marginRight: "2%",
+              width: "18%",
             }}
           >
             <FontAwesome5 name="store-alt" size={18} color={Colors.black} />
           </View>
           {/* name and address */}
-          <View style={{ justifyContent: "flex-start" }}>
+          <View style={{ justifyContent: "flex-start", width: "80%" }}>
             <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
               {item.name}
             </Text>
@@ -100,7 +101,7 @@ const YourStores = ({ navigation }) => {
   ));
 
   return (
-    <View style={{ paddingVertical: 5, flex: 1, paddingHorizontal: 25 }}>
+    <View style={{ paddingVertical: 5, flex: 1, paddingHorizontal: "2%" }}>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={stores}

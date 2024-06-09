@@ -8,7 +8,7 @@ import YourStores from "../../../Components/Stores/YourStores";
 
 const ManageStore = ({ navigation }) => {
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: 5 }}>
       {/* header */}
       <Header navigation={navigation} title="Vivian Nnaji Stores" />
       {/* body */}

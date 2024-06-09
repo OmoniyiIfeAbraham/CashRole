@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Pressable,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -41,7 +42,7 @@ const CreateSeller = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
-      <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         {/* header */}
         <Header navigation={navigation} title="Add Seller" />
         {/* form title */}
@@ -162,7 +163,7 @@ const CreateSeller = ({ navigation }) => {
             <Text style={GeneralStyle.RegularText}>Add Seller</Text>
           </TouchableOpacity>
         </View>
-      </Pressable>
+      </ScrollView>
     </SafeAreaView>
   );
 };

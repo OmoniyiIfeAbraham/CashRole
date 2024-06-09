@@ -17,12 +17,10 @@ export default function ImageUploader({ width, height }) {
   const [images, setImages] = useState([]);
 
   const pickImage = async () => {
-    setImages([]);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       aspect: [4, 3],
       quality: 1,
-      allowsMultipleSelection: true,
     });
 
     if (!result.canceled) {
@@ -30,20 +28,20 @@ export default function ImageUploader({ width, height }) {
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...newUris];
         console.log(updatedImages); // Log the updated images array here
-        return updatedImages;
+        return updatedImages.slice(0, 10); // Only keep up to 10 images
       });
-    }
-    if (result.assets.length > 10) {
-      setImages([]);
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "You can Only Add 10 Images Per-Product!!!",
-      });
-    } else {
-      Toast.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: `${result.assets.length} Image(s) Added Successfully`,
-      });
+
+      if (images.length + newUris.length > 10) {
+        Toast.show({
+          type: ALERT_TYPE.WARNING,
+          title: "You can Only Add 10 Images Per-Product!!!",
+        });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: `${newUris.length} Image(s) Added Successfully`,
+        });
+      }
     }
   };
 
@@ -55,23 +53,31 @@ export default function ImageUploader({ width, height }) {
   return (
     <View style={{ width: "100%", height: "auto", alignItems: "center" }}>
       {/* title */}
-      <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
-        Upload Photo(s)
-      </Text>
-      <TouchableOpacity
-        style={{
-          backgroundColor: Colors.white,
-          elevation: 5,
+      <ScrollView
+        style={{ flex: 1, width: "100%" }}
+        contentContainerStyle={{
           justifyContent: "center",
-          alignItems: "center",
-          borderRadius: 10,
-          padding: 25,
-          marginTop: 5,
+          paddingHorizontal: "15%",
         }}
-        onPress={pickImage}
       >
-        <FontAwesome6 name="add" size={24} color={Colors.black} />
-      </TouchableOpacity>
+        <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+          Upload Photo(s)
+        </Text>
+        <TouchableOpacity
+          style={{
+            backgroundColor: Colors.white,
+            elevation: 5,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 10,
+            padding: 25,
+            marginTop: 5,
+          }}
+          onPress={pickImage}
+        >
+          <FontAwesome6 name="add" size={24} color={Colors.black} />
+        </TouchableOpacity>
+      </ScrollView>
       {images.length > 0 && (
         <ScrollView
           style={{

@@ -87,7 +87,7 @@ const SellerProfile = ({ navigation, route }) => {
             <View
               style={{
                 width: "100%",
-                height: "20%",
+                height: "15%",
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -144,7 +144,7 @@ const SellerProfile = ({ navigation, route }) => {
             <View
               style={{
                 width: "100%",
-                height: "50%",
+                maxHeight: "60%",
                 backgroundColor: Colors.white,
                 elevation: 10,
                 borderRadius: 5,
@@ -174,17 +174,29 @@ const SellerProfile = ({ navigation, route }) => {
                     height: "auto",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    flexWrap: "wrap",
                   }}
                 >
                   <Text
-                    style={[GeneralStyle.RegularText, { color: Colors.black }]}
+                    style={[
+                      GeneralStyle.RegularText,
+                      {
+                        color: Colors.black,
+                        maxWidth: "25%",
+                        textAlign: "left",
+                      },
+                    ]}
                   >
                     Name
                   </Text>
                   <Text
                     style={[
                       GeneralStyle.RegularText,
-                      { color: Colors.mediumSeaGreen },
+                      {
+                        color: Colors.mediumSeaGreen,
+                        maxWidth: "70%",
+                        textAlign: "right",
+                      },
                     ]}
                   >
                     Vivian Nnaji
@@ -197,17 +209,29 @@ const SellerProfile = ({ navigation, route }) => {
                     height: "auto",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    flexWrap: "wrap",
                   }}
                 >
                   <Text
-                    style={[GeneralStyle.RegularText, { color: Colors.black }]}
+                    style={[
+                      GeneralStyle.RegularText,
+                      {
+                        color: Colors.black,
+                        maxWidth: "45%",
+                        textAlign: "left",
+                      },
+                    ]}
                   >
                     Date of Birth
                   </Text>
                   <Text
                     style={[
                       GeneralStyle.RegularText,
-                      { color: Colors.mediumSeaGreen },
+                      {
+                        color: Colors.mediumSeaGreen,
+                        maxWidth: "50%",
+                        textAlign: "right",
+                      },
                     ]}
                   >
                     02/07/1990
@@ -220,17 +244,29 @@ const SellerProfile = ({ navigation, route }) => {
                     height: "auto",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    flexWrap: "wrap",
                   }}
                 >
                   <Text
-                    style={[GeneralStyle.RegularText, { color: Colors.black }]}
+                    style={[
+                      GeneralStyle.RegularText,
+                      {
+                        color: Colors.black,
+                        maxWidth: "30%",
+                        textAlign: "left",
+                      },
+                    ]}
                   >
                     Address
                   </Text>
                   <Text
                     style={[
                       GeneralStyle.RegularText,
-                      { color: Colors.mediumSeaGreen },
+                      {
+                        color: Colors.mediumSeaGreen,
+                        maxWidth: "65%",
+                        textAlign: "right",
+                      },
                     ]}
                   >
                     0009004187
@@ -243,17 +279,29 @@ const SellerProfile = ({ navigation, route }) => {
                     height: "auto",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    flexWrap: "wrap",
                   }}
                 >
                   <Text
-                    style={[GeneralStyle.RegularText, { color: Colors.black }]}
+                    style={[
+                      GeneralStyle.RegularText,
+                      {
+                        color: Colors.black,
+                        maxWidth: "50%",
+                        textAlign: "left",
+                      },
+                    ]}
                   >
                     Phone Number
                   </Text>
                   <Text
                     style={[
                       GeneralStyle.RegularText,
-                      { color: Colors.mediumSeaGreen },
+                      {
+                        color: Colors.mediumSeaGreen,
+                        maxWidth: "45%",
+                        textAlign: "right",
+                      },
                     ]}
                   >
                     07030473033
@@ -266,17 +314,29 @@ const SellerProfile = ({ navigation, route }) => {
                     height: "auto",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    flexWrap: "wrap",
                   }}
                 >
                   <Text
-                    style={[GeneralStyle.RegularText, { color: Colors.black }]}
+                    style={[
+                      GeneralStyle.RegularText,
+                      {
+                        color: Colors.black,
+                        maxWidth: "45%",
+                        textAlign: "left",
+                      },
+                    ]}
                   >
                     Email Address
                   </Text>
                   <Text
                     style={[
                       GeneralStyle.RegularText,
-                      { color: Colors.mediumSeaGreen },
+                      {
+                        color: Colors.mediumSeaGreen,
+                        maxWidth: "55%",
+                        textAlign: "right",
+                      },
                     ]}
                   >
                     example@gmail.com

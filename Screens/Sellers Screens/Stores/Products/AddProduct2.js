@@ -5,6 +5,7 @@ import {
   Keyboard,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -45,9 +46,9 @@ const AddProduct2 = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
-      <Pressable
+      <ScrollView
         style={{ flex: 1, width: "100%", height: "100%" }}
-        onPress={() => Keyboard.dismiss()}
+        showsVerticalScrollIndicator={false}
       >
         {/* header */}
         <Header navigation={navigation} title="Add new product" />
@@ -129,7 +130,7 @@ const AddProduct2 = ({ navigation }) => {
             <Text style={[GeneralStyle.BoldText]}>Next {">>>"}</Text>
           </TouchableOpacity>
         </View>
-      </Pressable>
+      </ScrollView>
     </SafeAreaView>
   );
 };
