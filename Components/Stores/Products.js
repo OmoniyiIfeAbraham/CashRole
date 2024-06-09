@@ -24,7 +24,7 @@ const Products = ({ navigation }) => {
     },
     {
       id: 2,
-      img: require("./../../assets/Notifications/nike.png"),
+      img: require("./../../assets/Notifications/tomatoes1.jpg"),
       name: "Glamour Boutique",
       address: "Alagbaka. Akure",
       amount: "70,000",

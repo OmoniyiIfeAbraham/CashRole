@@ -21,6 +21,7 @@ import WithdrawComponent from "../Components/HomeScreen/WithdrawComponent";
 import RecentStores from "../Components/HomeScreen/RecentStores";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
@@ -48,7 +49,7 @@ const Home = ({ navigation }) => {
     }
   }
 
-  useEffect(() => {
+  useFocusEffect(() => {
     async function fetchData() {
       const items = await getItem("fName");
       if (items) {
@@ -56,7 +57,7 @@ const Home = ({ navigation }) => {
       }
     }
     fetchData();
-  }, []);
+  });
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 25 }}>
       {/* upper part */}
@@ -98,7 +99,7 @@ const Home = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {/* balance */}
-        <View style={{ marginTop: 15, height: "10%" }}>
+        <View style={{ height: "10%" }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text
               style={[
@@ -182,7 +183,7 @@ const Home = ({ navigation }) => {
         <View
           style={{
             flexDirection: "row",
-            marginTop: 50,
+            marginTop: "10%",
             width: "100%",
             justifyContent: "space-evenly",
             alignItems: "center",
@@ -215,7 +216,7 @@ const Home = ({ navigation }) => {
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.ash, marginTop: 5 },
+                { color: Colors.ash, marginTop: "1%" },
               ]}
             >
               Store Link
@@ -244,7 +245,7 @@ const Home = ({ navigation }) => {
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.ash, marginTop: 5 },
+                { color: Colors.ash, marginTop: "1%" },
               ]}
             >
               Deal
@@ -272,7 +273,7 @@ const Home = ({ navigation }) => {
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.ash, marginTop: 5 },
+                { color: Colors.ash, marginTop: "1%" },
               ]}
             >
               Add Seller

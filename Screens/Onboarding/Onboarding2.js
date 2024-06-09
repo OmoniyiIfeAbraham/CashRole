@@ -16,7 +16,7 @@ const Onboarding2 = ({ navigation }) => {
     navigation.replace(screen);
   };
   return (
-    <View style={{ padding: 25 }}>
+    <View style={{ padding: 25, flex: 1 }}>
       {/* image view */}
       <View
         style={{
@@ -53,6 +53,7 @@ const Onboarding2 = ({ navigation }) => {
                 fontSize: 20,
                 textAlign: "center",
                 marginTop: 20,
+                marginBottom: 10,
               })
             }
           >

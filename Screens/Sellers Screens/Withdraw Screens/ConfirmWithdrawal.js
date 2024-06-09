@@ -73,15 +73,29 @@ const ConfirmWithdrawal = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "50%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Amount (NGN)
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "45%",
+                  textAlign: "right",
+                },
               ]}
             >
               3,000
@@ -94,15 +108,29 @@ const ConfirmWithdrawal = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "40%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Bank Name
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "55%",
+                  textAlign: "right",
+                },
               ]}
             >
               StanbicIBTC Bank
@@ -115,15 +143,29 @@ const ConfirmWithdrawal = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "55%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Account Number
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "40%",
+                  textAlign: "right",
+                },
               ]}
             >
               0009004187
@@ -136,15 +178,29 @@ const ConfirmWithdrawal = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "50%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Account Name
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "45%",
+                  textAlign: "right",
+                },
               ]}
             >
               Oluwaseyi Akinlolu

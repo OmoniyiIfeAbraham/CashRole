@@ -13,9 +13,9 @@ export const dummyData = [
   {
     id: 2,
     imgs: [
-      require('./../../assets/Notifications/nike.png'),
-      require('./../../assets/Notifications/nike1.png'),
-      require('./../../assets/Notifications/nike2.png'),
+      require('./../../assets/Notifications/tomatoes.jpg'),
+      require('./../../assets/Notifications/tomatoes1.jpg'),
+      require('./../../assets/Notifications/tomatoes2.jpg'),
     ],
     title: "Used Nike Shoe",
     location: "Ajaka, Lagos",
@@ -24,7 +24,7 @@ export const dummyData = [
   {
     id: 3,
     imgs: [
-      require('./../../assets/Notifications/rolex.jpeg'),
+      require('./../../assets/Notifications/rolex2.jpg'),
       require('./../../assets/Notifications/rolex.jpg'),
       require('./../../assets/Notifications/rolex1.jpg'),
     ],

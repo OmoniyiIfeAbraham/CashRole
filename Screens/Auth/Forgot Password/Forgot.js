@@ -86,7 +86,7 @@ const Forgot = ({ navigation }) => {
           </View>
           {/* btn */}
           <View
-            style={{ width: "100%", paddingHorizontal: 100, marginTop: 30 }}
+            style={{ width: "100%", paddingHorizontal: "20%", marginTop: 30 }}
           >
             <TouchableOpacity
               style={[

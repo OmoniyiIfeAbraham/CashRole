@@ -7,6 +7,7 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -93,7 +94,7 @@ const Withdraw = ({ navigation }) => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
+    <ScrollView style={{ flex: 1, paddingHorizontal: 15, paddingVertical: 25 }}>
       {/* modal */}
       <LoadingModal Visible={Loading} />
       {/* keyboard dismiss */}
@@ -219,7 +220,7 @@ const Withdraw = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </Pressable>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

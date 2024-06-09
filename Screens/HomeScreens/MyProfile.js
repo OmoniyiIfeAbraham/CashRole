@@ -132,6 +132,7 @@ const MyProfile = ({ navigation }) => {
           shadowOpacity: 0.2,
           shadowRadius: 4,
           paddingHorizontal: 15,
+          marginTop: "5%",
         }}
       >
         {/* user details */}
@@ -150,15 +151,29 @@ const MyProfile = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "25%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Name
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "70%",
+                  textAlign: "right",
+                },
               ]}
             >
               {name}
@@ -171,15 +186,29 @@ const MyProfile = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "45%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Date of Birth
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "50%",
+                  textAlign: "right",
+                },
               ]}
             >
               02/07/1990
@@ -192,15 +221,29 @@ const MyProfile = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "30%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Address
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "65%",
+                  textAlign: "right",
+                },
               ]}
             >
               No. 25 Jadaga Street, Malaysia
@@ -213,15 +256,29 @@ const MyProfile = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "50%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Phone Number
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "45%",
+                  textAlign: "right",
+                },
               ]}
             >
               {phone}
@@ -234,15 +291,29 @@ const MyProfile = ({ navigation }) => {
               height: "auto",
               flexDirection: "row",
               justifyContent: "space-between",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+            <Text
+              style={[
+                GeneralStyle.RegularText,
+                {
+                  color: Colors.black,
+                  maxWidth: "50%",
+                  textAlign: "left",
+                },
+              ]}
+            >
               Email Address
             </Text>
             <Text
               style={[
                 GeneralStyle.RegularText,
-                { color: Colors.mediumSeaGreen },
+                {
+                  color: Colors.mediumSeaGreen,
+                  maxWidth: "50%",
+                  textAlign: "right",
+                },
               ]}
             >
               {email}
@@ -264,7 +335,7 @@ const MyProfile = ({ navigation }) => {
             style={[
               GeneralStyle.Btn,
               {
-                height: 45,
+                height: "70%",
                 width: "45%",
                 backgroundColor: Colors.tomato,
               },
@@ -286,7 +357,7 @@ const MyProfile = ({ navigation }) => {
             style={[
               GeneralStyle.Btn,
               {
-                height: 45,
+                height: "70%",
                 width: "45%",
                 backgroundColor: Colors.black,
               },
