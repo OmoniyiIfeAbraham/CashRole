@@ -128,6 +128,7 @@ const Products = ({ navigation }) => {
               borderRadius: 5,
               marginBottom: 2,
             }}
+            onPress={() => navigation.navigate("AddProduct")}
           >
             <Text
               style={[
@@ -152,6 +153,7 @@ const Products = ({ navigation }) => {
               height: "auto",
               borderRadius: 5,
             }}
+            onPress={() => navigation.navigate("ConfirmDeleteProduct")}
           >
             <Text
               style={[

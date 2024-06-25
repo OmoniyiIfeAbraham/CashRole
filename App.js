@@ -51,6 +51,9 @@ import AddProduct2 from "./Screens/Sellers Screens/Stores/Products/AddProduct2";
 import ProductConfirm from "./Screens/Sellers Screens/Stores/Products/ProductConfirm";
 import AddproductOtp from "./Screens/Sellers Screens/Stores/Products/AddproductOtp";
 import AddProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/AddProductSuccessfull";
+import ConfirmDeleteProduct from "./Screens/Sellers Screens/Stores/Products/ConfirmDeleteProduct";
+import DeleteProductOtp from "./Screens/Sellers Screens/Stores/Products/DeleteProductOtp";
+import DeleteProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/DeleteProductSuccessfull";
 
 const Stack = createNativeStackNavigator();
 
@@ -147,6 +150,18 @@ export default function App() {
               <Stack.Screen
                 name="AddProductSuccessfull"
                 component={AddProductSuccessfull}
+              />
+              <Stack.Screen
+                name="ConfirmDeleteProduct"
+                component={ConfirmDeleteProduct}
+              />
+              <Stack.Screen
+                name="DeleteProductOtp"
+                component={DeleteProductOtp}
+              />
+              <Stack.Screen
+                name="DeleteProductSuccessfull"
+                component={DeleteProductSuccessfull}
               />
             </Stack.Group>
 
