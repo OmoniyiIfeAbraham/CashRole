@@ -3,7 +3,7 @@ import React from "react";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 
-const Success = () => {
+const Success = ({ title }) => {
   return (
     <View
       style={{
@@ -14,9 +14,7 @@ const Success = () => {
         alignItems: "center",
       }}
     >
-      <Text style={[GeneralStyle.BoldText, { fontSize: 30 }]}>
-        Withdrawal successful
-      </Text>
+      <Text style={[GeneralStyle.BoldText, { fontSize: 30 }]}>{title}</Text>
     </View>
   );
 };

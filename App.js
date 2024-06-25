@@ -50,6 +50,7 @@ import AddProduct from "./Screens/Sellers Screens/Stores/Products/AddProduct";
 import AddProduct2 from "./Screens/Sellers Screens/Stores/Products/AddProduct2";
 import ProductConfirm from "./Screens/Sellers Screens/Stores/Products/ProductConfirm";
 import AddproductOtp from "./Screens/Sellers Screens/Stores/Products/AddproductOtp";
+import AddProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/AddProductSuccessfull";
 
 const Stack = createNativeStackNavigator();
 
@@ -143,6 +144,10 @@ export default function App() {
               <Stack.Screen name="AddProduct2" component={AddProduct2} />
               <Stack.Screen name="ProductConfirm" component={ProductConfirm} />
               <Stack.Screen name="AddProductOtp" component={AddproductOtp} />
+              <Stack.Screen
+                name="AddProductSuccessfull"
+                component={AddProductSuccessfull}
+              />
             </Stack.Group>
 
             {/* Deal Screens */}

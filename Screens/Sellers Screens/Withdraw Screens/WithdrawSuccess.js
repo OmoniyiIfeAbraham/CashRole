@@ -16,7 +16,7 @@ const WithdrawSuccess = ({ navigation }) => {
       }}
     >
       <View style={{ width: "100%", height: "auto", alignItems: "center" }}>
-        <Success />
+        <Success title="Withdrawal successful" />
         <Pressable>
           <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
             Report transaction
