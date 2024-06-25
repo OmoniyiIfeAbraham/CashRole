@@ -13,9 +13,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import GeneralStyle from "../../Style/General.style";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
-export default function ImageUploader({ width, height }) {
-  const [images, setImages] = useState([]);
-
+export default function ImageUploader({ width, height, images, setImages }) {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,

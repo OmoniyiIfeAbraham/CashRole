@@ -13,8 +13,15 @@ import Header from "../../../../Components/Header/Header";
 import GeneralStyle from "../../../../Style/General.style";
 import Colors from "../../../../Style/ThemeColors";
 import ImageUploader from "../../../../Components/Products/ImageUploader";
+import { useFocusEffect } from "@react-navigation/native";
+import { useState } from "react";
 
 const AddProduct = ({ navigation }) => {
+  const [images, setImages] = useState([]);
+
+  const handleNext = () => {
+    navigation.navigate("AddProduct2", { images });
+  };
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
@@ -49,7 +56,12 @@ const AddProduct = ({ navigation }) => {
             />
           </View>
           {/* Upload Photo */}
-          <ImageUploader width="100%" height="60%" />
+          <ImageUploader
+            width="100%"
+            height="60%"
+            images={images}
+            setImages={setImages}
+          />
           {/* Other components can go here */}
           {/* title */}
           <Text
@@ -84,7 +96,7 @@ const AddProduct = ({ navigation }) => {
                 GeneralStyle.Btn,
                 { backgroundColor: Colors.midnightBlue },
               ]}
-              onPress={() => navigation.navigate("AddProduct2")}
+              onPress={handleNext}
             >
               <Text style={[GeneralStyle.BoldText]}>Next {">>>"}</Text>
             </TouchableOpacity>

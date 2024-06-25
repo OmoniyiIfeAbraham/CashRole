@@ -14,10 +14,11 @@ import GeneralStyle from "../../../../Style/General.style";
 import Colors from "../../../../Style/ThemeColors";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
-const AddProduct2 = ({ navigation }) => {
+const AddProduct2 = ({ navigation, route }) => {
   const [productPrice, setProductPrice] = useState(0);
   const [sellerPrice, setSellerPrice] = useState(0);
   const [myPrice, setMyPrice] = useState(0);
+  const { images } = route.params;
 
   // price handler
   const productPriceChange = (text) => {
@@ -40,7 +41,7 @@ const AddProduct2 = ({ navigation }) => {
         title: "Error!! Sharing does not match total amount.",
       });
     } else {
-      // navigation.navigate("ProductConfirm");
+      navigation.navigate("ProductConfirm", { images });
     }
   };
   return (
