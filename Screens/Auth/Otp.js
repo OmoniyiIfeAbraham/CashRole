@@ -20,46 +20,11 @@ import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 
-const Otp = ({ navigation }) => {
-  const [savedOtp, setSavedOtp] = useState("");
+const Otp = ({ navigation, route }) => {
   const [Phone, setPhone] = useState("");
   const [Otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  // Function to retrieve otp
-  async function getItem(item1Key, item2Key) {
-    try {
-      const [item1Value, item2Value] = await Promise.all([
-        AsyncStorage.getItem(item1Key),
-        AsyncStorage.getItem(item2Key),
-      ]);
-
-      if (item1Value !== null || item2Value !== null) {
-        // Items found in AsyncStorage
-        console.log("Item 1:", item1Value);
-        console.log("Item 2:", item2Value);
-        return { item1: item1Value, item2: item2Value };
-      } else {
-        // One or both items not found
-        console.log("One or all items not found");
-        return null;
-      }
-    } catch (error) {
-      console.error("Error retrieving items:", error);
-      return null;
-    }
-  }
-
-  useFocusEffect(() => {
-    async function fetchData() {
-      const items = await getItem("OTP", "Phone");
-      if (items) {
-        setSavedOtp(items.item1);
-        setPhone(items.item2);
-      }
-    }
-    fetchData();
-  });
+  const { email } = route.params;
 
   // function to handle otp input changes
   const handleOtpChange = (text) => {
@@ -68,141 +33,68 @@ const Otp = ({ navigation }) => {
 
   // confirm btn
   const confirmBtn = async () => {
-    if (Otp === "") {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Fill Otp Field!!!",
-      });
-    } else if (Otp !== savedOtp) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Incorrect Otp!!!",
-      });
-    } else {
+    try {
       setIsLoading(true);
-      const url = `${baseAPIUrl}/api/v1/merchant/verify-otp/`;
+      let url = `${baseAPIUrl}/client/register/verifyOtp?email=${email}`;
+      let data = new FormData();
+      data.append("OTP", Otp);
 
-      const otp = Otp;
-      const phone = Phone;
+      const response = await axios.post(url, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      let data = JSON.stringify({ otp: otp, phone: phone });
-
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${url}`,
-        headers: {
-          "Api-Key": `${ApiKey}`,
-          "Api-Sec-Key": `${ApiSecKey}`,
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      axios
-        .request(config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-          // saving necessary info
-          const saveData = async () => {
-            await AsyncStorage.setItem("fName", response.data.data.first_name);
-            await AsyncStorage.setItem("lName", response.data.data.last_name);
-            await AsyncStorage.setItem("Email", response.data.data.email);
-            await AsyncStorage.setItem("Phone", response.data.data.phone);
-            await AsyncStorage.setItem(
-              "userName",
-              response.data.data.profile.username
-            );
-          };
-          saveData();
-          Toast.show({
-            type: ALERT_TYPE.SUCCESS,
-            title: "Phone Number Verified!!!",
-          });
-          setIsLoading(false);
-          navigation.replace("HomeTabs");
-        })
-        .catch((error) => {
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.error
-          ) {
-            const errorMessage = error.response.data.error.message;
-            // Check if the error message is in the expected format
-            if (errorMessage === "Error processing your request") {
-              const userData = error.response.data.data;
-              if (
-                userData.non_field_errors &&
-                userData.non_field_errors.length > 0
-              ) {
-                Toast.show({
-                  type: ALERT_TYPE.WARNING,
-                  title: userData.non_field_errors[0], // Assuming the first element is the relevant message
-                });
-                setIsLoading(false);
-                return;
-              }
-            }
-          }
-          // If the error format is unexpected or doesn't contain the specific message, show the default error message
-          console.log(error);
-          Toast.show({
-            type: ALERT_TYPE.WARNING,
-            title: error.message,
-          });
-          setIsLoading(false);
+      if (response.data.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Verified Successfully",
         });
+        navigation.replace("Login");
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // resend btn
-  const resendBtn = async () => {
-    setIsLoading(true);
-    const url = `${baseAPIUrl}/api/v1/merchant/resend-otp/`;
+  const SendOtp = async (email) => {
+    console.log(email)
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/client/register/sendOtp?email=${email}`;
 
-    const phone = Phone;
+      const response = await axios.get(url, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-    let data = JSON.stringify({
-      phone: phone,
-    });
+      // console.log(response.data);
 
-    let config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: `${url}`,
-      headers: {
-        "Api-Key": `${ApiKey}`,
-        "Api-Sec-Key": `${ApiSecKey}`,
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-
-    axios
-      .request(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        // saving necessary info
-        const saveData = async () => {
-          await AsyncStorage.setItem("OTP", response.data.data.otp);
-        };
-        saveData();
+      if (response.data?.Error === false) {
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
-          title: "OTP Sent!!!",
+          title: "Success",
+          textBody: "OTP Sent Successfully",
         });
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // If the error format is unexpected or doesn't contain the specific message, show the default error message
-        console.log(error);
+        // navigation.replace("Otp", { email });
+      } else {
         Toast.show({
-          type: ALERT_TYPE.WARNING,
-          title: error.message,
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
         });
-        setIsLoading(false);
-      });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.midnightBlue }}>
@@ -335,7 +227,7 @@ const Otp = ({ navigation }) => {
                   GeneralStyle.ExtraBoldText,
                   { color: Colors.midnightBlue, fontSize: 22 },
                 ]}
-                onPress={resendBtn}
+                onPress={SendOtp}
               >
                 Resend
               </Text>

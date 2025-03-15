@@ -14,11 +14,13 @@ import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+  import AsyncStorage from "@react-native-async-storage/async-storage";
+  import ErrorHandler from "../../Components/Auth/ErrorHandler";
 
 const Login = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [Phone, setPhone] = useState("");
+  // const [Phone, setPhone] = useState("");
+  const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,8 +29,13 @@ const Login = ({ navigation }) => {
   };
 
   // function to handle phone number input changes
-  const handlePhoneChange = (text) => {
-    setPhone(text);
+  // const handlePhoneChange = (text) => {
+  //   setPhone(text);
+  // };
+
+  // function to handle email input changes
+  const handleEmailChange = (text) => {
+    setEmail(text); // Update the state with the current input value
   };
 
   // function to handle phone number input changes
@@ -38,131 +45,42 @@ const Login = ({ navigation }) => {
 
   // login btn
   const loginBtn = async () => {
-    const passwordPattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%^&*?])[A-Za-z\d@#$!%^&*?]{8,}$/;
-    const isPasswordValid = passwordPattern.test(Password);
-
-    if (Phone === "" || Password === "") {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Fill all Fields!!!",
-      });
-    } else if (Password.length < 8) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Password must be at least 8 Characters Long!!!",
-      });
-    } else if (isPasswordValid === false) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Password is too weak!!!",
-      });
-    } else if (Phone.length < 10) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Invalid Phone Number!!!",
-      });
-    } else {
+    try {
       setIsLoading(true);
-      const url = `${baseAPIUrl}/api/v1/merchant/login/`;
 
-      const phone = `+234${Phone}`;
-      const password = Password;
+      let url = `${baseAPIUrl}/client/login`;
+      let data = { Email: Email, Password: Password };
 
-      let data = JSON.stringify({
-        phone: phone,
-        password: password,
+      // console.log("Sending Data:", data);
+
+      const response = await axios.post(url, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
       });
 
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${url}`,
-        headers: {
-          "Api-Key": `${ApiKey}`,
-          "Api-Sec-Key": `${ApiSecKey}`,
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      axios
-        .request(config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-          // saving necessary info
-          const saveData = async () => {
-            await AsyncStorage.setItem(
-              "rToken",
-              response.data.data.tokens.refresh
-            );
-            await AsyncStorage.setItem("Email", response.data.data.user.email);
-            await AsyncStorage.setItem(
-              "fName",
-              response.data.data.user.first_name
-            );
-            await AsyncStorage.setItem(
-              "lName",
-              response.data.data.user.last_name
-            );
-            await AsyncStorage.setItem("Phone", response.data.data.user.phone);
-            await AsyncStorage.setItem(
-              "userName",
-              response.data.data.user.profile.username
-            );
-            await AsyncStorage.setItem(
-              "address",
-              response.data.data.user.profile.address
-            );
-          };
-          saveData();
-          Toast.show({
-            type: ALERT_TYPE.SUCCESS,
-            title: "Login Successfull",
-          });
-          setIsLoading(false);
-          navigation.replace("HomeTabs");
-        })
-        .catch((error) => {
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.error
-          ) {
-            const errorMessage = error.response.data.error.message;
-            // Check if the error message is in the expected format
-            if (errorMessage === "Error processing your request") {
-              const userData = error.response.data.data;
-              if (userData.phone && userData.phone.length > 0) {
-                Toast.show({
-                  type: ALERT_TYPE.WARNING,
-                  title: userData.phone[0], // Assuming the first element is the relevant message
-                });
-                setIsLoading(false);
-                return;
-              } else if (userData.message && userData.message.length > 0) {
-                Toast.show({
-                  type: ALERT_TYPE.WARNING,
-                  title: userData.message, // Assuming the first element is the relevant message
-                });
-                const saveNewOtp = async () => {
-                  await AsyncStorage.setItem("OTP", userData.otp);
-                };
-                saveNewOtp();
-                setIsLoading(false);
-                navigation.navigate("Otp");
-                return;
-              }
-            }
-          }
-          // If the error format is unexpected or doesn't contain the specific message, show the default error message
-          console.log(error);
-          Toast.show({
-            type: ALERT_TYPE.WARNING,
-            title: error.message,
-          });
-          setIsLoading(false);
+      if (response.data.Error === false) {
+        await AsyncStorage.setItem(
+          "cashrole-client-details",
+          JSON.stringify(response.data.Data)
+        );
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Signed In Successfully",
         });
+        navigation.replace("HomeTabs");
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -209,7 +127,7 @@ const Login = ({ navigation }) => {
         Sign into your account
       </Text>
       {/* phone number */}
-      <View
+      {/* <View
         style={{
           width: "100%",
           height: 50,
@@ -250,6 +168,26 @@ const Login = ({ navigation }) => {
             onChangeText={handlePhoneChange}
           />
         </View>
+      </View> */}
+      {/* email */}
+      <View style={GeneralStyle.TextInputView}>
+        <MaterialIcons
+          name="mail-outline"
+          size={24}
+          color={Colors.ash}
+          style={{
+            marginRight: 10,
+          }}
+        />
+        <TextInput
+          style={GeneralStyle.TextInput}
+          placeholder="your@gmail.com"
+          placeholderTextColor={Colors.ash}
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={Email}
+          onChangeText={handleEmailChange}
+        />
       </View>
       {/* password */}
       <View style={[GeneralStyle.TextInputView, { marginBottom: 10 }]}>

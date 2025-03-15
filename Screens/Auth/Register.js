@@ -22,6 +22,7 @@ import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
 
 const Register = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -91,45 +92,7 @@ const Register = ({ navigation }) => {
 
   // sign up btn
   const signUpBtn = async () => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    const passwordPattern =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%^&*?])[A-Za-z\d@#$!%^&*?]{8,}$/;
-    const isPasswordValid = passwordPattern.test(Password);
-
-    if (
-      firstName === "" ||
-      lastName === "" ||
-      Email === "" ||
-      date === "" ||
-      Password === "" ||
-      confirmPassword === "" ||
-      Phone === ""
-    ) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Fill all Fields!!!",
-      });
-    } else if (firstName.length < 3 || lastName.length < 3) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Name must be greater than 3 Characters each!!!",
-      });
-    } else if (!emailRegex.test(Email)) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Invalid email address.",
-      });
-    } else if (Password.length < 8) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Password must be at least 8 Characters Long!!!",
-      });
-    } else if (isPasswordValid === false) {
-      Toast.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Password is too weak!!!",
-      });
-    } else if (Password !== confirmPassword) {
+    if (Password !== confirmPassword) {
       Toast.show({
         type: ALERT_TYPE.WARNING,
         title: "Password and Confirm Password must be the same!!!",
@@ -140,88 +103,72 @@ const Register = ({ navigation }) => {
         title: "Invalid Phone Number!!!",
       });
     } else {
-      setIsLoading(true);
-      const url = `${baseAPIUrl}/api/v1/merchant/register/`;
+      try {
+        setIsLoading(true);
+        let url = `${baseAPIUrl}/client/register`;
+        let data = new FormData();
+        data.append("FirstName", firstName);
+        data.append("LastName", lastName);
+        data.append("Email", Email);
+        data.append("DOB", date);
+        data.append("Password", Password);
+        data.append("PhoneNo", `234${Phone}`);
 
-      const password = Password;
-      const password2 = confirmPassword;
-      const first_name = firstName;
-      const last_name = lastName;
-      const dob = date;
-      const phoneNumber = `+234${Phone}`;
-      const phone = phoneNumber;
-      const email = Email.trimEnd();
-
-      let data = JSON.stringify({
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
-        password: password,
-        password2: password2,
-        dob: dob,
-        phone: phone,
-      });
-
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${url}`,
-        headers: {
-          "Api-Key": `${ApiKey}`,
-          "Api-Sec-Key": `${ApiSecKey}`,
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      axios
-        .request(config)
-        .then((response) => {
-          console.log(JSON.stringify(response.data));
-          // saving necessary info
-          const saveData = async () => {
-            await AsyncStorage.setItem("OTP", response.data.data.otp);
-            await AsyncStorage.setItem("DOB", response.data.data.dob);
-            await AsyncStorage.setItem("Phone", response.data.data.phone);
-          };
-          saveData();
-          Toast.show({
-            type: ALERT_TYPE.SUCCESS,
-            title: "Successfully Registered",
-          });
-          setIsLoading(false);
-          navigation.navigate("Otp");
-        })
-        .catch((error) => {
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.error
-          ) {
-            const errorMessage = error.response.data.error.message;
-            // Check if the error message is in the expected format
-            if (errorMessage === "Error processing your request") {
-              const userData = error.response.data.data;
-              if (userData.email && userData.email.length > 0) {
-                Toast.show({
-                  type: ALERT_TYPE.WARNING,
-                  title: `${userData.email[0]} Try Login!!!`, // Assuming the first element is the relevant message
-                });
-                setIsLoading(false);
-                return;
-              }
-            }
-          }
-          // If the error format is unexpected or doesn't contain the specific message, show the default error message
-          console.log(error);
-          Toast.show({
-            type: ALERT_TYPE.WARNING,
-            title: error.message,
-          });
-          setIsLoading(false);
+        const response = await axios.post(url, data, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
+
+        // console.log(response.data);
+
+        if (response.data?.Error === false) {
+          SendOtp(Email);
+        } else {
+          Toast.show({
+            type: ALERT_TYPE.DANGER,
+            title: "Error",
+            textBody: `${response.data.Error}`,
+          });
+        }
+      } catch (error) {
+        ErrorHandler(error, navigation);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
+
+  const SendOtp = async (email) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/client/register/sendOtp?email=${email}`;
+
+      const response = await axios.get(url, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Sent Successfully",
+        });
+        navigation.replace("Otp", { email });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <ScrollView style={{ padding: 25, flex: 1 }}>
       {/* modal */}
