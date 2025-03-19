@@ -14,8 +14,8 @@ import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
-  import AsyncStorage from "@react-native-async-storage/async-storage";
-  import ErrorHandler from "../../Components/Auth/ErrorHandler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
 
 const Login = ({ navigation }) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -70,6 +70,40 @@ const Login = ({ navigation }) => {
           textBody: "Signed In Successfully",
         });
         navigation.replace("HomeTabs");
+      } else if (response.data.EmailVerify === false) {
+        SendOtp(Email);
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const SendOtp = async (email) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/client/register/sendOtp?email=${email}`;
+
+      const response = await axios.get(url, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Sent Successfully",
+        });
+        navigation.replace("Otp", { email });
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,

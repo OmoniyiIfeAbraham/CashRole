@@ -19,9 +19,9 @@ import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
 
 const Otp = ({ navigation, route }) => {
-  const [Phone, setPhone] = useState("");
   const [Otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { email } = route.params;
@@ -51,6 +51,8 @@ const Otp = ({ navigation, route }) => {
         });
         navigation.replace("Login");
       } else {
+        console.log('haha')
+        console.log(response.data)
         Toast.show({
           type: ALERT_TYPE.DANGER,
           title: "Error",
@@ -58,6 +60,8 @@ const Otp = ({ navigation, route }) => {
         });
       }
     } catch (error) {
+      console.log('hmm')
+      console.log(error)
       ErrorHandler(error, navigation);
     } finally {
       setIsLoading(false);
@@ -65,7 +69,7 @@ const Otp = ({ navigation, route }) => {
   };
 
   const SendOtp = async (email) => {
-    console.log(email)
+    // console.log(email);
     try {
       setIsLoading(true);
       let url = `${baseAPIUrl}/client/register/sendOtp?email=${email}`;
@@ -227,7 +231,7 @@ const Otp = ({ navigation, route }) => {
                   GeneralStyle.ExtraBoldText,
                   { color: Colors.midnightBlue, fontSize: 22 },
                 ]}
-                onPress={SendOtp}
+                onPress={() => SendOtp(email)}
               >
                 Resend
               </Text>

@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 async function ErrorHandler(error, navigation) {
+    console.log('here')
   console.log(error);
   // console.log("yoo1");
 
