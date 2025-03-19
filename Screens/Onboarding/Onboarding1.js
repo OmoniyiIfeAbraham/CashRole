@@ -1,22 +1,63 @@
 import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 import OnboardingProgress from "../../Components/Onboarding/OnboardingProgress";
 import { AntDesign } from "@expo/vector-icons";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
+import { baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const { width, height } = Dimensions.get("window");
 
 const Onboarding1 = ({ navigation }) => {
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const totalScreens = 3; // Total number of onboarding screens
 
   const next = (screen) => {
     navigation.replace(screen);
   };
 
+  const Verify = async () => {
+    const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+    const parsedInfo = JSON.parse(userInfo);
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/client/verify`;
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      if (response.data.Error === false) {
+        await AsyncStorage.setItem(
+          "cashrole-client-details",
+          JSON.stringify(response.data.Data)
+        );
+        navigation.replace("HomeTabs");
+      } else {
+        navigation.replace("Login");
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation, onBoard);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    Verify();
+  }, []);
+
   return (
     <View style={{ padding: 25 }}>
+      <LoadingModal Visible={isLoading} />
       {/* image view */}
       <View
         style={{
@@ -65,7 +106,7 @@ const Onboarding1 = ({ navigation }) => {
         {/* button */}
         <TouchableOpacity
           style={GeneralStyle.Btn}
-          onPress={() => next("Register")}
+          onPress={() => next("Login")}
         >
           <Text style={[GeneralStyle.MediumText]}>Let's Go</Text>
         </TouchableOpacity>

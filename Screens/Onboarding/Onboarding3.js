@@ -63,7 +63,7 @@ const Onboarding3 = ({ navigation }) => {
         {/* button */}
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.tomato }]}
-          onPress={() => next("Register")}
+          onPress={() => next("Login")}
         >
           <Text style={[GeneralStyle.MediumText]}>Let's Start</Text>
         </TouchableOpacity>

@@ -205,7 +205,7 @@ const Reset = ({ navigation, route }) => {
             backgroundColor: Colors.midnightBlue,
           },
         ]}
-        onPress={() => navigation.replace("HomeTabs")}
+        onPress={() => Reset()}
       >
         <Text style={GeneralStyle.RegularText}>Reset</Text>
       </TouchableOpacity>

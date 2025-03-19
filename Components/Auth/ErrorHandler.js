@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
-async function ErrorHandler(error, navigation) {
-    console.log('here')
+async function ErrorHandler(error, navigation, onBoard) {
+  console.log("here");
   console.log(error);
   // console.log("yoo1");
 
@@ -42,6 +42,13 @@ async function ErrorHandler(error, navigation) {
       title: "Error",
       textBody: errorMessage,
     });
+
+    if (onBoard) {
+      // Remove the items before navigating
+      await AsyncStorage.removeItem("cashrole-client-details");
+
+      navigation.navigate("Login");
+    }
 
     if (errorMessage === "You are logged Out") {
       // console.log("hmmmmmm");
