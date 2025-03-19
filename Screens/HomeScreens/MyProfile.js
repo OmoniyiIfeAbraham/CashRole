@@ -8,76 +8,89 @@ import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
 
 const MyProfile = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [balance, setBalance] = useState(null);
 
-  // Function to retrieve data
-  async function getItem(item1Key, item2Key, item3Key, item4Key, item5Key) {
+  const Check = async () => {
+    const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+    const parsedInfo = JSON.parse(userInfo);
     try {
-      const [item1Value, item2Value, item3Value, item4Value, item5Value] =
-        await Promise.all([
-          AsyncStorage.getItem(item1Key),
-          AsyncStorage.getItem(item2Key),
-          AsyncStorage.getItem(item3Key),
-          AsyncStorage.getItem(item4Key),
-          AsyncStorage.getItem(item5Key),
-        ]);
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/client/profile/view`;
 
-      if (
-        item1Value !== null ||
-        item2Value !== null ||
-        item3Value !== null ||
-        item4Value !== null ||
-        item5Value !== null
-      ) {
-        // Items found in AsyncStorage
-        console.log("Item 1:", item1Value);
-        console.log("Item 2:", item2Value);
-        console.log("Item 3:", item3Value);
-        console.log("Item 4:", item4Value);
-        console.log("Item 5:", item5Value);
-        return {
-          item1: item1Value,
-          item2: item2Value,
-          item3: item3Value,
-          item4: item4Value,
-          item5: item5Value,
-        };
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      if (response.data.Error === false) {
+        await AsyncStorage.setItem(
+          "cashrole-client-profile",
+          JSON.stringify(response.data.Data)
+        );
+        setUser(response.data.Data);
       } else {
-        // One or both items not found
-        console.log("One or all items not found");
-        return null;
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
       }
     } catch (error) {
-      console.error("Error retrieving items:", error);
-      return null;
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
     }
-  }
+  };
+
+  const GetBalance = async () => {
+    console.log("here");
+    const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+    const parsedInfo = JSON.parse(userInfo);
+    try {
+      let url = `${baseAPIUrl}/client/balance/view`;
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      if (response.data.Error === false) {
+        setBalance(response.data.Data);
+        console.log(response.data.Data);
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    }
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      const items = await getItem(
-        "fName",
-        "lName",
-        "address",
-        "Phone",
-        "Email"
-      );
-      if (items) {
-        setName(items.item1 + " " + items.item2);
-        setAddress(items.item3);
-        setPhone(items.item4);
-        setEmail(items.item5);
-      }
-    }
-    fetchData();
+    Check();
+    GetBalance();
   }, []);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
+      {/* modal */}
+      <LoadingModal Visible={isLoading} />
       {/* header */}
       <Header navigation={navigation} title="My Profile" />
       {/* transaction */}
@@ -95,7 +108,7 @@ const MyProfile = ({ navigation }) => {
         <Text
           style={[GeneralStyle.BoldText, { color: Colors.black, fontSize: 30 }]}
         >
-          NGN100,000.00
+          NGN{((balance?.Balance || 0) + (balance?.Earned || 0))?.toFixed(2)}
         </Text>
       </View>
       {/* profit */}
@@ -113,7 +126,7 @@ const MyProfile = ({ navigation }) => {
         <Text
           style={[GeneralStyle.BoldText, { color: Colors.black, fontSize: 30 }]}
         >
-          NGN5,000.00
+          NGN{(balance?.Earned || 0)?.toFixed(2)}
         </Text>
       </View>
       {/* details */}
@@ -176,7 +189,7 @@ const MyProfile = ({ navigation }) => {
                 },
               ]}
             >
-              {name}
+              {user?.User?.FirstName} {user?.User?.LastName}
             </Text>
           </View>
           {/* dob row */}
@@ -211,7 +224,7 @@ const MyProfile = ({ navigation }) => {
                 },
               ]}
             >
-              02/07/1990
+              {user?.User?.DOB}
             </Text>
           </View>
           {/* address row */}
@@ -246,7 +259,7 @@ const MyProfile = ({ navigation }) => {
                 },
               ]}
             >
-              No. 25 Jadaga Street, Malaysia
+              {user?.Profile?.Address}
             </Text>
           </View>
           {/* phone number row */}
@@ -281,7 +294,7 @@ const MyProfile = ({ navigation }) => {
                 },
               ]}
             >
-              {phone}
+              {user?.User?.PhoneNo}
             </Text>
           </View>
           {/* email row */}
@@ -316,7 +329,7 @@ const MyProfile = ({ navigation }) => {
                 },
               ]}
             >
-              {email}
+              {user?.User?.Email}
             </Text>
           </View>
         </View>

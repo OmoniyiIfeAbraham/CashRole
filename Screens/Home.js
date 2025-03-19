@@ -22,42 +22,62 @@ import RecentStores from "../Components/HomeScreen/RecentStores";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import { baseAPIUrl } from "../Global/Global";
+import axios from "axios";
+import ErrorHandler from "../Components/Auth/ErrorHandler";
 
 const { width, height } = Dimensions.get("window");
 
 const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState("");
+  const [user, setUser] = useState(null);
+  const [balance, setBalance] = useState(null);
 
-  // Function to retrieve data
-  async function getItem(item1Key, item2Key) {
+  const GetBalance = async () => {
+    console.log("here");
+    const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+    const parsedInfo = JSON.parse(userInfo);
     try {
-      const [item1Value] = await Promise.all([AsyncStorage.getItem(item1Key)]);
+      let url = `${baseAPIUrl}/client/balance/view`;
 
-      if (item1Value !== null) {
-        // Items found in AsyncStorage
-        console.log("Item 1:", item1Value);
-        return { item1: item1Value };
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      if (response.data.Error === false) {
+        setBalance(response.data.Data);
+        console.log(response.data.Data);
       } else {
-        // One or both items not found
-        console.log("One or all items not found");
-        return null;
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
       }
     } catch (error) {
-      console.error("Error retrieving items:", error);
-      return null;
+      ErrorHandler(error, navigation);
     }
-  }
+  };
 
   useFocusEffect(() => {
     async function fetchData() {
-      const items = await getItem("fName");
-      if (items) {
-        setName(items.item1);
-      }
+      const data = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedData = JSON.parse(data);
+      setUser(parsedData);
+      // console.log(parsedData);
     }
     fetchData();
   });
+
+  useEffect(() => {
+    GetBalance();
+  }, []);
+
+  // console.log(user);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 25 }}>
       {/* upper part */}
@@ -84,7 +104,7 @@ const Home = ({ navigation }) => {
               <FontAwesome5 name="user-alt" size={30} color={Colors.white} />
             </TouchableOpacity>
             <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
-              Hello, {name}
+              Hello, {user?.FirstName}
             </Text>
           </View>
           <TouchableOpacity
@@ -122,7 +142,7 @@ const Home = ({ navigation }) => {
               { color: Colors.black, fontSize: 30 },
             ]}
           >
-            NGN100,000.00
+            NGN{((balance?.Balance || 0) + (balance?.Earned || 0))?.toFixed(2)}
           </Text>
         </View>
         {/* Modal */}
@@ -176,7 +196,7 @@ const Home = ({ navigation }) => {
           <WithdrawComponent
             navigation={navigation}
             title="Available funds"
-            amount="5,000"
+            amount={(balance?.Balance)?.toFixed(2)}
           />
         </View>
         {/* links */}
