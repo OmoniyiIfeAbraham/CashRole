@@ -36,6 +36,8 @@ const ForgotOtp = ({ navigation, route }) => {
       let data = new FormData();
       data.append("OTP", Otp);
 
+      console.log(Otp);
+
       const response = await axios.post(url, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -196,6 +198,8 @@ const ForgotOtp = ({ navigation, route }) => {
                 autoCapitalize="none"
                 autoComplete="cc-number"
                 keyboardType="number-pad"
+                value={Otp}
+                onChangeText={handleOtpChange}
               />
             </View>
           </View>
