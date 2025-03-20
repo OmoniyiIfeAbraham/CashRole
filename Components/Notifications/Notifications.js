@@ -61,14 +61,14 @@ const Notifications = ({ navigation }) => {
         marginVertical: 8,
         borderRadius: 8,
       }}
-      onPress={() => navigation.navigate("NotificationDetails")}
+      // onPress={() => navigation.navigate("NotificationDetails")}
     >
       {/* main view */}
       <View style={{ height: "100%", width: "90%" }}>
         {/* msg view */}
         <View style={{ width: "100%", height: "auto", marginBottom: 5 }}>
           <Text style={[GeneralStyle.RegularText, { color: Colors.white }]}>
-            {item.msg}
+            {item.Message}
           </Text>
         </View>
         {/* time and date view */}
@@ -86,7 +86,7 @@ const Notifications = ({ navigation }) => {
               { color: Colors.ash, fontSize: 20, marginRight: 5 },
             ]}
           >
-            {item.time}
+            {item.createdAt.slice(11, 16)}
           </Text>
           <Text
             style={[
@@ -94,7 +94,7 @@ const Notifications = ({ navigation }) => {
               { color: Colors.ash, fontSize: 20, marginLeft: 5 },
             ]}
           >
-            {item.date}
+             {item.createdAt.slice(0, 10)}
           </Text>
         </View>
       </View>
@@ -117,8 +117,8 @@ const Notifications = ({ navigation }) => {
       <LoadingModal Visible={isLoading} />
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={notifications}
-        keyExtractor={(item) => item.id}
+        data={notifications.reverse()}
+        keyExtractor={(item) => item._id}
         renderItem={renderFlatListItems}
       />
     </View>

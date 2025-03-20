@@ -24,6 +24,8 @@ const Onboarding1 = ({ navigation }) => {
   const Verify = async () => {
     const userInfo = await AsyncStorage.getItem("cashrole-client-details");
     const parsedInfo = JSON.parse(userInfo);
+    console.log(parsedInfo);
+    console.log(parsedInfo.Auth);
     try {
       setIsLoading(true);
       let url = `${baseAPIUrl}/client/verify`;

@@ -8,10 +8,10 @@ async function ErrorHandler(error, navigation, onBoard) {
 
   if (error.response?.data) {
     console.log(error.response?.data);
-    // console.log("yoo2");
+    console.log("yoo2");
 
     if (error.response?.data.Access === false) {
-      // console.log("yoo");
+      console.log("yoo");
       Toast.show({
         type: ALERT_TYPE.DANGER,
         title: "Session Expired",
@@ -35,13 +35,14 @@ async function ErrorHandler(error, navigation, onBoard) {
         ? error.response?.data
         : error.response?.data?.Error || "An error occurred";
 
-    // console.log("message: ", errorMessage);
+    console.log("message: ", errorMessage);
 
     Toast.show({
       type: ALERT_TYPE.WARNING,
       title: "Error",
       textBody: errorMessage,
     });
+    navigation.navigate("Login");
 
     if (onBoard) {
       // Remove the items before navigating
@@ -51,26 +52,26 @@ async function ErrorHandler(error, navigation, onBoard) {
     }
 
     if (errorMessage === "You are logged Out") {
-      // console.log("hmmmmmm");
+      console.log("hmmmmmm");
 
       try {
         // Remove the items before navigating
         await AsyncStorage.removeItem("cashrole-client-details");
 
-        // console.log("done");
+        console.log("done");
 
         // Navigate to ProfileScreen after clearing storage
         navigation.navigate("Login");
       } catch (storageError) {
         console.error("Error clearing AsyncStorage:", storageError);
       }
-      // console.log("finish");
+      console.log("finish");
     }
     return;
   }
 
   console.log(error);
-  // console.log("yoo3");
+  console.log("yoo3");
   // Toast.show({
   //   type: ALERT_TYPE.DANGER,
   //   title: "No Internet",

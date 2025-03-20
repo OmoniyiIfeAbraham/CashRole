@@ -64,6 +64,7 @@ const Login = ({ navigation }) => {
           "cashrole-client-details",
           JSON.stringify(response.data.Data)
         );
+        console.log(response.data.Data)
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
           title: "Success",
