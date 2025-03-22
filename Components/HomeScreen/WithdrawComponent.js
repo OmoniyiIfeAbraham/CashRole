@@ -15,7 +15,7 @@ import { baseAPIUrl } from "../../Global/Global";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
-import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import LoadingModal from "../LoadingModal/LoadingModal";
 
 const WithdrawComponent = ({ navigation, title, amount }) => {
@@ -49,14 +49,16 @@ const WithdrawComponent = ({ navigation, title, amount }) => {
         // Open the URL in-app
         await WebBrowser.openBrowserAsync(response.data.Data.data.checkout_url);
       } else {
-        Toast.show({
+        Dialog.show({
           type: ALERT_TYPE.DANGER,
           title: "Error",
           textBody: `${response.data.Error}`,
+          button: "close",
         });
       }
     } catch (error) {
-      ErrorHandler(error, navigation);
+      let screen = "Deposit";
+      ErrorHandler(error, navigation, screen);
     } finally {
       setIsLoading(false);
     }

@@ -6,7 +6,7 @@ import {
   Dimensions,
   Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   AntDesign,
@@ -34,12 +34,13 @@ const Home = ({ navigation }) => {
   const [user, setUser] = useState(null);
   const [balance, setBalance] = useState(null);
 
-  const GetBalance = async () => {
-    console.log("here");
+  const GetBalance = async (setBalance, navigation) => {
+    console.log("Fetching balance...");
     const userInfo = await AsyncStorage.getItem("cashrole-client-details");
     const parsedInfo = JSON.parse(userInfo);
+
     try {
-      let url = `${baseAPIUrl}/client/balance/view`;
+      const url = `${baseAPIUrl}/client/balance/view`;
 
       const response = await axios.get(url, {
         headers: {
@@ -48,14 +49,14 @@ const Home = ({ navigation }) => {
         },
       });
 
-      if (response.data.Error === false) {
+      if (!response.data.Error) {
         setBalance(response.data.Data);
-        console.log(response.data.Data);
+        console.log("Balance:", response.data.Data);
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,
           title: "Error",
-          textBody: `${response.data.Error}`,
+          textBody: response.data.Error,
         });
       }
     } catch (error) {
@@ -63,19 +64,28 @@ const Home = ({ navigation }) => {
     }
   };
 
-  useFocusEffect(() => {
-    async function fetchData() {
-      const data = await AsyncStorage.getItem("cashrole-client-details");
-      const parsedData = JSON.parse(data);
-      setUser(parsedData);
-      // console.log(parsedData);
-    }
-    fetchData();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchData() {
+        const data = await AsyncStorage.getItem("cashrole-client-details");
+        const parsedData = JSON.parse(data);
+        setUser(parsedData);
+        // console.log(parsedData);
+      }
+      fetchData();
+    }, [])
+  );
 
-  useEffect(() => {
-    GetBalance();
-  }, []);
+  // useEffect(() => {
+  //   GetBalance();
+  // }, []);
+
+  // Use this inside your component
+  useFocusEffect(
+    useCallback(() => {
+      GetBalance(setBalance, navigation);
+    }, [navigation])
+  );
 
   // console.log(user);
   return (
@@ -196,7 +206,7 @@ const Home = ({ navigation }) => {
           <WithdrawComponent
             navigation={navigation}
             title="Available funds"
-            amount={(balance?.Balance)?.toFixed(2)}
+            amount={balance?.Balance?.toFixed(2)}
           />
         </View>
         {/* links */}
