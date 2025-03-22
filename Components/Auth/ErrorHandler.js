@@ -42,7 +42,7 @@ async function ErrorHandler(error, navigation, onBoard) {
       title: "Error",
       textBody: errorMessage,
     });
-    navigation.navigate("Login");
+    // navigation.navigate("Login");
 
     if (onBoard) {
       // Remove the items before navigating
@@ -51,7 +51,10 @@ async function ErrorHandler(error, navigation, onBoard) {
       navigation.navigate("Login");
     }
 
-    if (errorMessage === "You are logged Out") {
+    if (
+      errorMessage === "You are logged Out" ||
+      errorMessage === "Invalid or expired token"
+    ) {
       console.log("hmmmmmm");
 
       try {

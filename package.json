@@ -24,6 +24,7 @@
     "expo-image-picker": "~15.0.5",
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~2.0.1",
+    "expo-web-browser": "^14.0.2",
     "metro": "~0.80.8",
     "metro-config": "~0.80.8",
     "metro-resolver": "~0.80.8",
