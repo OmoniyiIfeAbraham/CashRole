@@ -41,7 +41,11 @@ async function ErrorHandler(error, navigation, onBoard, screen) {
     console.log("Error Message:", errorMessage);
 
     // Show appropriate alert based on the screen
-    if (screen === "Deposit" || errorMessage === "Amount too small") {
+    if (
+      screen === "Deposit" ||
+      errorMessage === "Amount too small" ||
+      errorMessage === "Amount too large"
+    ) {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: "Error",

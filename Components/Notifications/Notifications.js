@@ -49,6 +49,18 @@ const Notifications = ({ navigation }) => {
     GetBalance();
   }, []);
 
+  const GetDate = (item) => {
+    const createdAt = new Date(item.createdAt);
+    const formattedDate = createdAt.toISOString().slice(0, 10); // "YYYY-MM-DD"
+    return formattedDate;
+  };
+
+  const GetTime = (item) => {
+    const createdAt = new Date(item.createdAt);
+    const formattedTime = createdAt.toTimeString().slice(0, 5); // "HH:mm"
+    return formattedTime;
+  };
+
   // render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <TouchableOpacity
@@ -86,7 +98,7 @@ const Notifications = ({ navigation }) => {
               { color: Colors.ash, fontSize: 20, marginRight: 5 },
             ]}
           >
-            {item.createdAt.slice(11, 16)}
+            {GetTime(item)}
           </Text>
           <Text
             style={[
@@ -94,7 +106,7 @@ const Notifications = ({ navigation }) => {
               { color: Colors.ash, fontSize: 20, marginLeft: 5 },
             ]}
           >
-             {item.createdAt.slice(0, 10)}
+            {GetDate(item)}
           </Text>
         </View>
       </View>

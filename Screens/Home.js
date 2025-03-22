@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Modal,
+  RefreshControl,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -33,6 +34,7 @@ const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [user, setUser] = useState(null);
   const [balance, setBalance] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   const GetBalance = async (setBalance, navigation) => {
     console.log("Fetching balance...");
@@ -87,230 +89,245 @@ const Home = ({ navigation }) => {
     }, [navigation])
   );
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await GetBalance(setBalance, navigation);
+    setRefreshing(false);
+  };
+
   // console.log(user);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 25 }}>
       {/* upper part */}
-      <View style={{ height: "100%" }}>
-        {/* header */}
-        <View
-          style={{
-            width: "100%",
-            height: "15%",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <TouchableOpacity
-              style={{
-                padding: 15,
-                backgroundColor: Colors.ash,
-                borderRadius: 50,
-                marginRight: 10,
-              }}
-              onPress={() => navigation.navigate("MyProfile")}
-            >
-              <FontAwesome5 name="user-alt" size={30} color={Colors.white} />
-            </TouchableOpacity>
-            <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
-              Hello, {user?.FirstName}
-            </Text>
-          </View>
-          <TouchableOpacity
-            style={{ justifyContent: "center", alignItems: "center" }}
-            onPress={() => navigation.navigate("Notification")}
-          >
-            <MaterialCommunityIcons
-              name="bell"
-              size={35}
-              color={Colors.midnightBlue}
-            />
-          </TouchableOpacity>
-        </View>
-        {/* balance */}
-        <View style={{ height: "10%" }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text
-              style={[
-                GeneralStyle.RegularText,
-                { color: Colors.black, marginRight: 20 },
-              ]}
-            >
-              Total Balance
-            </Text>
-            <AntDesign
-              name="exclamationcircleo"
-              size={24}
-              color="black"
-              onPress={() => setModalVisible(true)}
-            />
-          </View>
-          <Text
-            style={[
-              GeneralStyle.BoldText,
-              { color: Colors.black, fontSize: 30 },
-            ]}
-          >
-            NGN{((balance?.Balance || 0) + (balance?.Earned || 0))?.toFixed(2)}
-          </Text>
-        </View>
-        {/* Modal */}
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(false)}
-        >
+      <ScrollView
+        contentContainerStyle={{ flex: 1 }}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={{ flex: 1 }}>
+          {/* header */}
           <View
             style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              width: "100%",
+              height: "15%",
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <TouchableOpacity
+                style={{
+                  padding: 15,
+                  backgroundColor: Colors.ash,
+                  borderRadius: 50,
+                  marginRight: 10,
+                }}
+                onPress={() => navigation.navigate("MyProfile")}
+              >
+                <FontAwesome5 name="user-alt" size={30} color={Colors.white} />
+              </TouchableOpacity>
+              <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
+                Hello, {user?.FirstName}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{ justifyContent: "center", alignItems: "center" }}
+              onPress={() => navigation.navigate("Notification")}
+            >
+              <MaterialCommunityIcons
+                name="bell"
+                size={35}
+                color={Colors.midnightBlue}
+              />
+            </TouchableOpacity>
+          </View>
+          {/* balance */}
+          <View style={{ height: "10%" }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text
+                style={[
+                  GeneralStyle.RegularText,
+                  { color: Colors.black, marginRight: 20 },
+                ]}
+              >
+                Total Balance
+              </Text>
+              <AntDesign
+                name="exclamationcircleo"
+                size={24}
+                color="black"
+                onPress={() => setModalVisible(true)}
+              />
+            </View>
+            <Text
+              style={[
+                GeneralStyle.BoldText,
+                { color: Colors.black, fontSize: 30 },
+              ]}
+            >
+              NGN
+              {((balance?.Balance || 0) + (balance?.Earned || 0))?.toFixed(2)}
+            </Text>
+          </View>
+          {/* Modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}
           >
             <View
               style={{
-                backgroundColor: "white",
-                padding: 20,
-                borderRadius: 10,
-                elevation: 5,
+                flex: 1,
+                justifyContent: "center",
                 alignItems: "center",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
               }}
             >
-              <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                Total Balance
-              </Text>
-              <Text style={{ textAlign: "center" }}>
-                This is the sum of all the money in your account, including
-                seller money.
-              </Text>
-              <TouchableOpacity
-                onPress={() => setModalVisible(false)}
+              <View
                 style={{
-                  marginTop: 20,
-                  backgroundColor: Colors.midnightBlue,
-                  paddingVertical: 10,
-                  paddingHorizontal: 20,
-                  borderRadius: 5,
+                  backgroundColor: "white",
+                  padding: 20,
+                  borderRadius: 10,
+                  elevation: 5,
+                  alignItems: "center",
                 }}
               >
-                <Text style={{ color: Colors.white }}>Close</Text>
+                <Text style={{ fontSize: 18, marginBottom: 10 }}>
+                  Total Balance
+                </Text>
+                <Text style={{ textAlign: "center" }}>
+                  This is the sum of all the money in your account, including
+                  seller money.
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  style={{
+                    marginTop: 20,
+                    backgroundColor: Colors.midnightBlue,
+                    paddingVertical: 10,
+                    paddingHorizontal: 20,
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text style={{ color: Colors.white }}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+          {/* withdraw */}
+          <View style={{ height: "50%" }}>
+            <WithdrawComponent
+              navigation={navigation}
+              title="Available funds"
+              amount={balance?.Balance?.toFixed(2)}
+            />
+          </View>
+          {/* links */}
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: "10%",
+              width: "100%",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              // height: "15%",
+            }}
+          >
+            {/* store link */}
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: Colors.midnightBlue,
+                  padding: 20,
+                  borderRadius: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => navigation.navigate("StoreLink")}
+              >
+                <MaterialIcons
+                  name="content-copy"
+                  size={36}
+                  color={Colors.white}
+                />
               </TouchableOpacity>
+              <Text
+                style={[
+                  GeneralStyle.RegularText,
+                  { color: Colors.ash, marginTop: "1%" },
+                ]}
+              >
+                Store Link
+              </Text>
+            </View>
+            {/* deal */}
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: Colors.midnightBlue,
+                  paddingVertical: 24,
+                  paddingHorizontal: 22,
+                  borderRadius: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => navigation.navigate("Deal")}
+              >
+                <FontAwesome5 name="handshake" size={30} color={Colors.white} />
+              </TouchableOpacity>
+              <Text
+                style={[
+                  GeneralStyle.RegularText,
+                  { color: Colors.ash, marginTop: "1%" },
+                ]}
+              >
+                Deal
+              </Text>
+            </View>
+            {/* add seller */}
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  backgroundColor: Colors.midnightBlue,
+                  padding: 20,
+                  borderRadius: 50,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={() => navigation.navigate("CreateSeller")}
+              >
+                <Ionicons name="person-add" size={36} color={Colors.white} />
+              </TouchableOpacity>
+              <Text
+                style={[
+                  GeneralStyle.RegularText,
+                  { color: Colors.ash, marginTop: "1%" },
+                ]}
+              >
+                Add Seller
+              </Text>
             </View>
           </View>
-        </Modal>
-        {/* withdraw */}
-        <View style={{ height: "50%" }}>
-          <WithdrawComponent
-            navigation={navigation}
-            title="Available funds"
-            amount={balance?.Balance?.toFixed(2)}
-          />
         </View>
-        {/* links */}
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: "10%",
-            width: "100%",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            // height: "15%",
-          }}
-        >
-          {/* store link */}
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                backgroundColor: Colors.midnightBlue,
-                padding: 20,
-                borderRadius: 50,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => navigation.navigate("StoreLink")}
-            >
-              <MaterialIcons
-                name="content-copy"
-                size={36}
-                color={Colors.white}
-              />
-            </TouchableOpacity>
-            <Text
-              style={[
-                GeneralStyle.RegularText,
-                { color: Colors.ash, marginTop: "1%" },
-              ]}
-            >
-              Store Link
-            </Text>
-          </View>
-          {/* deal */}
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                backgroundColor: Colors.midnightBlue,
-                paddingVertical: 24,
-                paddingHorizontal: 22,
-                borderRadius: 50,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => navigation.navigate("Deal")}
-            >
-              <FontAwesome5 name="handshake" size={30} color={Colors.white} />
-            </TouchableOpacity>
-            <Text
-              style={[
-                GeneralStyle.RegularText,
-                { color: Colors.ash, marginTop: "1%" },
-              ]}
-            >
-              Deal
-            </Text>
-          </View>
-          {/* add seller */}
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                backgroundColor: Colors.midnightBlue,
-                padding: 20,
-                borderRadius: 50,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              onPress={() => navigation.navigate("CreateSeller")}
-            >
-              <Ionicons name="person-add" size={36} color={Colors.white} />
-            </TouchableOpacity>
-            <Text
-              style={[
-                GeneralStyle.RegularText,
-                { color: Colors.ash, marginTop: "1%" },
-              ]}
-            >
-              Add Seller
-            </Text>
-          </View>
-        </View>
-      </View>
+      </ScrollView>
       {/* recent store
       <View style={{ flex: 1, height: "30%" }}>
         <View style={{ height: "20%" }}>

@@ -46,6 +46,8 @@ const WithdrawComponent = ({ navigation, title, amount }) => {
           title: "Success",
           textBody: `${response.data.Data.message}`,
         });
+        setModalVisible(false);
+        setPrice(0);
         // Open the URL in-app
         await WebBrowser.openBrowserAsync(response.data.Data.data.checkout_url);
       } else {
@@ -125,7 +127,10 @@ const WithdrawComponent = ({ navigation, title, amount }) => {
               backgroundColor: "rgba(0, 0, 0, 0.5)",
               paddingHorizontal: 15,
             }}
-            onPress={() => setModalVisible(false)}
+            onPress={() => {
+              setModalVisible(false);
+              setPrice(0);
+            }}
           >
             <View
               style={{
