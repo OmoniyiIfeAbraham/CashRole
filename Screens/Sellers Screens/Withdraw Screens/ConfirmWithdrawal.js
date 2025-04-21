@@ -1,13 +1,81 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../../Style/ThemeColors";
 import { AntDesign } from "@expo/vector-icons";
 import GeneralStyle from "../../../Style/General.style";
+import LoadingModal from "../../../Components/LoadingModal/LoadingModal";
+import { baseAPIUrl } from "../../../Global/Global";
+import { useFocusEffect } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import ErrorHandler from "../../../Components/Auth/ErrorHandler";
 
 const ConfirmWithdrawal = ({ navigation, route }) => {
   // console.log(route.params);
-  const { AccountName, AccountNumber, Amount, BankName } = route.params;
+  const { AccountName, AccountNumber, Amount, BankName, Bank } = route.params;
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+
+  // confirm btn
+  const Confirm = async () => {
+    try {
+      setLoading(true);
+      let url = `${baseAPIUrl}/client/wallet/withdraw/sendOtp`;
+      let data = new FormData();
+      data.append("Amount", Amount);
+      data.append("Bank", Bank);
+      data.append("AccountNumber", AccountNumber);
+      data.append("AccountName", AccountName);
+
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${user?.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: `OTP sent to your email`,
+        });
+        navigation.navigate("WithdrawalOtp", {
+          AccountName: AccountName,
+          AccountNumber: AccountNumber,
+          Bank: Bank,
+          Amount: Amount,
+        });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchData() {
+        const data = await AsyncStorage.getItem("cashrole-client-details");
+        const parsedData = JSON.parse(data);
+        setUser(parsedData);
+        // console.log(parsedData);
+      }
+      fetchData();
+    }, [])
+  );
+
   return (
     <SafeAreaView
       style={{
@@ -17,6 +85,8 @@ const ConfirmWithdrawal = ({ navigation, route }) => {
         alignItems: "center",
       }}
     >
+      {/* loader */}
+      <LoadingModal Visible={loading} />
       <View
         style={{
           width: "100%",
@@ -253,7 +323,7 @@ const ConfirmWithdrawal = ({ navigation, route }) => {
                 backgroundColor: Colors.black,
               },
             ]}
-            onPress={() => navigation.navigate("WithdrawalOtp")}
+            onPress={() => Confirm()}
           >
             <Text
               style={[
