@@ -5,7 +5,9 @@ import Colors from "../../../Style/ThemeColors";
 import { AntDesign } from "@expo/vector-icons";
 import GeneralStyle from "../../../Style/General.style";
 
-const ConfirmWithdrawal = ({ navigation }) => {
+const ConfirmWithdrawal = ({ navigation, route }) => {
+  // console.log(route.params);
+  const { AccountName, AccountNumber, Amount, BankName } = route.params;
   return (
     <SafeAreaView
       style={{
@@ -93,12 +95,12 @@ const ConfirmWithdrawal = ({ navigation }) => {
                 GeneralStyle.RegularText,
                 {
                   color: Colors.mediumSeaGreen,
-                  maxWidth: "45%",
+                  maxWidth: "50%",
                   textAlign: "right",
                 },
               ]}
             >
-              3,000
+              {Amount}
             </Text>
           </View>
           {/* bank name row */}
@@ -128,12 +130,12 @@ const ConfirmWithdrawal = ({ navigation }) => {
                 GeneralStyle.RegularText,
                 {
                   color: Colors.mediumSeaGreen,
-                  maxWidth: "55%",
+                  maxWidth: "60%",
                   textAlign: "right",
                 },
               ]}
             >
-              StanbicIBTC Bank
+              {BankName}
             </Text>
           </View>
           {/* account number row */}
@@ -163,12 +165,12 @@ const ConfirmWithdrawal = ({ navigation }) => {
                 GeneralStyle.RegularText,
                 {
                   color: Colors.mediumSeaGreen,
-                  maxWidth: "40%",
+                  maxWidth: "45%",
                   textAlign: "right",
                 },
               ]}
             >
-              0009004187
+              {AccountNumber}
             </Text>
           </View>
           {/* account name row */}
@@ -198,12 +200,12 @@ const ConfirmWithdrawal = ({ navigation }) => {
                 GeneralStyle.RegularText,
                 {
                   color: Colors.mediumSeaGreen,
-                  maxWidth: "45%",
+                  maxWidth: "50%",
                   textAlign: "right",
                 },
               ]}
             >
-              Oluwaseyi Akinlolu
+              {AccountName}
             </Text>
           </View>
         </View>
