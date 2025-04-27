@@ -20,27 +20,139 @@ import GeneralStyle from "../../Style/General.style";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useState } from "react";
 import Header from "../../Components/Header/Header";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
 
 const CreateSeller = ({ navigation }) => {
-  // const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  // const [date, setDate] = useState("yyyy-mm-dd");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  // const showDatePicker = () => {
-  //   setDatePickerVisibility(true);
-  // };
+  // function to handle first name input changes
+  const handleFirstNameChange = (text) => {
+    setFirstName(text); // Update the state with the current input value
+  };
 
-  // const hideDatePicker = () => {
-  //   setDatePickerVisibility(false);
-  // };
+  // function to handle last name input changes
+  const handleLastNameChange = (text) => {
+    setLastName(text); // Update the state with the current input value
+  };
 
-  // const handleConfirm = (selectedDate) => {
-  //   const formattedDate = selectedDate.toLocaleDateString();
-  //   setDate(formattedDate);
-  //   hideDatePicker();
-  // };
+  // function to handle email input changes
+  const handleEmailChange = (text) => {
+    setEmail(text); // Update the state with the current input value
+  };
+
+  // function to handle phone number input changes
+  const handlePhoneChange = (text) => {
+    // Remove any non-numeric character
+    let cleaned = text.replace(/\D/g, "");
+
+    // If the number starts with 234, remove it
+    if (cleaned.startsWith("234")) {
+      cleaned = cleaned.slice(3);
+    }
+
+    // If the number starts with 0, remove the 0
+    if (cleaned.startsWith("0")) {
+      cleaned = cleaned.slice(1);
+    }
+
+    // Limit to maximum 10 digits
+    if (cleaned.length > 10) {
+      cleaned = cleaned.slice(0, 10);
+    }
+
+    setPhone(cleaned);
+  };
+
+  // sign up btn
+  const addBtn = async () => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/seller/auth/add`;
+      let data = new FormData();
+      data.append("FirstName", firstName);
+      data.append("LastName", lastName);
+      data.append("Email", Email);
+      data.append("PhoneNo", `234${Phone}`);
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        SendOtp(Email);
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const SendOtp = async (email) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/seller/auth/add/sendOtp?email=${email}`;
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Sent Successfully",
+        });
+        navigation.replace("AddSellerOtp", { email });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
+      {/* modal */}
+      <LoadingModal Visible={isLoading} />
       {/* keyboard dismiss */}
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         {/* header */}
@@ -72,8 +184,10 @@ const CreateSeller = ({ navigation }) => {
           />
           <TextInput
             style={GeneralStyle.TextInput}
-            placeholder="First Name"
+            placeholder="Your First Name"
             placeholderTextColor={Colors.ash}
+            value={firstName}
+            onChangeText={handleFirstNameChange}
           />
         </View>
         {/* lastname */}
@@ -88,40 +202,32 @@ const CreateSeller = ({ navigation }) => {
           />
           <TextInput
             style={GeneralStyle.TextInput}
-            placeholder="Last Name"
+            placeholder="Your Last Name"
             placeholderTextColor={Colors.ash}
+            value={lastName}
+            onChangeText={handleLastNameChange}
           />
         </View>
-        {/* dob */}
-        {/* <View style={GeneralStyle.TextInputView}>
-          <Feather
-            name="calendar"
+        {/* email */}
+        <View style={GeneralStyle.TextInputView}>
+          <MaterialIcons
+            name="mail-outline"
             size={24}
             color={Colors.ash}
             style={{
               marginRight: 10,
             }}
           />
-          <TouchableOpacity
+          <TextInput
             style={GeneralStyle.TextInput}
-            onPress={() => showDatePicker()}
-          >
-            <Text
-              style={{
-                color: date == "yyyy-mm-dd" ? Colors.ash : Colors.black,
-              }}
-            >
-              {date}
-            </Text>
-          </TouchableOpacity>
-
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
+            placeholder="your@gmail.com"
+            placeholderTextColor={Colors.ash}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            value={Email}
+            onChangeText={handleEmailChange}
           />
-        </View> */}
+        </View>
         {/* phone number */}
         <View style={{ width: "100%", height: 50, flexDirection: "row" }}>
           <View
@@ -137,13 +243,24 @@ const CreateSeller = ({ navigation }) => {
             </Text>
           </View>
           <View style={[GeneralStyle.TextInputView, { width: "70%" }]}>
+            <FontAwesome
+              name="phone"
+              size={24}
+              color={Colors.ash}
+              style={{
+                marginRight: 10,
+              }}
+            />
             <TextInput
               style={GeneralStyle.TextInput}
-              placeholder="Phone Number"
+              placeholder="8** **** ***"
               placeholderTextColor={Colors.ash}
               autoCapitalize="none"
               autoComplete="tel"
               keyboardType="phone-pad"
+              value={Phone}
+              onChangeText={handlePhoneChange}
+              maxLength={10}
             />
           </View>
         </View>
@@ -158,7 +275,7 @@ const CreateSeller = ({ navigation }) => {
                 backgroundColor: Colors.midnightBlue,
               },
             ]}
-            onPress={() => navigation.navigate("AddSellerOtp")}
+            onPress={addBtn}
           >
             <Text style={GeneralStyle.RegularText}>Add Seller</Text>
           </TouchableOpacity>

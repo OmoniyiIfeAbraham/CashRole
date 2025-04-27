@@ -69,7 +69,7 @@ const RegisteredSeller = ({ navigation }) => {
       onPress={() =>
         navigation.navigate("SellerProfile", {
           from: "AddSeller",
-          sellerId: item._id,
+          seller: item,
         })
       }
     >

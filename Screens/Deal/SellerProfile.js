@@ -4,6 +4,7 @@ import {
   Pressable,
   Keyboard,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,58 +14,65 @@ import GeneralStyle from "../../Style/General.style";
 import WithdrawComponent from "../../Components/HomeScreen/WithdrawComponent";
 
 const SellerProfile = ({ navigation, route }) => {
+  const { seller } = route.params;
+
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
-      <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
-        {/* header */}
-        <View
-          style={{
-            width: "100%",
-            height: 50,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+      {/* header */}
+      <View
+        style={{
+          width: "100%",
+          height: 50,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        {route.params.from !== "AddSeller" && (
+          <MaterialIcons
+            name="keyboard-arrow-left"
+            size={40}
+            color={Colors.midnightBlue}
+            onPress={() => navigation.goBack()}
+          />
+        )}
+        {route.params.from === "AddSeller" && (
+          <MaterialIcons
+            name="keyboard-arrow-left"
+            size={40}
+            color={Colors.midnightBlue}
+            onPress={() => navigation.navigate("RegisteredSellers")}
+          />
+        )}
+        <Text
+          style={[GeneralStyle.ExtraBoldText, { color: Colors.midnightBlue }]}
         >
-          {route.params.from !== "AddSeller" && (
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={40}
-              color={Colors.midnightBlue}
-              onPress={() => navigation.goBack()}
-            />
-          )}
-          {route.params.from === "AddSeller" && (
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={40}
-              color={Colors.midnightBlue}
-              onPress={() => navigation.navigate("RegisteredSellers")}
-            />
-          )}
+          Seller's profile
+        </Text>
+        {/* invisible view */}
+        <View>
+          <MaterialIcons
+            name="history-edu"
+            size={30}
+            color={Colors.midnightBlue}
+          />
           <Text
-            style={[GeneralStyle.ExtraBoldText, { color: Colors.midnightBlue }]}
+            style={[
+              GeneralStyle.LightText,
+              { color: Colors.black, fontSize: 12 },
+            ]}
           >
-            Seller's profile
+            History
           </Text>
-          {/* invisible view */}
-          <View>
-            <MaterialIcons
-              name="history-edu"
-              size={30}
-              color={Colors.midnightBlue}
-            />
-            <Text
-              style={[
-                GeneralStyle.LightText,
-                { color: Colors.black, fontSize: 12 },
-              ]}
-            >
-              History
-            </Text>
-          </View>
         </View>
+      </View>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: 20, // Optional: adds a little breathing space at bottom
+        }}
+        showsVerticalScrollIndicator={false} // Optional: remove if you want the scroll bar
+      >
         <Text
           style={[
             GeneralStyle.MediumText,
@@ -74,7 +82,7 @@ const SellerProfile = ({ navigation, route }) => {
           Vivian Nnaji
         </Text>
         {/* withdraw */}
-        <View style={{ height: "25%", marginBottom: 5 }}>
+        <View style={{ height: 300, maxHeight: 500, marginBottom: 5 }}>
           <WithdrawComponent
             navigation={navigation}
             title="Your Available Balance"
@@ -87,10 +95,11 @@ const SellerProfile = ({ navigation, route }) => {
             <View
               style={{
                 width: "100%",
-                height: "15%",
+                // height: "15%",
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
+                marginVertical: 15,
               }}
             >
               <TouchableOpacity
@@ -144,7 +153,8 @@ const SellerProfile = ({ navigation, route }) => {
             <View
               style={{
                 width: "100%",
-                maxHeight: "60%",
+                height: 350,
+                maxHeight: 700,
                 backgroundColor: Colors.white,
                 elevation: 10,
                 borderRadius: 5,
@@ -404,7 +414,7 @@ const SellerProfile = ({ navigation, route }) => {
             </View>
           </View>
         )}
-      </Pressable>
+      </ScrollView>
     </SafeAreaView>
   );
 };

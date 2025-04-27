@@ -37,7 +37,7 @@ const Register = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const showDatePicker = () => {
-    setDatePickerVisibility(true);
+    setDatePickerVisibility(true);  
   };
 
   const hideDatePicker = () => {
@@ -87,7 +87,25 @@ const Register = ({ navigation }) => {
 
   // function to handle phone number input changes
   const handlePhoneChange = (text) => {
-    setPhone(text); // Update the state with the current input value
+    // Remove any non-numeric character
+    let cleaned = text.replace(/\D/g, "");
+
+    // If the number starts with 234, remove it
+    if (cleaned.startsWith("234")) {
+      cleaned = cleaned.slice(3);
+    }
+
+    // If the number starts with 0, remove the 0
+    if (cleaned.startsWith("0")) {
+      cleaned = cleaned.slice(1);
+    }
+
+    // Limit to maximum 10 digits
+    if (cleaned.length > 10) {
+      cleaned = cleaned.slice(0, 10);
+    }
+
+    setPhone(cleaned);
   };
 
   // sign up btn
