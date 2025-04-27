@@ -5,20 +5,73 @@ import {
   Keyboard,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
 import WithdrawComponent from "../../Components/HomeScreen/WithdrawComponent";
+import { baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
 const SellerProfile = ({ navigation, route }) => {
   const { seller } = route.params;
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const Check = async () => {
+    const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+    const parsedInfo = JSON.parse(userInfo);
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/seller/profile/view/single?id=${seller._id}`;
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      if (response.data.Error === false) {
+        setUser(response.data.Data);
+        // console.log(user);
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      Check();
+    }, [navigation])
+  );
+
+  const onRefresh = async () => {
+    await Check();
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
+      {/* modal */}
+      <LoadingModal Visible={isLoading} />
       {/* header */}
       <View
         style={{
@@ -72,6 +125,9 @@ const SellerProfile = ({ navigation, route }) => {
           paddingBottom: 20, // Optional: adds a little breathing space at bottom
         }}
         showsVerticalScrollIndicator={false} // Optional: remove if you want the scroll bar
+        refreshControl={
+          <RefreshControl refreshing={false} onRefresh={onRefresh} />
+        }
       >
         <Text
           style={[
@@ -79,14 +135,16 @@ const SellerProfile = ({ navigation, route }) => {
             { color: Colors.black, marginTop: 25 },
           ]}
         >
-          Vivian Nnaji
+          {user?.Profile?.FirstName} {user?.Profile?.LastName}
         </Text>
         {/* withdraw */}
         <View style={{ height: 300, maxHeight: 500, marginBottom: 5 }}>
           <WithdrawComponent
             navigation={navigation}
             title="Your Available Balance"
-            amount="5,000"
+            amount={`${user?.Balance?.Balance}` || 0}
+            type="Seller"
+            id={`${seller._id}`}
           />
         </View>
         {route.params.from === "AddSeller" && (
@@ -209,11 +267,11 @@ const SellerProfile = ({ navigation, route }) => {
                       },
                     ]}
                   >
-                    Vivian Nnaji
+                    {user?.Profile?.FirstName} {user?.Profile?.LastName}
                   </Text>
                 </View>
                 {/* dob row */}
-                <View
+                {/* <View
                   style={{
                     width: "100%",
                     height: "auto",
@@ -246,9 +304,9 @@ const SellerProfile = ({ navigation, route }) => {
                   >
                     02/07/1990
                   </Text>
-                </View>
+                </View> */}
                 {/* address row */}
-                <View
+                {/* <View
                   style={{
                     width: "100%",
                     height: "auto",
@@ -281,7 +339,7 @@ const SellerProfile = ({ navigation, route }) => {
                   >
                     0009004187
                   </Text>
-                </View>
+                </View> */}
                 {/* phone number row */}
                 <View
                   style={{
@@ -314,7 +372,7 @@ const SellerProfile = ({ navigation, route }) => {
                       },
                     ]}
                   >
-                    07030473033
+                    {user?.Profile?.PhoneNo}
                   </Text>
                 </View>
                 {/* email row */}
@@ -332,7 +390,7 @@ const SellerProfile = ({ navigation, route }) => {
                       GeneralStyle.RegularText,
                       {
                         color: Colors.black,
-                        maxWidth: "45%",
+                        maxWidth: "40%",
                         textAlign: "left",
                       },
                     ]}
@@ -344,12 +402,12 @@ const SellerProfile = ({ navigation, route }) => {
                       GeneralStyle.RegularText,
                       {
                         color: Colors.mediumSeaGreen,
-                        maxWidth: "55%",
+                        maxWidth: "60%",
                         textAlign: "right",
                       },
                     ]}
                   >
-                    example@gmail.com
+                    {user?.Profile?.Email}
                   </Text>
                 </View>
               </View>

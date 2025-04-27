@@ -20,7 +20,7 @@ const Header = ({ navigation, title }) => {
         size={40}
         color={Colors.midnightBlue}
         onPress={() =>
-          title === "My Profile"
+          title === "My Profile" || title === "Registered Seller"
             ? navigation.navigate("HomeTabs")
             : navigation.goBack()
         }

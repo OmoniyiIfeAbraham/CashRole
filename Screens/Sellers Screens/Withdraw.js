@@ -34,7 +34,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-const Withdraw = ({ navigation }) => {
+const Withdraw = ({ navigation, route }) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [accountNo, setAccountNo] = useState("");
   const [accountName, setAccountName] = useState("");
@@ -42,6 +42,8 @@ const Withdraw = ({ navigation }) => {
   const [accountDetails, setAccountDetails] = useState(null);
   const [amount, setAmount] = useState(0);
   const [balance, setBalance] = useState(null);
+
+  const { type, id } = route.params;
 
   const veryBankDetails = () => {
     console.log("selectedValue:", selectedValue, "accountNo:", accountNo);

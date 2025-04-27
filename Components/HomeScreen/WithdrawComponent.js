@@ -18,10 +18,13 @@ import * as WebBrowser from "expo-web-browser";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import LoadingModal from "../LoadingModal/LoadingModal";
 
-const WithdrawComponent = ({ navigation, title, amount }) => {
+const WithdrawComponent = ({ navigation, title, amount, type, id }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [price, setPrice] = useState(0);
   const [loading, setIsLoading] = useState(false);
+
+  // console.log(type);
+  // console.log(id);
 
   const Deposit = async () => {
     try {
@@ -29,7 +32,10 @@ const WithdrawComponent = ({ navigation, title, amount }) => {
       const userInfo = await AsyncStorage.getItem("cashrole-client-details");
       const parsedInfo = JSON.parse(userInfo);
 
-      let url = `${baseAPIUrl}/client/wallet/deposit/initialize`;
+      let url =
+        type === "Seller"
+          ? `${baseAPIUrl}/client/wallet/deposit/initialize?Type=Seller&SellerId=${id}`
+          : `${baseAPIUrl}/client/wallet/deposit/initialize`;
       const fd = new FormData();
       fd.append("Amount", price);
 
@@ -99,7 +105,9 @@ const WithdrawComponent = ({ navigation, title, amount }) => {
       <View style={{ width: "100%", paddingHorizontal: 50, marginTop: 25 }}>
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
-          onPress={() => navigation.navigate("Withdraw")}
+          onPress={() =>
+            navigation.navigate("Withdraw", { type: type, id: id })
+          }
         >
           <Text style={[GeneralStyle.BoldText]}>Withdraw</Text>
         </TouchableOpacity>
