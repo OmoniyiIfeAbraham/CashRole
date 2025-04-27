@@ -54,6 +54,7 @@ import AddProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/Add
 import ConfirmDeleteProduct from "./Screens/Sellers Screens/Stores/Products/ConfirmDeleteProduct";
 import DeleteProductOtp from "./Screens/Sellers Screens/Stores/Products/DeleteProductOtp";
 import DeleteProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/DeleteProductSuccessfull";
+import Update from "./Screens/Auth/Update";
 
 const Stack = createNativeStackNavigator();
 
@@ -95,6 +96,7 @@ export default function App() {
               <Stack.Screen name="Forgot" component={Forgot} />
               <Stack.Screen name="ForgotOtp" component={ForgotOtp} />
               <Stack.Screen name="Reset" component={Reset} />
+              <Stack.Screen name="Update" component={Update} />
             </Stack.Group>
 
             {/* Home Screen */}

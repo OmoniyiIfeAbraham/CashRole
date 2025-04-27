@@ -375,7 +375,7 @@ const MyProfile = ({ navigation }) => {
                 backgroundColor: Colors.black,
               },
             ]}
-            // onPress={() => navigation.navigate("WithdrawalOtp")}
+            onPress={() => navigation.navigate("Update", { user: user })}
           >
             <Text
               style={[

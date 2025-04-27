@@ -28,9 +28,7 @@ const RegisteredSellers = ({ navigation }) => {
       >
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
-          onPress={() =>
-            navigation.navigate("CreateSeller")
-          }
+          onPress={() => navigation.navigate("CreateSeller")}
         >
           <Text style={[GeneralStyle.BoldText]}>Add Seller</Text>
         </TouchableOpacity>

@@ -19,7 +19,11 @@ const Header = ({ navigation, title }) => {
         name="keyboard-arrow-left"
         size={40}
         color={Colors.midnightBlue}
-        onPress={() => navigation.goBack()}
+        onPress={() =>
+          title === "My Profile"
+            ? navigation.navigate("HomeTabs")
+            : navigation.goBack()
+        }
       />
       <Text
         style={[GeneralStyle.ExtraBoldText, { color: Colors.midnightBlue }]}
