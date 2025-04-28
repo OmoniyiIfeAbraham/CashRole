@@ -305,6 +305,8 @@ const Withdraw = ({ navigation, route }) => {
                 AccountNumber: accountNo,
                 AccountName: accountName,
                 Bank: selectedValue,
+                Type: type,
+                Id: id,
               })
             }
           >

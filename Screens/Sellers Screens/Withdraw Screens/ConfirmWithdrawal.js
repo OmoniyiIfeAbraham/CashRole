@@ -14,7 +14,8 @@ import ErrorHandler from "../../../Components/Auth/ErrorHandler";
 
 const ConfirmWithdrawal = ({ navigation, route }) => {
   // console.log(route.params);
-  const { AccountName, AccountNumber, Amount, BankName, Bank } = route.params;
+  const { AccountName, AccountNumber, Amount, BankName, Bank, Type, Id } =
+    route.params;
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -22,7 +23,10 @@ const ConfirmWithdrawal = ({ navigation, route }) => {
   const Confirm = async () => {
     try {
       setLoading(true);
-      let url = `${baseAPIUrl}/client/wallet/withdraw/sendOtp`;
+      let url =
+        Type === "Seller"
+          ? `${baseAPIUrl}/client/wallet/withdraw/sendOtp?Type=Seller&SellerId=${Id}`
+          : `${baseAPIUrl}/client/wallet/withdraw/sendOtp`;
       let data = new FormData();
       data.append("Amount", Amount);
       data.append("Bank", Bank);
@@ -49,6 +53,8 @@ const ConfirmWithdrawal = ({ navigation, route }) => {
           AccountNumber: AccountNumber,
           Bank: Bank,
           Amount: Amount,
+          Type: Type,
+          Id: Id,
         });
       } else {
         Toast.show({

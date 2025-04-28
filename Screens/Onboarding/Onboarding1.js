@@ -38,10 +38,11 @@ const Onboarding1 = ({ navigation }) => {
       });
 
       if (response.data.Error === false) {
-        await AsyncStorage.setItem(
-          "cashrole-client-details",
-          JSON.stringify(response.data.Data)
-        );
+        // await AsyncStorage.setItem(
+        //   "cashrole-client-details",
+        //   JSON.stringify(response.data.Data)
+        // );
+        console.log("yes");
         navigation.replace("HomeTabs");
       } else {
         navigation.replace("Login");

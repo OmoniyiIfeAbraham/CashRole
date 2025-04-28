@@ -21,7 +21,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const WithdrawalOtp = ({ navigation, route }) => {
-  const { AccountName, AccountNumber, Amount, Bank } = route.params;
+  const { AccountName, AccountNumber, Amount, Bank, Type, Id } = route.params;
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [otp, setOtp] = useState("");
@@ -30,7 +30,10 @@ const WithdrawalOtp = ({ navigation, route }) => {
   const SendOtp = async () => {
     try {
       setLoading(true);
-      let url = `${baseAPIUrl}/client/wallet/withdraw/sendOtp`;
+      let url =
+        Type === "Seller"
+          ? `${baseAPIUrl}/client/wallet/withdraw/sendOtp?Type=Seller&SellerId=${Id}`
+          : `${baseAPIUrl}/client/wallet/withdraw/sendOtp`;
       let data = new FormData();
       data.append("Amount", Amount);
       data.append("Bank", Bank);
@@ -69,7 +72,10 @@ const WithdrawalOtp = ({ navigation, route }) => {
   const ConfirmOtp = async () => {
     try {
       setLoading(true);
-      let url = `${baseAPIUrl}/client/wallet/withdraw/withdraw`;
+      let url =
+        Type === "Seller"
+          ? `${baseAPIUrl}/client/wallet/withdraw/withdraw?Type=Seller&SellerId=${Id}`
+          : `${baseAPIUrl}/client/wallet/withdraw/withdraw`;
       let data = new FormData();
       data.append("OTP", otp);
 

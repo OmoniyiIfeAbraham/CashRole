@@ -23,6 +23,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const SellerProfile = ({ navigation, route }) => {
   const { seller } = route.params;
+  console.log(seller)
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,6 +34,8 @@ const SellerProfile = ({ navigation, route }) => {
       setIsLoading(true);
       let url = `${baseAPIUrl}/seller/profile/view/single?id=${seller._id}`;
 
+      console.log(url)
+
       const response = await axios.get(url, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -42,7 +45,7 @@ const SellerProfile = ({ navigation, route }) => {
 
       if (response.data.Error === false) {
         setUser(response.data.Data);
-        // console.log(user);
+        console.log('user: ', user);
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,
