@@ -200,8 +200,7 @@ const Home = ({ navigation }) => {
                   Total Balance
                 </Text>
                 <Text style={{ textAlign: "center" }}>
-                  This is the sum of all the money in your account, including
-                  seller money.
+                  This is the sum of all the money in your account.
                 </Text>
                 <TouchableOpacity
                   onPress={() => setModalVisible(false)}
@@ -350,3 +349,43 @@ const Home = ({ navigation }) => {
 };
 
 export default Home;
+
+
+
+// {
+//   "cli": {
+//     "version": ">= 3.13.3"
+//   },
+//   "build": {
+//     "development": {
+//       "developmentClient": true,
+//       "distribution": "internal"
+//     },
+//     "preview": {
+//       "distribution": "internal"
+//     },
+//     "preview1": {
+//       "android": {
+//         "buildType": "apk"
+//       }
+//     },
+//     "preview2": {
+//       "android": {
+//         "gradleCommand": ":app:assembleRelease",
+//         "env": {
+//           "EXPO_KOTLIN_VERSION": "1.9.10"
+//         }
+//       }
+//     },
+//     "production": {
+//       "android": {
+//         "env": {
+//           "EXPO_KOTLIN_VERSION": "1.9.10"
+//         }
+//       }
+//     }
+//   },
+//   "submit": {
+//     "production": {}
+//   }
+// }
