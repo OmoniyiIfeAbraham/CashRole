@@ -100,7 +100,7 @@ const Home = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 25 }}>
       {/* upper part */}
       <ScrollView
-        contentContainerStyle={{ flex: 1 }}
+        contentContainerStyle={{ paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -111,7 +111,8 @@ const Home = ({ navigation }) => {
           <View
             style={{
               width: "100%",
-              height: "15%",
+              height: 100,
+              maxHeight: 200,
               flexDirection: "row",
               justifyContent: "space-between",
             }}
@@ -144,7 +145,7 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           {/* balance */}
-          <View style={{ height: "10%" }}>
+          <View style={{ height: 50, maxHeight: 100 }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text
                 style={[
@@ -218,7 +219,7 @@ const Home = ({ navigation }) => {
             </View>
           </Modal>
           {/* withdraw */}
-          <View style={{ height: "50%" }}>
+          <View style={{ height: 300, maxHeight: 500, marginTop: 15 }}>
             <WithdrawComponent
               navigation={navigation}
               title="Available funds"
@@ -229,7 +230,7 @@ const Home = ({ navigation }) => {
           <View
             style={{
               flexDirection: "row",
-              marginTop: "10%",
+              marginTop: 50,
               width: "100%",
               justifyContent: "space-evenly",
               alignItems: "center",
