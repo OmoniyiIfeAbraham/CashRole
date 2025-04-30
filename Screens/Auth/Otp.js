@@ -156,7 +156,7 @@ const Otp = ({ navigation, route }) => {
                 { color: Colors.black, fontSize: 17 },
               ]}
             >
-              We have sent the verification code to the number you entered for
+              We have sent the verification code to the email you entered for
               registeration earlier
             </Text>
           </View>

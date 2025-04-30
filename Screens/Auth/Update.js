@@ -29,9 +29,9 @@ const Update = ({ navigation, route }) => {
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState(user?.User.DOB);
-  const [firstName, setFirstName] = useState(user?.User.FirstName);
-  const [lastName, setLastName] = useState(user?.User.LastName);
-  const [address, setAddress] = useState(user?.Profile.Address);
+  const [firstName, setFirstName] = useState(user?.User?.FirstName);
+  const [lastName, setLastName] = useState(user?.User?.LastName);
+  const [address, setAddress] = useState(user?.Profile?.Address);
   const [Phone, setPhone] = useState(
     user?.User?.PhoneNo?.toString()?.startsWith("234")
       ? user.User.PhoneNo?.toString().slice(3)
