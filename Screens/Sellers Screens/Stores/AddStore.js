@@ -30,6 +30,8 @@ const { width, height } = Dimensions.get("window");
 const AddStore = ({ navigation }) => {
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
+  const [storeName, setStoreName] = useState("");
+  const [storeAddress, setStoreAddress] = useState("");
 
   const pickerSelectStyles = StyleSheet.create({
     inputAndroid: [
@@ -52,6 +54,10 @@ const AddStore = ({ navigation }) => {
   const filteredCities = selectedState
     ? Cities.filter((city) => city.state === selectedState)
     : [];
+
+  const Submit = async () => {
+    console.log(selectedState, selectedCity, storeName, storeAddress);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
@@ -76,6 +82,8 @@ const AddStore = ({ navigation }) => {
                 style={GeneralStyle.TextInput}
                 placeholder="Enter store name here"
                 placeholderTextColor={Colors.ash}
+                onChangeText={(text) => setStoreName(text)}
+                value={storeName}
               />
             </View>
           </View>
@@ -139,6 +147,8 @@ const AddStore = ({ navigation }) => {
               style={GeneralStyle.TextInput}
               placeholder="Enter store address"
               placeholderTextColor={Colors.ash}
+              onChangeText={(text) => setStoreAddress(text)}
+              value={storeAddress}
             />
           </View>
           {/* btn */}
@@ -152,7 +162,8 @@ const AddStore = ({ navigation }) => {
                   backgroundColor: Colors.midnightBlue,
                 },
               ]}
-              onPress={() => navigation.navigate("OpenStore")}
+              // onPress={() => navigation.navigate("OpenStore")}
+              onPress={Submit}
             >
               <Text style={GeneralStyle.RegularText}>Open Store</Text>
             </TouchableOpacity>

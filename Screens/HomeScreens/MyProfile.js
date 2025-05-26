@@ -340,11 +340,11 @@ const MyProfile = ({ navigation }) => {
             height: "25%",
             backgroundColor: Colors.white,
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[
               GeneralStyle.Btn,
               {
@@ -365,7 +365,7 @@ const MyProfile = ({ navigation }) => {
             >
               Delete Account
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={[
               GeneralStyle.Btn,
