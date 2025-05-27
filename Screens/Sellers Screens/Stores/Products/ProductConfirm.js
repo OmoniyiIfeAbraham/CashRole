@@ -44,11 +44,25 @@ const ProductConfirm = ({ navigation, route }) => {
       let url = `${baseAPIUrl}/product/auth/add?id=${store._id}`;
       let data = new FormData();
       data.append("Name", productName);
-      data.append("images", images);
+      // data.append("images", images);
       data.append("Details", productDescription);
       data.append("Price", productPrice);
       data.append("SellerPrice", sellerPrice);
       data.append("MyPrice", myPrice);
+
+      if (images && images.length > 0) {
+        // Method 1: If your backend expects multiple files with same field name
+        images.forEach((image, index) => {
+          const imageFile = {
+            uri: image.uri,
+            type: image.mimeType || "image/jpeg",
+            name: image.fileName || `image_${index}.jpg`,
+          };
+          data.append("images", imageFile);
+        });
+      } else {
+        console.log("No images to upload");
+      }
 
       const userInfo = await AsyncStorage.getItem("cashrole-client-details");
       const parsedInfo = JSON.parse(userInfo);
@@ -174,7 +188,7 @@ const ProductConfirm = ({ navigation, route }) => {
                 Images ({images.length})
               </Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {images.map((uri, index) => (
+                {images.map((img, index) => (
                   <View
                     key={index}
                     style={{
@@ -186,7 +200,7 @@ const ProductConfirm = ({ navigation, route }) => {
                     }}
                   >
                     <Image
-                      source={{ uri }}
+                      source={{ uri: img.uri }}
                       style={{
                         width: "100%",
                         height: "100%",

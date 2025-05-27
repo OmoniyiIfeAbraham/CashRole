@@ -15,6 +15,7 @@ import Colors from "../../../../Style/ThemeColors";
 import ImageUploader from "../../../../Components/Products/ImageUploader";
 import { useFocusEffect } from "@react-navigation/native";
 import { useState } from "react";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 const AddProduct = ({ navigation, route }) => {
   const [images, setImages] = useState([]);
@@ -24,13 +25,21 @@ const AddProduct = ({ navigation, route }) => {
   console.log(store);
 
   const handleNext = () => {
-    navigation.navigate("AddProduct2", {
-      images,
-      productName,
-      productDescription,
-      store,
-      Email,
-    });
+    if (images.length <= 1) {
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: "Error!! Please upload at least 2 images.",
+      });
+      return;
+    } else {
+      navigation.navigate("AddProduct2", {
+        images,
+        productName,
+        productDescription,
+        store,
+        Email,
+      });
+    }
   };
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>

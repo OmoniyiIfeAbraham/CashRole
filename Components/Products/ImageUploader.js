@@ -22,7 +22,7 @@ export default function ImageUploader({ width, height, images, setImages }) {
     });
 
     if (!result.canceled) {
-      const newUris = result.assets.map((asset) => asset.uri);
+      const newUris = result.assets.map((asset) => asset);
       setImages((prevImages) => {
         const updatedImages = [...prevImages, ...newUris];
         console.log(updatedImages); // Log the updated images array here
@@ -121,7 +121,7 @@ export default function ImageUploader({ width, height, images, setImages }) {
               alignItems: "center",
             }}
           >
-            {images.map((uri, index) => (
+            {images.map((img, index) => (
               <View
                 key={index}
                 style={{
@@ -134,7 +134,7 @@ export default function ImageUploader({ width, height, images, setImages }) {
                 }}
               >
                 <Image
-                  source={{ uri }}
+                  source={{ uri: img.uri }}
                   style={{
                     width: "100%",
                     height: "100%",
