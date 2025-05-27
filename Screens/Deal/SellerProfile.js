@@ -23,7 +23,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const SellerProfile = ({ navigation, route }) => {
   const { seller } = route.params;
-  // console.log(seller);
+  console.log("seller: ", seller);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,7 +32,9 @@ const SellerProfile = ({ navigation, route }) => {
     const parsedInfo = JSON.parse(userInfo);
     try {
       setIsLoading(true);
-      let url = `${baseAPIUrl}/seller/profile/view/single?id=${seller._id}`;
+      let url = `${baseAPIUrl}/seller/profile/view/single?id=${
+        seller.SellerID || seller._id
+      }`;
 
       console.log(url);
 
@@ -45,7 +47,7 @@ const SellerProfile = ({ navigation, route }) => {
 
       if (response.data.Error === false) {
         setUser(response.data.Data);
-        console.log("user: ", user);
+        console.log("user: ", response.data.Data);
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,
@@ -112,7 +114,9 @@ const SellerProfile = ({ navigation, route }) => {
             name="history-edu"
             size={30}
             color={Colors.midnightBlue}
-            onPress={() => navigation.navigate("HistoryNotifications")}
+            onPress={() =>
+              navigation.navigate("HistoryNotifications", { seller })
+            }
           />
           <Text
             style={[
@@ -148,139 +152,140 @@ const SellerProfile = ({ navigation, route }) => {
             title="Your Available Balance"
             amount={`${user?.Balance?.Balance}` || 0}
             type="Seller"
-            id={`${seller._id}`}
+            id={`${seller.SellerID || seller._id}`}
           />
         </View>
-        {route.params.from === "AddSeller" && (
-          <View style={{ height: "auto" }}>
-            {/* buttons */}
-            <View
-              style={{
-                width: "100%",
-                // height: "15%",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginVertical: 15,
-              }}
-            >
-              <TouchableOpacity
-                style={[
-                  GeneralStyle.Btn,
-                  {
-                    height: 45,
-                    width: "45%",
-                    backgroundColor: Colors.white,
-                    borderWidth: 1,
-                    borderColor: Colors.black,
-                  },
-                ]}
-                onPress={() => navigation.navigate("ManageStore", { seller })}
-              >
-                <Text
-                  style={[
-                    GeneralStyle.MediumText,
-                    {
-                      color: Colors.black,
-                    },
-                  ]}
-                >
-                  Manage stores
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  GeneralStyle.Btn,
-                  {
-                    height: 45,
-                    width: "45%",
-                    backgroundColor: Colors.midnightBlue,
-                  },
-                ]}
-                onPress={() =>
-                  navigation.navigate("AddStore", {
-                    sellerId: seller._id,
-                    Email: user?.Profile?.Email,
-                  })
-                }
-              >
-                <Text
-                  style={[
-                    GeneralStyle.MediumText,
-                    {
-                      color: Colors.white,
-                    },
-                  ]}
-                >
-                  Add new store
-                </Text>
-              </TouchableOpacity>
-            </View>
-            {/* details */}
-            <View
-              style={{
-                width: "100%",
-                height: 350,
-                maxHeight: 700,
-                backgroundColor: Colors.white,
-                elevation: 10,
-                borderRadius: 5,
-                shadowColor: Colors.black,
-                shadowOffset: {
-                  width: 0,
-                  height: 4,
+        {/* {route.params.from === "AddSeller" && ( */}
+        <View style={{ height: "auto" }}>
+          {/* buttons */}
+          <View
+            style={{
+              width: "100%",
+              // height: "15%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginVertical: 15,
+            }}
+          >
+            <TouchableOpacity
+              style={[
+                GeneralStyle.Btn,
+                {
+                  height: 45,
+                  width: "45%",
+                  backgroundColor: Colors.white,
+                  borderWidth: 1,
+                  borderColor: Colors.black,
                 },
-                shadowOpacity: 0.2,
-                shadowRadius: 4,
-                paddingHorizontal: 15,
+              ]}
+              onPress={() => navigation.navigate("ManageStore", { seller })}
+            >
+              <Text
+                style={[
+                  GeneralStyle.MediumText,
+                  {
+                    color: Colors.black,
+                  },
+                ]}
+              >
+                Manage stores
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                GeneralStyle.Btn,
+                {
+                  height: 45,
+                  width: "45%",
+                  backgroundColor: Colors.midnightBlue,
+                },
+              ]}
+              onPress={() =>
+                navigation.navigate("AddStore", {
+                  sellerId: seller._id,
+                  Email: user?.Profile?.Email,
+                  seller: seller,
+                })
+              }
+            >
+              <Text
+                style={[
+                  GeneralStyle.MediumText,
+                  {
+                    color: Colors.white,
+                  },
+                ]}
+              >
+                Add new store
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* details */}
+          <View
+            style={{
+              width: "100%",
+              height: 350,
+              maxHeight: 700,
+              backgroundColor: Colors.white,
+              elevation: 10,
+              borderRadius: 5,
+              shadowColor: Colors.black,
+              shadowOffset: {
+                width: 0,
+                height: 4,
+              },
+              shadowOpacity: 0.2,
+              shadowRadius: 4,
+              paddingHorizontal: 15,
+            }}
+          >
+            {/* user details */}
+            <View
+              style={{
+                height: "75%",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "space-evenly",
               }}
             >
-              {/* user details */}
+              {/* name row */}
               <View
                 style={{
-                  height: "75%",
                   width: "100%",
-                  alignItems: "center",
-                  justifyContent: "space-evenly",
+                  height: "auto",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
                 }}
               >
-                {/* name row */}
-                <View
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                  }}
+                <Text
+                  style={[
+                    GeneralStyle.RegularText,
+                    {
+                      color: Colors.black,
+                      maxWidth: "25%",
+                      textAlign: "left",
+                    },
+                  ]}
                 >
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.black,
-                        maxWidth: "25%",
-                        textAlign: "left",
-                      },
-                    ]}
-                  >
-                    Name
-                  </Text>
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.mediumSeaGreen,
-                        maxWidth: "70%",
-                        textAlign: "right",
-                      },
-                    ]}
-                  >
-                    {user?.Profile?.FirstName} {user?.Profile?.LastName}
-                  </Text>
-                </View>
-                {/* dob row */}
-                {/* <View
+                  Name
+                </Text>
+                <Text
+                  style={[
+                    GeneralStyle.RegularText,
+                    {
+                      color: Colors.mediumSeaGreen,
+                      maxWidth: "70%",
+                      textAlign: "right",
+                    },
+                  ]}
+                >
+                  {user?.Profile?.FirstName} {user?.Profile?.LastName}
+                </Text>
+              </View>
+              {/* dob row */}
+              {/* <View
                   style={{
                     width: "100%",
                     height: "auto",
@@ -314,8 +319,8 @@ const SellerProfile = ({ navigation, route }) => {
                     02/07/1990
                   </Text>
                 </View> */}
-                {/* address row */}
-                {/* <View
+              {/* address row */}
+              {/* <View
                   style={{
                     width: "100%",
                     height: "auto",
@@ -349,138 +354,138 @@ const SellerProfile = ({ navigation, route }) => {
                     0009004187
                   </Text>
                 </View> */}
-                {/* phone number row */}
-                <View
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.black,
-                        maxWidth: "50%",
-                        textAlign: "left",
-                      },
-                    ]}
-                  >
-                    Phone Number
-                  </Text>
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.mediumSeaGreen,
-                        maxWidth: "45%",
-                        textAlign: "right",
-                      },
-                    ]}
-                  >
-                    {user?.Profile?.PhoneNo}
-                  </Text>
-                </View>
-                {/* email row */}
-                <View
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.black,
-                        maxWidth: "40%",
-                        textAlign: "left",
-                      },
-                    ]}
-                  >
-                    Email Address
-                  </Text>
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.mediumSeaGreen,
-                        maxWidth: "60%",
-                        textAlign: "right",
-                      },
-                    ]}
-                  >
-                    {user?.Profile?.Email}
-                  </Text>
-                </View>
-              </View>
-              {/* buttons */}
+              {/* phone number row */}
               <View
                 style={{
                   width: "100%",
-                  height: "25%",
-                  backgroundColor: Colors.white,
+                  height: "auto",
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  flexWrap: "wrap",
                 }}
               >
-                <TouchableOpacity
+                <Text
                   style={[
-                    GeneralStyle.Btn,
+                    GeneralStyle.RegularText,
                     {
-                      height: 45,
-                      width: "45%",
-                      backgroundColor: Colors.tomato,
+                      color: Colors.black,
+                      maxWidth: "50%",
+                      textAlign: "left",
                     },
                   ]}
-                  // onPress={() => navigation.goBack()}
                 >
-                  <Text
-                    style={[
-                      GeneralStyle.MediumText,
-                      {
-                        color: Colors.white,
-                        fontSize: 20,
-                      },
-                    ]}
-                  >
-                    Delete Seller Account
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                  Phone Number
+                </Text>
+                <Text
                   style={[
-                    GeneralStyle.Btn,
+                    GeneralStyle.RegularText,
                     {
-                      height: 45,
-                      width: "45%",
-                      backgroundColor: Colors.black,
+                      color: Colors.mediumSeaGreen,
+                      maxWidth: "45%",
+                      textAlign: "right",
                     },
                   ]}
-                  // onPress={() => navigation.navigate("WithdrawalOtp")}
                 >
-                  <Text
-                    style={[
-                      GeneralStyle.MediumText,
-                      {
-                        color: Colors.white,
-                        fontSize: 20,
-                      },
-                    ]}
-                  >
-                    Update Profile
-                  </Text>
-                </TouchableOpacity>
+                  {user?.Profile?.PhoneNo}
+                </Text>
+              </View>
+              {/* email row */}
+              <View
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                }}
+              >
+                <Text
+                  style={[
+                    GeneralStyle.RegularText,
+                    {
+                      color: Colors.black,
+                      maxWidth: "40%",
+                      textAlign: "left",
+                    },
+                  ]}
+                >
+                  Email Address
+                </Text>
+                <Text
+                  style={[
+                    GeneralStyle.RegularText,
+                    {
+                      color: Colors.mediumSeaGreen,
+                      maxWidth: "60%",
+                      textAlign: "right",
+                    },
+                  ]}
+                >
+                  {user?.Profile?.Email}
+                </Text>
               </View>
             </View>
+            {/* buttons */}
+            <View
+              style={{
+                width: "100%",
+                height: "25%",
+                backgroundColor: Colors.white,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <TouchableOpacity
+                style={[
+                  GeneralStyle.Btn,
+                  {
+                    height: 45,
+                    width: "45%",
+                    backgroundColor: Colors.tomato,
+                  },
+                ]}
+                // onPress={() => navigation.goBack()}
+              >
+                <Text
+                  style={[
+                    GeneralStyle.MediumText,
+                    {
+                      color: Colors.white,
+                      fontSize: 20,
+                    },
+                  ]}
+                >
+                  Delete Seller Account
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  GeneralStyle.Btn,
+                  {
+                    height: 45,
+                    width: "45%",
+                    backgroundColor: Colors.black,
+                  },
+                ]}
+                onPress={() => navigation.navigate("EditSeller", { seller })}
+              >
+                <Text
+                  style={[
+                    GeneralStyle.MediumText,
+                    {
+                      color: Colors.white,
+                      fontSize: 20,
+                    },
+                  ]}
+                >
+                  Update Profile
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        )}
+        </View>
+        {/* )} */}
       </ScrollView>
     </SafeAreaView>
   );

@@ -10,17 +10,21 @@ import axios from "axios";
 import ErrorHandler from "../../Components/Auth/ErrorHandler";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Header from "../../Components/Header/Header";
 
-const HistoryNotifications = ({ navigation }) => {
+const HistoryNotifications = ({ navigation, route }) => {
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { seller } = route.params;
 
-  const GetBalance = async () => {
+  const GetNotifications = async () => {
     const userInfo = await AsyncStorage.getItem("cashrole-client-details");
     const parsedInfo = JSON.parse(userInfo);
     try {
       setIsLoading(true);
-      let url = `${baseAPIUrl}/client/notifications/view`;
+      let url = `${baseAPIUrl}/seller/notifications?SellerID=${
+        seller.SellerID || seller._id
+      }`;
 
       const response = await axios.get(url, {
         headers: {
@@ -46,7 +50,7 @@ const HistoryNotifications = ({ navigation }) => {
   };
 
   useEffect(() => {
-    GetBalance();
+    GetNotifications();
   }, []);
 
   const GetDate = (item) => {
@@ -59,6 +63,10 @@ const HistoryNotifications = ({ navigation }) => {
     const createdAt = new Date(item.createdAt);
     const formattedTime = createdAt.toTimeString().slice(0, 5); // "HH:mm"
     return formattedTime;
+  };
+
+  const onRefresh = () => {
+    GetNotifications();
   };
 
   // render flat list items
@@ -127,11 +135,15 @@ const HistoryNotifications = ({ navigation }) => {
     <View style={{ paddingVertical: 15, flex: 1, paddingHorizontal: 7 }}>
       {/* modal */}
       <LoadingModal Visible={isLoading} />
+      {/* header */}
+      <Header navigation={navigation} title="History" />
       <FlatList
         showsVerticalScrollIndicator={false}
         data={notifications.reverse()}
         keyExtractor={(item) => item._id}
         renderItem={renderFlatListItems}
+        onRefresh={onRefresh}
+        refreshing={isLoading}
       />
     </View>
   );

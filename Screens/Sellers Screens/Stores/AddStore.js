@@ -39,7 +39,7 @@ const AddStore = ({ navigation, route }) => {
   const [storeName, setStoreName] = useState("");
   const [storeAddress, setStoreAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { sellerId, Email } = route.params;
+  const { sellerId, Email, seller } = route.params;
   // console.log(sellerId, Email);
 
   const pickerSelectStyles = StyleSheet.create({
@@ -96,7 +96,7 @@ const AddStore = ({ navigation, route }) => {
     } catch (error) {
       ErrorHandler(error, navigation);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -123,7 +123,7 @@ const AddStore = ({ navigation, route }) => {
           title: "Success",
           textBody: "OTP Sent Successfully",
         });
-        navigation.replace("OpenStore", { Id, email });
+        navigation.replace("OpenStore", { Id, email, seller });
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,

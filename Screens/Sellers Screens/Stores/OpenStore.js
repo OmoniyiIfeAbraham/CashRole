@@ -22,7 +22,7 @@ import ErrorHandler from "../../../Components/Auth/ErrorHandler";
 const OpenStore = ({ navigation, route }) => {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { Id, email } = route.params;
+  const { Id, email, seller } = route.params;
 
   // confirm btn
   const confirmBtn = async () => {
@@ -50,7 +50,8 @@ const OpenStore = ({ navigation, route }) => {
           textBody: "OTP Verified Successfully",
         });
         navigation.replace("SellerProfile", {
-          seller: response.data.Data?.SellerID,
+          store: response.data.Data,
+          seller: seller,
         });
       } else {
         console.log("haha");

@@ -23,7 +23,7 @@ const ManageStore = ({ navigation, route }) => {
       setIsLoading(true);
       const userInfo = await AsyncStorage.getItem("cashrole-client-details");
       const parsedInfo = JSON.parse(userInfo);
-      let url = `${baseAPIUrl}/store/view?id=${seller?._id}`;
+      let url = `${baseAPIUrl}/store/view?id=${seller.SellerID || seller?._id}`;
 
       const response = await axios.get(url, {
         headers: {
@@ -75,6 +75,7 @@ const ManageStore = ({ navigation, route }) => {
             navigation.navigate("AddStore", {
               sellerId: seller?._id,
               Email: seller?.Email,
+              seller: seller,
             })
           }
         >

@@ -56,6 +56,7 @@ import DeleteProductOtp from "./Screens/Sellers Screens/Stores/Products/DeletePr
 import DeleteProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/DeleteProductSuccessfull";
 import Update from "./Screens/Auth/Update";
 import HistoryNotifications from "./Screens/Sellers Screens/History";
+import EditSeller from "./Screens/Sellers Screens/Auth/Edit";
 
 const Stack = createNativeStackNavigator();
 
@@ -113,6 +114,7 @@ export default function App() {
             <Stack.Group>
               <Stack.Screen name="CreateSeller" component={CreateSeller} />
               <Stack.Screen name="ConnectSeller" component={ConnectSeller} />
+              <Stack.Screen name="EditSeller" component={EditSeller} />
               <Stack.Screen
                 name="RegisteredSellers"
                 component={RegisteredSellers}

@@ -7,7 +7,7 @@ import {
   Keyboard,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Feather,
@@ -15,23 +15,29 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import Colors from "../../Style/ThemeColors";
-import GeneralStyle from "../../Style/General.style";
+import Colors from "../../../Style/ThemeColors";
+import GeneralStyle from "../../../Style/General.style";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useState } from "react";
-import Header from "../../Components/Header/Header";
+import Header from "../../../Components/Header/Header";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
-import { ApiKey, ApiSecKey, baseAPIUrl } from "../../Global/Global";
+import { ApiKey, ApiSecKey, baseAPIUrl } from "../../../Global/Global";
 import axios from "axios";
-import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import LoadingModal from "../../../Components/LoadingModal/LoadingModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ErrorHandler from "../../Components/Auth/ErrorHandler";
+import ErrorHandler from "../../../Components/Auth/ErrorHandler";
+import { useFocusEffect } from "@react-navigation/native";
 
-const CreateSeller = ({ navigation }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [Email, setEmail] = useState("");
-  const [Phone, setPhone] = useState("");
+const EditSeller = ({ navigation, route }) => {
+  const { seller } = route.params;
+  const [firstName, setFirstName] = useState(seller?.FirstName || "");
+  const [lastName, setLastName] = useState(seller?.LastName || "");
+  const [Email, setEmail] = useState(seller?.Email || "");
+  const [Phone, setPhone] = useState(
+    seller?.PhoneNo?.toString()?.startsWith("234")
+      ? seller.PhoneNo?.toString().slice(3)
+      : seller.PhoneNo
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   // function to handle first name input changes
@@ -72,11 +78,11 @@ const CreateSeller = ({ navigation }) => {
     setPhone(cleaned);
   };
 
-  // sign up btn
-  const addBtn = async () => {
+  // edit btn
+  const editBtn = async () => {
     try {
       setIsLoading(true);
-      let url = `${baseAPIUrl}/seller/auth/add`;
+      let url = `${baseAPIUrl}/seller/auth/edit?id=${seller._id}`;
       let data = new FormData();
       data.append("FirstName", firstName);
       data.append("LastName", lastName);
@@ -86,40 +92,7 @@ const CreateSeller = ({ navigation }) => {
       const userInfo = await AsyncStorage.getItem("cashrole-client-details");
       const parsedInfo = JSON.parse(userInfo);
 
-      const response = await axios.post(url, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          authorization: `Bearer ${parsedInfo.Auth}`,
-        },
-      });
-
-      // console.log(response.data);
-
-      if (response.data?.Error === false) {
-        SendOtp(Email);
-      } else {
-        Toast.show({
-          type: ALERT_TYPE.DANGER,
-          title: "Error",
-          textBody: `${response.data.Error}`,
-        });
-      }
-    } catch (error) {
-      ErrorHandler(error, navigation);
-    } finally {
-      // setIsLoading(false);
-    }
-  };
-
-  const SendOtp = async (email) => {
-    try {
-      setIsLoading(true);
-      let url = `${baseAPIUrl}/seller/auth/add/sendOtp?email=${email}`;
-
-      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
-      const parsedInfo = JSON.parse(userInfo);
-
-      const response = await axios.get(url, {
+      const response = await axios.patch(url, data, {
         headers: {
           "Content-Type": "multipart/form-data",
           authorization: `Bearer ${parsedInfo.Auth}`,
@@ -132,9 +105,12 @@ const CreateSeller = ({ navigation }) => {
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
           title: "Success",
-          textBody: "OTP Sent Successfully",
+          textBody: "Seller Profile Updated Successfully",
         });
-        navigation.replace("AddSellerOtp", { email });
+        navigation.replace("SellerProfile", {
+          from: "AddSeller",
+          seller: response.data.Data,
+        });
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,
@@ -156,7 +132,7 @@ const CreateSeller = ({ navigation }) => {
       {/* keyboard dismiss */}
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         {/* header */}
-        <Header navigation={navigation} title="Add Seller" />
+        <Header navigation={navigation} title="Edit Seller" />
         {/* form title */}
         <Text
           style={[
@@ -169,7 +145,7 @@ const CreateSeller = ({ navigation }) => {
             },
           ]}
         >
-          Add a new seller
+          Edit seller
         </Text>
         {/* form */}
         {/* firstname */}
@@ -275,9 +251,9 @@ const CreateSeller = ({ navigation }) => {
                 backgroundColor: Colors.midnightBlue,
               },
             ]}
-            onPress={addBtn}
+            onPress={editBtn}
           >
-            <Text style={GeneralStyle.RegularText}>Add Seller</Text>
+            <Text style={GeneralStyle.RegularText}>Edit Seller</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -285,4 +261,4 @@ const CreateSeller = ({ navigation }) => {
   );
 };
 
-export default CreateSeller;
+export default EditSeller;
