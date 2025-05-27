@@ -6,15 +6,108 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../../../Components/Header/Header";
 import GeneralStyle from "../../../../Style/General.style";
 import Colors from "../../../../Style/ThemeColors";
+import { baseAPIUrl } from "../../../../Global/Global";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import ErrorHandler from "../../../../Components/Auth/ErrorHandler";
+import LoadingModal from "../../../../Components/LoadingModal/LoadingModal";
 
-const AddproductOtp = ({ navigation }) => {
+const AddproductOtp = ({ navigation, route }) => {
+  const [otp, setOtp] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { email, store, product } = route.params;
+  console.log(store);
+
+  // confirm btn
+  const confirmBtn = async () => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/product/auth/add/verifyOtp?id=${product?._id}&email=${email}`;
+      let data = new FormData();
+      data.append("OTP", otp.trim());
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      if (response.data.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Verified Successfully",
+        });
+        navigation.replace("AddProductSuccessfull", { store, email });
+      } else {
+        console.log("haha");
+        console.log(response.data);
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      console.log("hmm");
+      console.log(error);
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const SendOtp = async (Id, email) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/product/auth/add/sendOtp?id=${Id}&email=${email}`;
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Sent Successfully",
+        });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
+      {/* loader */}
+      <LoadingModal Visible={isLoading} />
       {/* keyboard dismiss */}
       <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
@@ -58,10 +151,12 @@ const AddproductOtp = ({ navigation }) => {
                   placeholderTextColor={Colors.ash}
                   autoCapitalize="none"
                   keyboardType="number-pad"
+                  value={otp}
+                  onChangeText={(text) => setOtp(text)}
                 />
               </View>
               {/* resend link */}
-              <Pressable>
+              <Pressable onPress={() => SendOtp(product?._id, email)}>
                 <Text
                   style={[
                     GeneralStyle.RegularText,
@@ -79,7 +174,7 @@ const AddproductOtp = ({ navigation }) => {
                   GeneralStyle.Btn,
                   { backgroundColor: Colors.midnightBlue },
                 ]}
-                onPress={() => navigation.navigate("AddProductSuccessfull")}
+                onPress={confirmBtn}
               >
                 <Text style={[GeneralStyle.BoldText]}>Confirm</Text>
               </TouchableOpacity>

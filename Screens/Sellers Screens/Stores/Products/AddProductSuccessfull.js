@@ -5,7 +5,8 @@ import Success from "../../../../Components/General/Success";
 import GeneralStyle from "../../../../Style/General.style";
 import Colors from "../../../../Style/ThemeColors";
 
-const AddProductSuccessfull = ({ navigation }) => {
+const AddProductSuccessfull = ({ navigation, route }) => {
+  const { store, email } = route.params;
   return (
     <SafeAreaView
       style={{
@@ -24,11 +25,11 @@ const AddProductSuccessfull = ({ navigation }) => {
         }}
       >
         <Success title="Product added successfully!" />
-        <Pressable>
+        {/* <Pressable>
           <Text style={[GeneralStyle.RegularText, { color: Colors.black }]}>
             Report transaction
           </Text>
-        </Pressable>
+        </Pressable> */}
       </View>
       <View
         style={{
@@ -47,7 +48,7 @@ const AddProductSuccessfull = ({ navigation }) => {
               paddingHorizontal: 5,
             },
           ]}
-          onPress={() => navigation.replace("Store")}
+          onPress={() => navigation.replace("Store", { store, Email: email })}
         >
           <Text style={[GeneralStyle.BoldText]}>See product list</Text>
         </TouchableOpacity>

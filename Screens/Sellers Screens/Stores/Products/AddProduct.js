@@ -20,7 +20,7 @@ const AddProduct = ({ navigation, route }) => {
   const [images, setImages] = useState([]);
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const { store } = route.params;
+  const { store, Email } = route.params;
   console.log(store);
 
   const handleNext = () => {
@@ -29,6 +29,7 @@ const AddProduct = ({ navigation, route }) => {
       productName,
       productDescription,
       store,
+      Email,
     });
   };
   return (

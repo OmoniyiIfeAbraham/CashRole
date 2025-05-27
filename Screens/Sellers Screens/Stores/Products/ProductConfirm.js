@@ -1,292 +1,365 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import React from "react";
+import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../../../Style/ThemeColors";
 import { AntDesign } from "@expo/vector-icons";
 import GeneralStyle from "../../../../Style/General.style";
+import { baseAPIUrl } from "../../../../Global/Global";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import ErrorHandler from "../../../../Components/Auth/ErrorHandler";
+import LoadingModal from "../../../../Components/LoadingModal/LoadingModal";
 
 const ProductConfirm = ({ navigation, route }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [product, setProduct] = useState(null);
+  // Debug logging
+  console.log("Route params:", route?.params);
+
+  // Safe destructuring with fallbacks
   const {
+    images = [],
+    productName = "",
+    productDescription = "",
+    store = {},
+    productPrice = 0,
+    sellerPrice = 0,
+    myPrice = 0,
+    Email = "",
+  } = route?.params || {};
+
+  console.log("Extracted data:", {
     images,
     productName,
     productDescription,
-    store,
     productPrice,
-    sellerPrice,
-    myPrice,
-  } = route.params;
-  console.log("here");
-  console.log(images);
+    Email,
+  });
+
+  // add btn
+  const addBtn = async () => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/product/auth/add?id=${store._id}`;
+      let data = new FormData();
+      data.append("Name", productName);
+      data.append("images", images);
+      data.append("Details", productDescription);
+      data.append("Price", productPrice);
+      data.append("SellerPrice", sellerPrice);
+      data.append("MyPrice", myPrice);
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        setProduct(response.data.Product);
+        SendOtp(response.data.Product._id, Email);
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  const SendOtp = async (Id, email) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/product/auth/add/sendOtp?id=${Id}&email=${email}`;
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Sent Successfully",
+        });
+        navigation.replace("AddProductOtp", { email, store, product });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        paddingHorizontal: 15,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#00000050" }}>
+      {/* loader */}
+      <LoadingModal Visible={isLoading} />
       <View
         style={{
-          width: "100%",
-          maxHeight: "70%",
-          backgroundColor: Colors.white,
-          elevation: 10,
+          flex: 1,
+          margin: 15,
+          backgroundColor: Colors.white || "#ffffff",
           borderRadius: 5,
-          shadowColor: Colors.black,
-          shadowOffset: {
-            width: 0,
-            height: 4,
-          },
-          shadowOpacity: 0.2,
-          shadowRadius: 4,
-          paddingHorizontal: 15,
+          padding: 15,
         }}
       >
-        {/* cancel icon */}
+        {/* Header with close button */}
         <View
           style={{
-            height: "10%",
-            width: "100%",
-            alignItems: "flex-end",
-            justifyContent: "center",
-          }}
-        >
-          <AntDesign
-            name="close"
-            size={30}
-            color={Colors.ash}
-            onPress={() => navigation.goBack()}
-          />
-        </View>
-        {/* product details */}
-        <View
-          style={{
-            height: "80%",
-            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
-            justifyContent: "space-evenly",
+            paddingBottom: 20,
+            borderBottomWidth: 1,
+            borderBottomColor: "#f0f0f0",
           }}
         >
-          {/* title */}
           <Text
-            style={[
-              GeneralStyle.ExtraBoldText,
-              { color: Colors.black, fontSize: 30 },
-            ]}
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: Colors.black || "#000000",
+            }}
           >
-            Confirm to add product
+            Confirm Product
           </Text>
-          {/* images */}
-          {images.length > 0 && (
-            <View
-              style={{
-                maxWidth: "100%",
-                maxHeight: "30%",
-              }}
-            >
-              <View
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <AntDesign name="close" size={24} color={Colors.ash || "#666666"} />
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView
+          style={{ flex: 1 }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingVertical: 20 }}
+        >
+          {/* Images Section */}
+          {images && images.length > 0 ? (
+            <View style={{ marginBottom: 20 }}>
+              <Text
                 style={{
-                  width: "100%",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  height: "100%",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  color: Colors.black || "#000000",
+                  marginBottom: 10,
                 }}
               >
+                Images ({images.length})
+              </Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 {images.map((uri, index) => (
                   <View
                     key={index}
                     style={{
-                      width: "19%",
-                      height: "50%",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginBottom: 5,
-                      zIndex: -10,
+                      width: 80,
+                      height: 80,
+                      marginRight: 10,
+                      backgroundColor: "#f0f0f0",
+                      borderRadius: 8,
                     }}
                   >
                     <Image
                       source={{ uri }}
                       style={{
                         width: "100%",
-                        height: "98%",
-                        marginVertical: "0.5%",
+                        height: "100%",
+                        borderRadius: 8,
                       }}
+                      onError={(error) =>
+                        console.log("Image load error:", error)
+                      }
+                      onLoad={() => console.log("Image loaded successfully")}
                     />
                   </View>
                 ))}
-              </View>
+              </ScrollView>
+            </View>
+          ) : (
+            <View style={{ marginBottom: 20 }}>
+              <Text style={{ color: "orange", fontSize: 14 }}>
+                No images provided
+              </Text>
             </View>
           )}
-          {/* product name row */}
-          <View
-            style={{
-              width: "100%",
-              height: "auto",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-            }}
-          >
+
+          {/* Product Name */}
+          <View style={{ marginBottom: 15 }}>
             <Text
-              style={[
-                GeneralStyle.RegularText,
-                {
-                  color: Colors.black,
-                  maxWidth: "35%",
-                  textAlign: "left",
-                },
-              ]}
+              style={{
+                fontSize: 14,
+                fontWeight: "bold",
+                color: Colors.black || "#000000",
+                marginBottom: 5,
+              }}
             >
-              Product Name
+              Product Name:
             </Text>
             <Text
-              style={[
-                GeneralStyle.RegularText,
-                {
-                  color: Colors.mediumSeaGreen,
-                  maxWidth: "60%",
-                  textAlign: "right",
-                },
-              ]}
+              style={{
+                fontSize: 16,
+                color: Colors.mediumSeaGreen || "#2E8B57",
+              }}
             >
-              {productName}lorem ipsum dolor sit amet, consectetur adipiscing
-              elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+              {productName || "No name provided"}
             </Text>
           </View>
-          {/* price row */}
-          <View
-            style={{
-              width: "100%",
-              height: "auto",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-            }}
-          >
+
+          {/* Price */}
+          <View style={{ marginBottom: 15 }}>
             <Text
-              style={[
-                GeneralStyle.RegularText,
-                {
-                  color: Colors.black,
-                  maxWidth: "15%",
-                  textAlign: "left",
-                },
-              ]}
+              style={{
+                fontSize: 14,
+                fontWeight: "bold",
+                color: Colors.black || "#000000",
+                marginBottom: 5,
+              }}
             >
-              Price
+              Price:
             </Text>
             <Text
-              style={[
-                GeneralStyle.RegularText,
-                {
-                  color: Colors.mediumSeaGreen,
-                  maxWidth: "80%",
-                  textAlign: "right",
-                },
-              ]}
+              style={{
+                fontSize: 18,
+                fontWeight: "bold",
+                color: Colors.mediumSeaGreen || "#2E8B57",
+              }}
             >
-              N{productPrice.toLocaleString()}lorem ipsum dolor sit amet,
-              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              ₦{productPrice?.toLocaleString() || "0"}
             </Text>
           </View>
-          {/* description row */}
+
+          {/* Description */}
+          <View style={{ marginBottom: 30 }}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: "bold",
+                color: Colors.black || "#000000",
+                marginBottom: 5,
+              }}
+            >
+              Description:
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                lineHeight: 20,
+                color: Colors.mediumSeaGreen || "#2E8B57",
+              }}
+            >
+              {productDescription || "No description provided"}
+            </Text>
+          </View>
+
+          {/* Raw data dump for debugging */}
           <View
             style={{
-              width: "100%",
-              height: "auto",
+              backgroundColor: "#f8f8f8",
+              padding: 10,
+              borderRadius: 5,
+              marginBottom: 20,
             }}
           >
-            <Text
-              style={[
-                GeneralStyle.RegularText,
-                {
-                  color: Colors.black,
-                  textAlign: "left",
-                  marginBottom: 5,
-                },
-              ]}
-            >
-              Description
+            <Text style={{ fontSize: 12, color: "#666" }}>Debug Info:</Text>
+            <Text style={{ fontSize: 10, color: "#666" }}>
+              Product Name: {JSON.stringify(productName)}
             </Text>
-            <View
-              style={[{ width: "100%", height: 100, alignItems: "flex-start" }]}
-            >
-              <Text
-                style={[
-                  GeneralStyle.RegularText,
-                  {
-                    color: Colors.mediumSeaGreen,
-                    maxWidth: "80%",
-                    textAlign: "right",
-                  },
-                ]}
-              >
-                N{productDescription}lorem ipsum dolor sit amet,
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-              </Text>
-            </View>
+            <Text style={{ fontSize: 10, color: "#666" }}>
+              Price: {JSON.stringify(productPrice)}
+            </Text>
+            <Text style={{ fontSize: 10, color: "#666" }}>
+              Seller Price: {JSON.stringify(sellerPrice)}
+            </Text>
+            <Text style={{ fontSize: 10, color: "#666" }}>
+              My Price: {JSON.stringify(myPrice)}
+            </Text>
+            <Text style={{ fontSize: 10, color: "#666" }}>
+              Images Count: {images?.length || 0}
+            </Text>
           </View>
-          {/* buttons */}
-          <View
+        </ScrollView>
+
+        {/* Bottom Buttons */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingTop: 20,
+            borderTopWidth: 1,
+            borderTopColor: "#f0f0f0",
+          }}
+        >
+          <TouchableOpacity
             style={{
-              width: "100%",
-              height: "10%",
-              backgroundColor: "white",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flex: 1,
+              height: 45,
+              backgroundColor: "#ffffff",
+              borderWidth: 1,
+              borderColor: Colors.black || "#000000",
+              borderRadius: 5,
+              justifyContent: "center",
               alignItems: "center",
+              marginRight: 10,
             }}
+            onPress={() => navigation.goBack()}
           >
-            <TouchableOpacity
-              style={[
-                GeneralStyle.Btn,
-                {
-                  height: 45,
-                  width: "45%",
-                  backgroundColor: Colors.white,
-                  borderWidth: 1,
-                  borderColor: Colors.black,
-                },
-              ]}
-              onPress={() => navigation.goBack()}
+            <Text
+              style={{
+                color: Colors.black || "#000000",
+                fontWeight: "bold",
+              }}
             >
-              <Text
-                style={[
-                  GeneralStyle.MediumText,
-                  {
-                    color: Colors.black,
-                  },
-                ]}
-              >
-                Cancel
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                GeneralStyle.Btn,
-                {
-                  height: 45,
-                  width: "45%",
-                  backgroundColor: Colors.black,
-                },
-              ]}
-              onPress={() => navigation.navigate("AddProductOtp")}
+              Cancel
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              height: 45,
+              backgroundColor: Colors.black || "#000000",
+              borderRadius: 5,
+              justifyContent: "center",
+              alignItems: "center",
+              marginLeft: 10,
+            }}
+            onPress={addBtn}
+          >
+            <Text
+              style={{
+                color: "#ffffff",
+                fontWeight: "bold",
+              }}
             >
-              <Text
-                style={[
-                  GeneralStyle.MediumText,
-                  {
-                    color: Colors.white,
-                  },
-                ]}
-              >
-                Confirm
-              </Text>
-            </TouchableOpacity>
-          </View>
+              Confirm
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

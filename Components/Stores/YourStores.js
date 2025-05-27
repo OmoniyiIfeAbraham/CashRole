@@ -84,7 +84,10 @@ const YourStores = ({
         }}
         onPress={() =>
           item?.Verify === true
-            ? navigation.navigate("Store", { store: item })
+            ? navigation.navigate("Store", {
+                store: item,
+                Email: seller?.Email,
+              })
             : SendOtp(item?._id, seller?.Email)
         }
       >

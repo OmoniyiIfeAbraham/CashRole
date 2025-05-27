@@ -18,7 +18,8 @@ const AddProduct2 = ({ navigation, route }) => {
   const [productPrice, setProductPrice] = useState(0);
   const [sellerPrice, setSellerPrice] = useState(0);
   const [myPrice, setMyPrice] = useState(0);
-  const { images, productName, productDescription, store } = route.params;
+  const { images, productName, productDescription, store, Email } =
+    route.params;
 
   // price handler
   const productPriceChange = (text) => {
@@ -49,6 +50,7 @@ const AddProduct2 = ({ navigation, route }) => {
         productPrice,
         sellerPrice,
         myPrice,
+        Email,
       });
     }
   };

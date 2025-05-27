@@ -15,7 +15,7 @@ import LoadingModal from "../../../Components/LoadingModal/LoadingModal";
 const Store = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
-  const { store } = route.params;
+  const { store, Email } = route.params;
   console.log(store);
 
   const getProducts = async () => {
@@ -82,7 +82,7 @@ const Store = ({ navigation, route }) => {
       >
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
-          onPress={() => navigation.navigate("AddProduct", { store })}
+          onPress={() => navigation.navigate("AddProduct", { store, Email })}
         >
           <Text style={[GeneralStyle.BoldText]}>Add Product</Text>
         </TouchableOpacity>
@@ -94,6 +94,7 @@ const Store = ({ navigation, route }) => {
         onRefresh={getProducts}
         isRefreshing={isLoading}
         store={store}
+        Email={Email}
       />
     </SafeAreaView>
   );

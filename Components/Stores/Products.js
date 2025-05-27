@@ -13,7 +13,8 @@ import GeneralStyle from "../../Style/General.style";
 
 const { width } = Dimensions.get("screen");
 
-const Products = ({ navigation, products, onRefresh, isRefreshing, store }) => {
+const Products = ({ navigation, products, onRefresh, isRefreshing, store, Email }) => {
+  console.log(products)
   // Render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <View
@@ -59,7 +60,7 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store }) => {
             }}
           >
             <Image
-              source={item.img}
+              source={item.Images[0]}
               style={{
                 width: "100%",
                 height: "100%",
@@ -81,7 +82,7 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store }) => {
                 { color: Colors.black, flexWrap: "wrap" },
               ]}
             >
-              {item.name}
+              {item.Name}
             </Text>
             <Text
               style={[
@@ -89,7 +90,7 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store }) => {
                 { color: Colors.black, fontSize: 20, flexWrap: "wrap" },
               ]}
             >
-              {item.address}
+              {item.Details}
             </Text>
           </View>
         </View>
@@ -162,7 +163,7 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store }) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={products}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item?._id?.toString()}
         renderItem={renderFlatListItems}
         nestedScrollEnabled={true}
       />
