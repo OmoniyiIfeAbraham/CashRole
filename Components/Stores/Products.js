@@ -13,24 +13,7 @@ import GeneralStyle from "../../Style/General.style";
 
 const { width } = Dimensions.get("screen");
 
-const Products = ({ navigation }) => {
-  const products = [
-    {
-      id: 1,
-      img: require("./../../assets/Notifications/tomatoes.jpg"),
-      name: "One bag of tomatoes",
-      address: "Alagbaka. Akure",
-      amount: "10,000",
-    },
-    {
-      id: 2,
-      img: require("./../../assets/Notifications/tomatoes1.jpg"),
-      name: "Glamour Boutique",
-      address: "Alagbaka. Akure",
-      amount: "70,000",
-    },
-  ];
-
+const Products = ({ navigation, products, onRefresh, isRefreshing, store }) => {
   // Render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <View

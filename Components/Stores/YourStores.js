@@ -1,11 +1,63 @@
 import { View, Text, TouchableOpacity, FlatList } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useCallback } from "react";
 import Colors from "../../Style/ThemeColors";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import GeneralStyle from "../../Style/General.style";
+import { baseAPIUrl } from "../../Global/Global";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import ErrorHandler from "../Auth/ErrorHandler";
+import LoadingModal from "../LoadingModal/LoadingModal";
 
-const YourStores = ({ navigation, stores, onRefresh, isRefreshing }) => {
+const YourStores = ({
+  navigation,
+  stores,
+  onRefresh,
+  isRefreshing,
+  seller,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const SendOtp = async (Id, email) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/store/auth/add/sendOtp?id=${Id}&Email=${email}`;
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Sent Successfully",
+        });
+        navigation.replace("OpenStore", { Id, email, seller });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   //   render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <View
@@ -30,7 +82,11 @@ const YourStores = ({ navigation, stores, onRefresh, isRefreshing }) => {
           maxHeight: 200,
           borderRadius: 10,
         }}
-        onPress={() => navigation.navigate("Store")}
+        onPress={() =>
+          item?.Verify === true
+            ? navigation.navigate("Store", { store: item })
+            : SendOtp(item?._id, seller?.Email)
+        }
       >
         <View style={{ flexDirection: "row", width: "100%" }}>
           {/* icon */}
@@ -89,6 +145,8 @@ const YourStores = ({ navigation, stores, onRefresh, isRefreshing }) => {
 
   return (
     <View style={{ paddingVertical: 5, flex: 1, paddingHorizontal: "2%" }}>
+      {/* loader */}
+      <LoadingModal Visible={isLoading} />
       <FlatList
         showsVerticalScrollIndicator={false}
         data={stores}

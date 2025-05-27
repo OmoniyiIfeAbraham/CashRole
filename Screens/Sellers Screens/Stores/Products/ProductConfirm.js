@@ -6,7 +6,15 @@ import { AntDesign } from "@expo/vector-icons";
 import GeneralStyle from "../../../../Style/General.style";
 
 const ProductConfirm = ({ navigation, route }) => {
-  const { images } = route.params;
+  const {
+    images,
+    productName,
+    productDescription,
+    store,
+    productPrice,
+    sellerPrice,
+    myPrice,
+  } = route.params;
   console.log("here");
   console.log(images);
   return (
@@ -144,7 +152,8 @@ const ProductConfirm = ({ navigation, route }) => {
                 },
               ]}
             >
-              Nike Shoe
+              {productName}lorem ipsum dolor sit amet, consectetur adipiscing
+              elit, sed do eiusmod tempor incididunt ut labore et dolore magna
             </Text>
           </View>
           {/* price row */}
@@ -179,7 +188,8 @@ const ProductConfirm = ({ navigation, route }) => {
                 },
               ]}
             >
-              N30,000
+              N{productPrice.toLocaleString()}lorem ipsum dolor sit amet,
+              consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
             </Text>
           </View>
           {/* description row */}
@@ -202,19 +212,21 @@ const ProductConfirm = ({ navigation, route }) => {
               Description
             </Text>
             <View
-              style={[
-                GeneralStyle.TextInputView,
-                { width: "100%", height: 100, alignItems: "flex-start" },
-              ]}
+              style={[{ width: "100%", height: 100, alignItems: "flex-start" }]}
             >
-              <TextInput
-                style={GeneralStyle.TextInput}
-                autoCapitalize="none"
-                keyboardType="default"
-                multiline={true}
-                numberOfLines={8}
-                editable={false}
-              />
+              <Text
+                style={[
+                  GeneralStyle.RegularText,
+                  {
+                    color: Colors.mediumSeaGreen,
+                    maxWidth: "80%",
+                    textAlign: "right",
+                  },
+                ]}
+              >
+                N{productDescription}lorem ipsum dolor sit amet,
+                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+              </Text>
             </View>
           </View>
           {/* buttons */}

@@ -18,7 +18,7 @@ const AddProduct2 = ({ navigation, route }) => {
   const [productPrice, setProductPrice] = useState(0);
   const [sellerPrice, setSellerPrice] = useState(0);
   const [myPrice, setMyPrice] = useState(0);
-  const { images } = route.params;
+  const { images, productName, productDescription, store } = route.params;
 
   // price handler
   const productPriceChange = (text) => {
@@ -41,7 +41,15 @@ const AddProduct2 = ({ navigation, route }) => {
         title: "Error!! Sharing does not match total amount.",
       });
     } else {
-      navigation.navigate("ProductConfirm", { images });
+      navigation.navigate("ProductConfirm", {
+        images,
+        productName,
+        productDescription,
+        store,
+        productPrice,
+        sellerPrice,
+        myPrice,
+      });
     }
   };
   return (

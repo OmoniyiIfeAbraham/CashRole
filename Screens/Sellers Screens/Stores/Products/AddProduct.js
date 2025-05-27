@@ -16,11 +16,20 @@ import ImageUploader from "../../../../Components/Products/ImageUploader";
 import { useFocusEffect } from "@react-navigation/native";
 import { useState } from "react";
 
-const AddProduct = ({ navigation }) => {
+const AddProduct = ({ navigation, route }) => {
   const [images, setImages] = useState([]);
+  const [productName, setProductName] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const { store } = route.params;
+  console.log(store);
 
   const handleNext = () => {
-    navigation.navigate("AddProduct2", { images });
+    navigation.navigate("AddProduct2", {
+      images,
+      productName,
+      productDescription,
+      store,
+    });
   };
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
@@ -53,6 +62,8 @@ const AddProduct = ({ navigation }) => {
               placeholderTextColor={Colors.ash}
               autoCapitalize="none"
               keyboardType="default"
+              value={productName}
+              onChangeText={(text) => setProductName(text)}
             />
           </View>
           {/* Upload Photo */}
@@ -84,6 +95,8 @@ const AddProduct = ({ navigation }) => {
               keyboardType="default"
               multiline={true}
               numberOfLines={8}
+              value={productDescription}
+              onChangeText={(text) => setProductDescription(text)}
             />
           </View>
 

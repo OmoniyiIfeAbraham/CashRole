@@ -37,10 +37,26 @@ export default function ImageUploader({ width, height, images, setImages }) {
       } else {
         Toast.show({
           type: ALERT_TYPE.SUCCESS,
-          title: `${newUris.length} Image(s) Added Successfully`,
+          title: `${
+            images.length + newUris.length
+          } Image(s) Added Successfully`,
         });
       }
     }
+  };
+
+  const removeImage = (indexToRemove) => {
+    setImages((prevImages) => {
+      const updatedImages = prevImages.filter(
+        (_, index) => index !== indexToRemove
+      );
+      return updatedImages;
+    });
+
+    Toast.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: "Image Removed Successfully",
+    });
   };
 
   // Use useEffect to log the images array whenever it changes
@@ -49,10 +65,21 @@ export default function ImageUploader({ width, height, images, setImages }) {
   }, [images]);
 
   return (
-    <View style={{ width: "100%", height: "auto", alignItems: "center" }}>
+    <View
+      style={{
+        width: "100%",
+        height: "auto",
+        alignItems: "center",
+      }}
+    >
       {/* title */}
-      <ScrollView
-        style={{ flex: 1, width: "100%" }}
+      <View
+        style={{
+          flex: 1,
+          width: "100%",
+          justifyContent: "center",
+          paddingHorizontal: "15%",
+        }}
         contentContainerStyle={{
           justifyContent: "center",
           paddingHorizontal: "15%",
@@ -75,15 +102,15 @@ export default function ImageUploader({ width, height, images, setImages }) {
         >
           <FontAwesome6 name="add" size={24} color={Colors.black} />
         </TouchableOpacity>
-      </ScrollView>
+      </View>
       {images.length > 0 && (
-        <ScrollView
+        <View
           style={{
             width: width,
             maxHeight: 350,
             marginTop: 5,
           }}
-          showsVerticalScrollIndicator={false}
+          // showsVerticalScrollIndicator={false}
         >
           <View
             style={{
@@ -98,12 +125,12 @@ export default function ImageUploader({ width, height, images, setImages }) {
               <View
                 key={index}
                 style={{
-                  width: "33%",
-                  height: 112,
+                  width: "32%",
+                  height: 75,
                   justifyContent: "center",
                   alignItems: "center",
                   marginBottom: 5,
-                  zIndex: -10,
+                  position: "relative",
                 }}
               >
                 <Image
@@ -111,12 +138,42 @@ export default function ImageUploader({ width, height, images, setImages }) {
                   style={{
                     width: "100%",
                     height: "100%",
+                    borderRadius: 5,
                   }}
                 />
+                {/* Remove button */}
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    top: -5,
+                    right: -5,
+                    backgroundColor: Colors.red || "#FF0000",
+                    borderRadius: 12,
+                    width: 24,
+                    height: 24,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    elevation: 3,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+                  }}
+                  onPress={() => removeImage(index)}
+                >
+                  <FontAwesome6
+                    name="xmark"
+                    size={12}
+                    color={Colors.white || "#FFFFFF"}
+                  />
+                </TouchableOpacity>
               </View>
             ))}
           </View>
-        </ScrollView>
+        </View>
       )}
     </View>
   );

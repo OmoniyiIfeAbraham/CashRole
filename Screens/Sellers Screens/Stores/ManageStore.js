@@ -88,6 +88,7 @@ const ManageStore = ({ navigation, route }) => {
         stores={stores}
         onRefresh={getStores}
         isRefreshing={isLoading}
+        seller={seller}
       />
     </SafeAreaView>
   );
