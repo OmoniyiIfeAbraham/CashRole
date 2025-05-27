@@ -23,7 +23,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 const SellerProfile = ({ navigation, route }) => {
   const { seller } = route.params;
-  console.log(seller)
+  // console.log(seller);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +34,7 @@ const SellerProfile = ({ navigation, route }) => {
       setIsLoading(true);
       let url = `${baseAPIUrl}/seller/profile/view/single?id=${seller._id}`;
 
-      console.log(url)
+      console.log(url);
 
       const response = await axios.get(url, {
         headers: {
@@ -45,7 +45,7 @@ const SellerProfile = ({ navigation, route }) => {
 
       if (response.data.Error === false) {
         setUser(response.data.Data);
-        console.log('user: ', user);
+        console.log("user: ", user);
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,
@@ -112,6 +112,7 @@ const SellerProfile = ({ navigation, route }) => {
             name="history-edu"
             size={30}
             color={Colors.midnightBlue}
+            onPress={() => navigation.navigate("HistoryNotifications")}
           />
           <Text
             style={[
@@ -174,7 +175,7 @@ const SellerProfile = ({ navigation, route }) => {
                     borderColor: Colors.black,
                   },
                 ]}
-                onPress={() => navigation.navigate("ManageStore")}
+                onPress={() => navigation.navigate("ManageStore", { seller })}
               >
                 <Text
                   style={[
@@ -196,7 +197,12 @@ const SellerProfile = ({ navigation, route }) => {
                     backgroundColor: Colors.midnightBlue,
                   },
                 ]}
-                onPress={() => navigation.navigate("AddStore")}
+                onPress={() =>
+                  navigation.navigate("AddStore", {
+                    sellerId: seller._id,
+                    Email: user?.Profile?.Email,
+                  })
+                }
               >
                 <Text
                   style={[

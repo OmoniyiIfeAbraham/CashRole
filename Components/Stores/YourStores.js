@@ -5,20 +5,7 @@ import Colors from "../../Style/ThemeColors";
 import { Feather, FontAwesome5 } from "@expo/vector-icons";
 import GeneralStyle from "../../Style/General.style";
 
-const YourStores = ({ navigation }) => {
-  const stores = [
-    {
-      id: 1,
-      name: "Glamour Boutique",
-      address: "Alagbaka, Akure",
-    },
-    {
-      id: 2,
-      name: "Glamour Boutique",
-      address: "Surulere, Lagos",
-    },
-  ];
-
+const YourStores = ({ navigation, stores, onRefresh, isRefreshing }) => {
   //   render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <View
@@ -63,7 +50,7 @@ const YourStores = ({ navigation }) => {
           {/* name and address */}
           <View style={{ justifyContent: "flex-start", width: "80%" }}>
             <Text style={[GeneralStyle.BoldText, { color: Colors.black }]}>
-              {item.name}
+              {item?.Name}
             </Text>
             <Text
               style={[
@@ -71,7 +58,7 @@ const YourStores = ({ navigation }) => {
                 { color: Colors.black, fontSize: 20 },
               ]}
             >
-              {item.address}
+              {item?.Address}
             </Text>
           </View>
         </View>
@@ -105,9 +92,11 @@ const YourStores = ({ navigation }) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         data={stores}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         renderItem={renderFlatListItems}
         nestedScrollEnabled={true}
+        onRefresh={onRefresh}
+        refreshing={isRefreshing}
       />
     </View>
   );

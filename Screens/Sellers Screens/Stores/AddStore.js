@@ -24,14 +24,23 @@ import RNPickerSelect from "react-native-picker-select";
 import { useState } from "react";
 import States from "../../../Components/Stores/States";
 import Cities from "../../../Components/Stores/Cities";
+import ErrorHandler from "../../../Components/Auth/ErrorHandler";
+import { baseAPIUrl } from "../../../Global/Global";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import LoadingModal from "../../../Components/LoadingModal/LoadingModal";
 
 const { width, height } = Dimensions.get("window");
 
-const AddStore = ({ navigation }) => {
+const AddStore = ({ navigation, route }) => {
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [storeName, setStoreName] = useState("");
   const [storeAddress, setStoreAddress] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const { sellerId, Email } = route.params;
+  // console.log(sellerId, Email);
 
   const pickerSelectStyles = StyleSheet.create({
     inputAndroid: [
@@ -56,7 +65,77 @@ const AddStore = ({ navigation }) => {
     : [];
 
   const Submit = async () => {
-    console.log(selectedState, selectedCity, storeName, storeAddress);
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/store/auth/add?id=${sellerId}`;
+      let data = new FormData();
+      data.append("Name", storeName);
+      data.append("State", selectedState);
+      data.append("City", selectedCity);
+      data.append("Address", storeAddress);
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      if (response.data?.Error === false) {
+        SendOtp(response.data?.Store._id, Email);
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const SendOtp = async (Id, email) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/store/auth/add/sendOtp?id=${Id}&Email=${email}`;
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "OTP Sent Successfully",
+        });
+        navigation.replace("OpenStore", { Id, email });
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -66,6 +145,8 @@ const AddStore = ({ navigation }) => {
         <Pressable style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
           {/* header */}
           <Header navigation={navigation} title="Add new store" />
+          {/* loader */}
+          <LoadingModal Visible={isLoading} />
           {/* form */}
           {/* store name */}
           <View style={{ marginTop: 75 }}>
@@ -162,7 +243,6 @@ const AddStore = ({ navigation }) => {
                   backgroundColor: Colors.midnightBlue,
                 },
               ]}
-              // onPress={() => navigation.navigate("OpenStore")}
               onPress={Submit}
             >
               <Text style={GeneralStyle.RegularText}>Open Store</Text>

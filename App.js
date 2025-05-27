@@ -55,6 +55,7 @@ import ConfirmDeleteProduct from "./Screens/Sellers Screens/Stores/Products/Conf
 import DeleteProductOtp from "./Screens/Sellers Screens/Stores/Products/DeleteProductOtp";
 import DeleteProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/DeleteProductSuccessfull";
 import Update from "./Screens/Auth/Update";
+import HistoryNotifications from "./Screens/Sellers Screens/History";
 
 const Stack = createNativeStackNavigator();
 
@@ -133,6 +134,10 @@ export default function App() {
                 component={WithdrawSuccess}
               />
               <Stack.Screen name="AddSellerOtp" component={AddSellerOtp} />
+              <Stack.Screen
+                name="HistoryNotifications"
+                component={HistoryNotifications}
+              />
             </Stack.Group>
 
             {/* Stores Screens */}
