@@ -22,7 +22,7 @@ const AddproductOtp = ({ navigation, route }) => {
   const [otp, setOtp] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { email, store, product } = route.params;
-  console.log(store);
+  console.log("product: ", product); // this is null. fix it
 
   // confirm btn
   const confirmBtn = async () => {

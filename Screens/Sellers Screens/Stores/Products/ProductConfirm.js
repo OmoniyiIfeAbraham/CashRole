@@ -78,7 +78,7 @@ const ProductConfirm = ({ navigation, route }) => {
 
       if (response.data?.Error === false) {
         setProduct(response.data.Product);
-        SendOtp(response.data.Product._id, Email);
+        SendOtp(response.data.Product._id, Email, response.data.Product);
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,
@@ -93,7 +93,7 @@ const ProductConfirm = ({ navigation, route }) => {
     }
   };
 
-  const SendOtp = async (Id, email) => {
+  const SendOtp = async (Id, email, product) => {
     try {
       setIsLoading(true);
       let url = `${baseAPIUrl}/product/auth/add/sendOtp?id=${Id}&email=${email}`;

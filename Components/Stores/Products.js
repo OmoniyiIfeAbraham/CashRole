@@ -13,8 +13,15 @@ import GeneralStyle from "../../Style/General.style";
 
 const { width } = Dimensions.get("screen");
 
-const Products = ({ navigation, products, onRefresh, isRefreshing, store, Email }) => {
-  console.log(products)
+const Products = ({
+  navigation,
+  products,
+  onRefresh,
+  isRefreshing,
+  store,
+  Email,
+}) => {
+  console.log(products);
   // Render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <View
@@ -38,7 +45,6 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store, Email 
           borderRadius: 10,
         }}
         activeOpacity={0.7}
-        // onPress={() => navigation.navigate("Store")}
       >
         <View
           style={{
@@ -60,7 +66,7 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store, Email 
             }}
           >
             <Image
-              source={item.Images[0]}
+              source={{ uri: item.Images[0] }}
               style={{
                 width: "100%",
                 height: "100%",
@@ -112,7 +118,9 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store, Email 
               borderRadius: 5,
               marginBottom: 2,
             }}
-            onPress={() => navigation.navigate("AddProduct")}
+            onPress={() =>
+              navigation.navigate("EditProduct", { product: item })
+            }
           >
             <Text
               style={[
@@ -166,6 +174,8 @@ const Products = ({ navigation, products, onRefresh, isRefreshing, store, Email 
         keyExtractor={(item) => item?._id?.toString()}
         renderItem={renderFlatListItems}
         nestedScrollEnabled={true}
+        onRefresh={onRefresh}
+        refreshing={isRefreshing}
       />
     </View>
   );
