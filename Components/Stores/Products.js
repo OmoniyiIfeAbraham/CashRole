@@ -119,7 +119,11 @@ const Products = ({
               marginBottom: 2,
             }}
             onPress={() =>
-              navigation.navigate("EditProduct", { product: item })
+              navigation.navigate("EditProduct", {
+                product: item,
+                store,
+                Email,
+              })
             }
           >
             <Text
