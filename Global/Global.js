@@ -1,5 +1,5 @@
 // export const baseAPIUrl = "https://staging.api.cashrole.com";
-export const baseAPIUrl = "http://192.168.41.229:4000";
+export const baseAPIUrl = "http://192.168.118.229:4000";
 // export const baseAPIUrl = "https://cashrole-api.onrender.com";
 export const ApiKey = "0U25eCA2goCf3AoY";
 export const ApiSecKey =

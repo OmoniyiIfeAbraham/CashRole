@@ -18,11 +18,20 @@ import { useState } from "react";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 
 const EditProduct = ({ navigation, route }) => {
-  const [images, setImages] = useState([]);
-  const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const { store, Email } = route.params;
-  console.log(store);
+  const { product } = route.params;
+  console.log("product: ", product);
+  const [images, setImages] = useState(product.Images || []);
+  const [productName, setProductName] = useState(product.Name || "");
+  const [productDescription, setProductDescription] = useState(
+    product.Details || ""
+  );
+  const [productPrice, setProductPrice] = useState(
+    product.Price.toString() || 0
+  );
+  const [sellerPrice, setSellerPrice] = useState(
+    product.SellerPrice.toString() || 0
+  );
+  const [myPrice, setMyPrice] = useState(product.MyPrice.toString() || 0);
 
   const handleNext = () => {
     if (images.length <= 1) {
@@ -110,6 +119,73 @@ const EditProduct = ({ navigation, route }) => {
             />
           </View>
 
+          {/* title */}
+          <Text
+            style={[
+              GeneralStyle.RegularText,
+              { color: Colors.black, marginBottom: 5, marginTop: 25 },
+            ]}
+          >
+            Add product price
+          </Text>
+          <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+            <TextInput
+              style={GeneralStyle.TextInput}
+              placeholder="Price"
+              placeholderTextColor={Colors.ash}
+              autoCapitalize="none"
+              keyboardType="numeric"
+              onChangeText={(text) => setProductPrice(text)}
+              value={productPrice}
+            />
+          </View>
+          <Text
+            style={[
+              GeneralStyle.ExtraBoldText,
+              { color: Colors.black, marginTop: 50, marginBottom: 25 },
+            ]}
+          >
+            How do you want to share income
+          </Text>
+          {/* title for seller price */}
+          <Text
+            style={[
+              GeneralStyle.RegularText,
+              { color: Colors.black, marginBottom: 5 },
+            ]}
+          >
+            Seller
+          </Text>
+          <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+            <TextInput
+              style={GeneralStyle.TextInput}
+              placeholderTextColor={Colors.ash}
+              autoCapitalize="none"
+              keyboardType="numeric"
+              value={sellerPrice}
+              onChangeText={(text) => setSellerPrice(text)}
+            />
+          </View>
+          {/* title for me */}
+          <Text
+            style={[
+              GeneralStyle.RegularText,
+              { color: Colors.black, marginBottom: 5 },
+            ]}
+          >
+            Me
+          </Text>
+          <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+            <TextInput
+              style={GeneralStyle.TextInput}
+              placeholderTextColor={Colors.ash}
+              autoCapitalize="none"
+              keyboardType="numeric"
+              value={myPrice}
+              onChangeText={(text) => setMyPrice(text)}
+            />
+          </View>
+
           {/* btn */}
           <View
             style={{ width: "100%", paddingHorizontal: 50, marginVertical: 10 }}
@@ -119,7 +195,7 @@ const EditProduct = ({ navigation, route }) => {
                 GeneralStyle.Btn,
                 { backgroundColor: Colors.midnightBlue },
               ]}
-              onPress={handleNext}
+              // onPress={handleNext}
             >
               <Text style={[GeneralStyle.BoldText]}>Next {">>>"}</Text>
             </TouchableOpacity>

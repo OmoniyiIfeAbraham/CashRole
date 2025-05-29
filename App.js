@@ -57,6 +57,7 @@ import DeleteProductSuccessfull from "./Screens/Sellers Screens/Stores/Products/
 import Update from "./Screens/Auth/Update";
 import HistoryNotifications from "./Screens/Sellers Screens/History";
 import EditSeller from "./Screens/Sellers Screens/Auth/Edit";
+import EditProduct from "./Screens/Sellers Screens/Stores/Products/EditProduct";
 
 const Stack = createNativeStackNavigator();
 
@@ -172,6 +173,7 @@ export default function App() {
                 name="DeleteProductSuccessfull"
                 component={DeleteProductSuccessfull}
               />
+              <Stack.Screen name="EditProduct" component={EditProduct} />
             </Stack.Group>
 
             {/* Deal Screens */}

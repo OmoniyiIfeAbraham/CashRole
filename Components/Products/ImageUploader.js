@@ -134,7 +134,7 @@ export default function ImageUploader({ width, height, images, setImages }) {
                 }}
               >
                 <Image
-                  source={{ uri: img.uri }}
+                  source={{ uri: img.uri || img }}
                   style={{
                     width: "100%",
                     height: "100%",
