@@ -58,6 +58,44 @@ const YourStores = ({
     }
   };
 
+  const deleteBtn = async (Id) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/store/actions/delete?id=${Id}`;
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.delete(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Store Deleted Successfully",
+        });
+        onRefresh();
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   //   render flat list items
   const renderFlatListItems = useCallback(({ item }) => (
     <View
@@ -133,6 +171,7 @@ const YourStores = ({
           height: 54,
           borderRadius: 5,
         }}
+        onPress={() => deleteBtn(item?._id)}
       >
         <Text
           style={[
