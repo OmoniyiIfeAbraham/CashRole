@@ -5,7 +5,9 @@ import Success from "../../../../Components/General/Success";
 import GeneralStyle from "../../../../Style/General.style";
 import Colors from "../../../../Style/ThemeColors";
 
-const DeleteProductSuccessfull = ({ navigation }) => {
+const DeleteProductSuccessfull = ({ navigation, route }) => {
+  const { product, store, email } = route.params;
+  // console.log('Params: ', route.params);
   return (
     <SafeAreaView
       style={{
@@ -42,7 +44,7 @@ const DeleteProductSuccessfull = ({ navigation }) => {
               paddingHorizontal: 5,
             },
           ]}
-          onPress={() => navigation.replace("Store")}
+          onPress={() => navigation.replace("Store", { store, Email: email })}
         >
           <Text style={[GeneralStyle.BoldText]}>See product list</Text>
         </TouchableOpacity>

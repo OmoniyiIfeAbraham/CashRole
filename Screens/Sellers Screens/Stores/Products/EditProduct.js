@@ -24,9 +24,8 @@ import LoadingModal from "../../../../Components/LoadingModal/LoadingModal";
 
 const EditProduct = ({ navigation, route }) => {
   const { product, store, email } = route.params;
-  console.log("product: ", product);
-  const [images, setImages] = useState([]);
-  const [oldImages, setOldImages] = useState(product.Images || []);
+  // console.log("product: ", product);
+  const [images, setImages] = useState(product.Images || []);
   const [productName, setProductName] = useState(product.Name || "");
   const [productDescription, setProductDescription] = useState(
     product.Details || ""
@@ -58,7 +57,9 @@ const EditProduct = ({ navigation, route }) => {
       data.append("SellerPrice", sellerPrice);
       data.append("MyPrice", myPrice);
 
-      if (images && images.length > 0) {
+      console.log("Images: ", images);
+
+      if (images && images.length > 0 && typeof images[0] === "object") {
         // Method 1: If your backend expects multiple files with same field name
         images.forEach((image, index) => {
           const imageFile = {
@@ -82,7 +83,7 @@ const EditProduct = ({ navigation, route }) => {
         },
       });
 
-      console.log(response.data);
+      // console.log(response.data);
 
       if (response.data?.Error === false) {
         Toast.show({
@@ -109,159 +110,156 @@ const EditProduct = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
-      <Pressable
+      {/* <Pressable
         style={{ flex: 1, width: "100%", height: "100%" }}
         onPress={() => Keyboard.dismiss()}
+      > */}
+      {/* loader */}
+      <LoadingModal Visible={isLoading} />
+      {/* header */}
+      <Header navigation={navigation} title="Edit product" />
+      {/* form */}
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ paddingBottom: 20 }}
+        showsVerticalScrollIndicator={false}
       >
-        {/* loader */}
-        <LoadingModal Visible={isLoading} />
-        {/* header */}
-        <Header navigation={navigation} title="Edit product" />
-        {/* form */}
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={{ paddingBottom: 20 }}
-          showsVerticalScrollIndicator={false}
+        {/* title */}
+        <Text
+          style={[
+            GeneralStyle.RegularText,
+            { color: Colors.black, marginBottom: 5 },
+          ]}
         >
-          {/* title */}
-          <Text
-            style={[
-              GeneralStyle.RegularText,
-              { color: Colors.black, marginBottom: 5 },
-            ]}
-          >
-            Product name
-          </Text>
-          <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
-            <TextInput
-              style={GeneralStyle.TextInput}
-              placeholder="Enter name of product here"
-              placeholderTextColor={Colors.ash}
-              autoCapitalize="none"
-              keyboardType="default"
-              value={productName}
-              onChangeText={(text) => setProductName(text)}
-            />
-          </View>
-          {/* Upload Photo */}
-          {/* <View style={{ flex: 1, width: "100%", height: "60%" }}> */}
-            <ImageUploader
-              width="100%"
-              height="60%"
-              images={oldImages || images}
-              setImages={setOldImages || setImages}
-            />
-          {/* </View> */}
-          {/* Other components can go here */}
-          {/* title */}
-          <Text
-            style={[
-              GeneralStyle.RegularText,
-              { color: Colors.black, marginBottom: 5 },
-            ]}
-          >
-            Describe the product details
-          </Text>
-          <View
-            style={[
-              GeneralStyle.TextInputView,
-              { width: "100%", height: 150, alignItems: "flex-start" },
-            ]}
-          >
-            <TextInput
-              style={GeneralStyle.TextInput}
-              autoCapitalize="none"
-              keyboardType="default"
-              multiline={true}
-              numberOfLines={8}
-              value={productDescription}
-              onChangeText={(text) => setProductDescription(text)}
-            />
-          </View>
+          Product name
+        </Text>
+        <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+          <TextInput
+            style={GeneralStyle.TextInput}
+            placeholder="Enter name of product here"
+            placeholderTextColor={Colors.ash}
+            autoCapitalize="none"
+            keyboardType="default"
+            value={productName}
+            onChangeText={(text) => setProductName(text)}
+          />
+        </View>
+        {/* Upload Photo */}
+        {/* <View style={{ flex: 1, width: "100%", height: "60%" }}> */}
+        <ImageUploader
+          width="100%"
+          height="60%"
+          images={images}
+          setImages={setImages}
+        />
+        {/* </View> */}
+        {/* Other components can go here */}
+        {/* title */}
+        <Text
+          style={[
+            GeneralStyle.RegularText,
+            { color: Colors.black, marginBottom: 5 },
+          ]}
+        >
+          Describe the product details
+        </Text>
+        <View
+          style={[
+            GeneralStyle.TextInputView,
+            { width: "100%", height: 150, alignItems: "flex-start" },
+          ]}
+        >
+          <TextInput
+            style={GeneralStyle.TextInput}
+            autoCapitalize="none"
+            keyboardType="default"
+            multiline={true}
+            numberOfLines={8}
+            value={productDescription}
+            onChangeText={(text) => setProductDescription(text)}
+          />
+        </View>
 
-          {/* title */}
-          <Text
-            style={[
-              GeneralStyle.RegularText,
-              { color: Colors.black, marginBottom: 5, marginTop: 25 },
-            ]}
-          >
-            Add product price
-          </Text>
-          <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
-            <TextInput
-              style={GeneralStyle.TextInput}
-              placeholder="Price"
-              placeholderTextColor={Colors.ash}
-              autoCapitalize="none"
-              keyboardType="numeric"
-              onChangeText={(text) => setProductPrice(text)}
-              value={productPrice}
-            />
-          </View>
-          <Text
-            style={[
-              GeneralStyle.ExtraBoldText,
-              { color: Colors.black, marginTop: 50, marginBottom: 25 },
-            ]}
-          >
-            How do you want to share income
-          </Text>
-          {/* title for seller price */}
-          <Text
-            style={[
-              GeneralStyle.RegularText,
-              { color: Colors.black, marginBottom: 5 },
-            ]}
-          >
-            Seller
-          </Text>
-          <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
-            <TextInput
-              style={GeneralStyle.TextInput}
-              placeholderTextColor={Colors.ash}
-              autoCapitalize="none"
-              keyboardType="numeric"
-              value={sellerPrice}
-              onChangeText={(text) => setSellerPrice(text)}
-            />
-          </View>
-          {/* title for me */}
-          <Text
-            style={[
-              GeneralStyle.RegularText,
-              { color: Colors.black, marginBottom: 5 },
-            ]}
-          >
-            Me
-          </Text>
-          <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
-            <TextInput
-              style={GeneralStyle.TextInput}
-              placeholderTextColor={Colors.ash}
-              autoCapitalize="none"
-              keyboardType="numeric"
-              value={myPrice}
-              onChangeText={(text) => setMyPrice(text)}
-            />
-          </View>
+        {/* title */}
+        <Text
+          style={[
+            GeneralStyle.RegularText,
+            { color: Colors.black, marginBottom: 5, marginTop: 25 },
+          ]}
+        >
+          Add product price
+        </Text>
+        <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+          <TextInput
+            style={GeneralStyle.TextInput}
+            placeholder="Price"
+            placeholderTextColor={Colors.ash}
+            autoCapitalize="none"
+            keyboardType="numeric"
+            onChangeText={(text) => setProductPrice(text)}
+            value={productPrice}
+          />
+        </View>
+        <Text
+          style={[
+            GeneralStyle.ExtraBoldText,
+            { color: Colors.black, marginTop: 50, marginBottom: 25 },
+          ]}
+        >
+          How do you want to share income
+        </Text>
+        {/* title for seller price */}
+        <Text
+          style={[
+            GeneralStyle.RegularText,
+            { color: Colors.black, marginBottom: 5 },
+          ]}
+        >
+          Seller
+        </Text>
+        <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+          <TextInput
+            style={GeneralStyle.TextInput}
+            placeholderTextColor={Colors.ash}
+            autoCapitalize="none"
+            keyboardType="numeric"
+            value={sellerPrice}
+            onChangeText={(text) => setSellerPrice(text)}
+          />
+        </View>
+        {/* title for me */}
+        <Text
+          style={[
+            GeneralStyle.RegularText,
+            { color: Colors.black, marginBottom: 5 },
+          ]}
+        >
+          Me
+        </Text>
+        <View style={[GeneralStyle.TextInputView, { width: "100%" }]}>
+          <TextInput
+            style={GeneralStyle.TextInput}
+            placeholderTextColor={Colors.ash}
+            autoCapitalize="none"
+            keyboardType="numeric"
+            value={myPrice}
+            onChangeText={(text) => setMyPrice(text)}
+          />
+        </View>
 
-          {/* btn */}
-          <View
-            style={{ width: "100%", paddingHorizontal: 50, marginVertical: 10 }}
+        {/* btn */}
+        <View
+          style={{ width: "100%", paddingHorizontal: 50, marginVertical: 10 }}
+        >
+          <TouchableOpacity
+            style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
+            onPress={editBtn}
           >
-            <TouchableOpacity
-              style={[
-                GeneralStyle.Btn,
-                { backgroundColor: Colors.midnightBlue },
-              ]}
-              onPress={editBtn}
-            >
-              <Text style={[GeneralStyle.BoldText]}>Edit</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </Pressable>
+            <Text style={[GeneralStyle.BoldText]}>Edit</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      {/* </Pressable> */}
     </SafeAreaView>
   );
 };

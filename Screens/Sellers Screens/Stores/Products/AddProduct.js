@@ -44,10 +44,10 @@ const AddProduct = ({ navigation, route }) => {
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
       {/* keyboard dismiss */}
-      <Pressable
+      {/* <Pressable
         style={{ flex: 1, width: "100%", height: "100%" }}
         onPress={() => Keyboard.dismiss()}
-      >
+      > */}
         {/* header */}
         <Header navigation={navigation} title="Add new product" />
         {/* form */}
@@ -125,7 +125,7 @@ const AddProduct = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </Pressable>
+      {/* </Pressable> */}
     </SafeAreaView>
   );
 };

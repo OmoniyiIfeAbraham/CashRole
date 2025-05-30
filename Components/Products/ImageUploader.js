@@ -107,7 +107,9 @@ export default function ImageUploader({ width, height, images, setImages }) {
         </ScrollView>
       </View>
 
-      {images.length < 10 && (
+      {(images.length === 0 ||
+        (images.length < 10 &&
+          !images.every((img) => typeof img === "string"))) && (
         <TouchableOpacity
           style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
           onPress={pickImage}
@@ -115,13 +117,23 @@ export default function ImageUploader({ width, height, images, setImages }) {
           <Text style={GeneralStyle.BoldText}>Add Images</Text>
         </TouchableOpacity>
       )}
+
+      {/* {images.length < 10 && (
+        <TouchableOpacity
+          style={[GeneralStyle.Btn, { backgroundColor: Colors.midnightBlue }]}
+          onPress={pickImage}
+        >
+          <Text style={GeneralStyle.BoldText}>Add Images</Text>
+        </TouchableOpacity>
+      )} */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    // alignItems: "center", // vertical alignment
+    flexDirection: "row", // ⬅️ Important for horizontal scroll
+    alignItems: "center",
     paddingLeft: 5,
   },
   imageContainer: {
