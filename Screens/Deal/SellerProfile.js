@@ -62,6 +62,44 @@ const SellerProfile = ({ navigation, route }) => {
     }
   };
 
+  const deleteBtn = async (Id) => {
+    try {
+      setIsLoading(true);
+      let url = `${baseAPIUrl}/seller/actions/delete?id=${Id}`;
+
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+
+      const response = await axios.delete(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data);
+
+      if (response.data?.Error === false) {
+        Toast.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: "Success",
+          textBody: "Store Deleted Successfully",
+        });
+        navigation.navigate("RegisteredSellers");
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useFocusEffect(
     useCallback(() => {
       Check();
@@ -284,76 +322,6 @@ const SellerProfile = ({ navigation, route }) => {
                   {user?.Profile?.FirstName} {user?.Profile?.LastName}
                 </Text>
               </View>
-              {/* dob row */}
-              {/* <View
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.black,
-                        maxWidth: "45%",
-                        textAlign: "left",
-                      },
-                    ]}
-                  >
-                    Date of Birth
-                  </Text>
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.mediumSeaGreen,
-                        maxWidth: "50%",
-                        textAlign: "right",
-                      },
-                    ]}
-                  >
-                    02/07/1990
-                  </Text>
-                </View> */}
-              {/* address row */}
-              {/* <View
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.black,
-                        maxWidth: "30%",
-                        textAlign: "left",
-                      },
-                    ]}
-                  >
-                    Address
-                  </Text>
-                  <Text
-                    style={[
-                      GeneralStyle.RegularText,
-                      {
-                        color: Colors.mediumSeaGreen,
-                        maxWidth: "65%",
-                        textAlign: "right",
-                      },
-                    ]}
-                  >
-                    0009004187
-                  </Text>
-                </View> */}
               {/* phone number row */}
               <View
                 style={{
@@ -445,7 +413,7 @@ const SellerProfile = ({ navigation, route }) => {
                     backgroundColor: Colors.tomato,
                   },
                 ]}
-                // onPress={() => navigation.goBack()}
+                onPress={() => deleteBtn(seller._id)}
               >
                 <Text
                   style={[

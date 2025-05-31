@@ -15,6 +15,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ALERT_TYPE, Toast } from "react-native-alert-notification";
 import ErrorHandler from "../../Auth/ErrorHandler";
+import { useFocusEffect } from "@react-navigation/native";
 
 const RegisteredSeller = ({ navigation }) => {
   const [sellers, setSellers] = useState([]);
@@ -114,9 +115,11 @@ const RegisteredSeller = ({ navigation }) => {
     </TouchableOpacity>
   ));
 
-  useEffect(() => {
-    GetSellers();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      GetSellers();
+    }, [])
+  );
 
   const onRefresh = async () => {
     await GetSellers();
