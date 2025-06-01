@@ -64,7 +64,7 @@ const Stores = ({ navigation }) => {
       {/* header */}
       <Header navigation={navigation} title="Your Stores" />
       {/* btn */}
-      <View
+      {/* <View
         style={{ width: "100%", paddingHorizontal: 50, marginVertical: 20 }}
       >
         <TouchableOpacity
@@ -73,7 +73,7 @@ const Stores = ({ navigation }) => {
         >
           <Text style={[GeneralStyle.BoldText]}>Add Store</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
       {/* stores */}
       <RecentStores
         navigation={navigation}

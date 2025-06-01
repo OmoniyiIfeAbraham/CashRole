@@ -103,9 +103,11 @@ const CreateSeller = ({ navigation }) => {
           title: "Error",
           textBody: `${response.data.Error}`,
         });
+        setIsLoading(false)
       }
     } catch (error) {
       ErrorHandler(error, navigation);
+      setIsLoading(false);
     } finally {
       // setIsLoading(false);
     }

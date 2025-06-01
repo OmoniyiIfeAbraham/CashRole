@@ -19,7 +19,7 @@ const RecentStores = ({
   // find a  way to pass the seller info together with the store so things don't break later on
   const [isLoading, setIsLoading] = useState(false);
 
-  const SendOtp = async (Id, email) => {
+  const SendOtp = async (Id, email, seller) => {
     try {
       setIsLoading(true);
       let url = `${baseAPIUrl}/store/auth/add/sendOtp?id=${Id}&Email=${email}`;
@@ -42,7 +42,7 @@ const RecentStores = ({
           title: "Success",
           textBody: "OTP Sent Successfully",
         });
-        navigation.replace("OpenStore", { Id, email, user });
+        navigation.navigate("OpenStore", { Id, email, seller });
       } else {
         Toast.show({
           type: ALERT_TYPE.DANGER,
@@ -76,9 +76,9 @@ const RecentStores = ({
         item?.Verify === true
           ? navigation.navigate("Store", {
               store: item,
-              Email: user?.Email,
+              Email: item.SellerID?.Email,
             })
-          : SendOtp(item?._id, user?.Email)
+          : SendOtp(item?._id, item.SellerID?.Email, item.SellerID)
       }
     >
       <View style={{ flexDirection: "row", width: "87%" }}>
@@ -136,7 +136,7 @@ const RecentStores = ({
       <FlatList
         showsVerticalScrollIndicator={false}
         data={stores}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         renderItem={renderFlatListItems}
         nestedScrollEnabled={true}
         onRefresh={onRefresh}

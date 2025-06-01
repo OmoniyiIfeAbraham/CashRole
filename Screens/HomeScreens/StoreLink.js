@@ -9,8 +9,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Modal,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Colors from "../../Style/ThemeColors";
 import GeneralStyle from "../../Style/General.style";
@@ -18,10 +19,57 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import CustomCarousel from "carousel-with-pagination-rn";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { dummyData } from "../../Components/StoreLink/data";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { baseAPIUrl } from "../../Global/Global";
+import axios from "axios";
+import { ALERT_TYPE, Toast } from "react-native-alert-notification";
+import ErrorHandler from "../../Components/Auth/ErrorHandler";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const { width } = Dimensions.get("screen");
 
 const StoreLink = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const getProducts = async () => {
+    try {
+      setIsLoading(true);
+      const userInfo = await AsyncStorage.getItem("cashrole-client-details");
+      const parsedInfo = JSON.parse(userInfo);
+      let url = `${baseAPIUrl}/product/view`;
+
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${parsedInfo.Auth}`,
+        },
+      });
+
+      // console.log(response.data.Data)
+
+      if (response.data.Error === false) {
+        setProducts(response.data.Data);
+      } else {
+        Toast.show({
+          type: ALERT_TYPE.DANGER,
+          title: "Error",
+          textBody: `${response.data.Error}`,
+        });
+      }
+    } catch (error) {
+      ErrorHandler(error, navigation);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   const handleNextClick = (carouselRef) => {
     carouselRef.current?.showNextItem(); // Will scroll to the next item in carousel
   };
@@ -31,7 +79,7 @@ const StoreLink = () => {
   };
 
   const renderItemView = ({ item }) => {
-    console.log(item)
+    // console.log(item);
     // console.log(dummyData)
     return (
       <View
@@ -42,7 +90,7 @@ const StoreLink = () => {
         }}
       >
         <Image
-          source={ item }
+          source={{ uri: item }}
           style={{
             width,
             height: 320,
@@ -53,8 +101,12 @@ const StoreLink = () => {
     );
   };
 
+  const carouselRefs = useRef([]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      {/* loader */}
+      <LoadingModal Visible={isLoading} />
       {/* keyboard dismiss */}
       <ScrollView style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
         {/* header */}
@@ -125,11 +177,14 @@ const StoreLink = () => {
         </View>
         {/* Multiple Carousels */}
         <ScrollView>
-          {dummyData.map((item) => {
-            const carouselRef = useRef(null); // Initialize the ref for each carousel
+          {products.map((item, index) => {
+            // Initialize ref if not already done
+            if (!carouselRefs.current[index]) {
+              carouselRefs.current[index] = React.createRef();
+            }
             return (
               <GestureHandlerRootView
-                key={item.id}
+                key={item._id}
                 style={{
                   justifyContent: "center",
                   // alignItems: "center",
@@ -143,7 +198,9 @@ const StoreLink = () => {
                 >
                   <TouchableOpacity
                     style={GeneralStyle.prevButton}
-                    onPress={() => handlePreviousClick(carouselRef)}
+                    onPress={() =>
+                      handlePreviousClick(carouselRefs.current[index])
+                    }
                   >
                     <FontAwesome
                       name="chevron-left"
@@ -152,14 +209,14 @@ const StoreLink = () => {
                     />
                   </TouchableOpacity>
                   <CustomCarousel
-                    ref={carouselRef}
-                    data={item.imgs} // Pass only the images array to the carousel
+                    ref={carouselRefs.current[index]}
+                    data={item.Images} // Pass only the images array to the carousel
                     renderItem={renderItemView}
                     disablePagination={true}
                   />
                   <TouchableOpacity
                     style={GeneralStyle.nextButton}
-                    onPress={() => handleNextClick(carouselRef)}
+                    onPress={() => handleNextClick(carouselRefs.current[index])}
                   >
                     <FontAwesome
                       name="chevron-right"
@@ -184,7 +241,26 @@ const StoreLink = () => {
                         { color: Colors.white, fontSize: 25 },
                       ]}
                     >
-                      {item.title}
+                      {item?.Name.slice(0, 25)}{" "}
+                      {item.Name.length >= 25 ? (
+                        <TouchableOpacity
+                          onPress={() => {
+                            setSelectedItem(item);
+                            setModalVisible(true);
+                          }}
+                        >
+                          <Text
+                            style={{
+                              color: Colors.mediumSeaGreen,
+                              fontSize: 25,
+                            }}
+                          >
+                            ...
+                          </Text>
+                        </TouchableOpacity>
+                      ) : (
+                        ""
+                      )}
                     </Text>
                     <Text
                       style={[
@@ -195,7 +271,26 @@ const StoreLink = () => {
                         },
                       ]}
                     >
-                      {item.location}
+                      {item?.Details.slice(0, 50)}
+                      {item.Details.length >= 50 ? (
+                        <TouchableOpacity
+                          onPress={() => {
+                            setSelectedItem(item);
+                            setModalVisible(true);
+                          }}
+                        >
+                          <Text
+                            style={{
+                              color: Colors.mediumSeaGreen,
+                              fontSize: 25,
+                            }}
+                          >
+                            ...
+                          </Text>
+                        </TouchableOpacity>
+                      ) : (
+                        ""
+                      )}
                     </Text>
                     <Text
                       style={[
@@ -203,7 +298,7 @@ const StoreLink = () => {
                         { color: Colors.white, fontSize: 30 },
                       ]}
                     >
-                      NGN{item.price}
+                      NGN{Number(item?.Price).toLocaleString()}
                     </Text>
                   </View>
                   {/* btn */}
@@ -236,6 +331,57 @@ const StoreLink = () => {
           })}
         </ScrollView>
       </ScrollView>
+
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+          }}
+        >
+          <View
+            style={{
+              width: "100%",
+              backgroundColor: "white",
+              borderRadius: 10,
+              padding: 20,
+            }}
+          >
+            <Text
+              style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}
+            >
+              {selectedItem?.Name}
+            </Text>
+            <Text style={{ fontSize: 16, color: "#444", marginBottom: 10 }}>
+              {selectedItem?.Details}
+            </Text>
+
+            {/* Add more fields here if needed */}
+            {/* <Text>{selectedItem?.OtherInfo}</Text> */}
+
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              style={{
+                marginTop: 20,
+                backgroundColor: Colors.midnightBlue,
+                padding: 10,
+                borderRadius: 5,
+                alignSelf: "flex-end",
+              }}
+            >
+              <Text style={{ color: "white", textAlign: "center" }}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
