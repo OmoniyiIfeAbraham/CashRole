@@ -1,6 +1,63 @@
 // export const baseAPIUrl = "https://staging.api.cashrole.com";
-export const baseAPIUrl = "http://192.168.140.229:4000";
+export const baseAPIUrl = "http://10.112.236.229:4000";
 // export const baseAPIUrl = "https://cashrole-api.onrender.com";
 export const ApiKey = "0U25eCA2goCf3AoY";
 export const ApiSecKey =
   "PT5uWu.k4s95dwENZZEKiz2ZGRqVUmQml9IpIWq.AOnr7gBWiWMVqXYj";
+
+//   {
+//   "name": "cashrole",
+//   "version": "1.0.0",
+//   "main": "node_modules/expo/AppEntry.js",
+//   "scripts": {
+//     "start": "expo start",
+//     "android": "expo start --android",
+//     "ios": "expo start --ios",
+//     "web": "expo start --web"
+//   },
+//   "dependencies": {
+//     "@expo-google-fonts/alegreya-sans": "^0.2.3",
+//     "@expo/vector-icons": "^14.0.4",
+//     "@react-native-async-storage/async-storage": "1.23.1",
+//     "@react-native-community/datetimepicker": "8.2.0",
+//     "@react-native-picker/picker": "2.9.0",
+//     "@react-navigation/bottom-tabs": "^7.2.1",
+//     "@react-navigation/native": "^7.0.14",
+//     "@react-navigation/native-stack": "^7.2.0",
+//     "axios": "^1.6.8",
+//     "carousel-with-pagination-rn": "^1.1.8",
+//     "expo": "^52.0.46",
+//     "expo-constants": "~17.0.4",
+//     "expo-dev-client": "~5.0.20",
+//     "expo-image-picker": "~16.0.6",
+//     "expo-splash-screen": "~0.29.24",
+//     "expo-status-bar": "~2.0.1",
+//     "expo-web-browser": "^14.0.2",
+//     "metro": "^0.81.0",
+//     "metro-config": "~0.80.8",
+//     "metro-resolver": "~0.80.8",
+//     "react": "18.3.1",
+//     "react-native": "0.76.9",
+//     "react-native-alert-notification": "^0.4.2",
+//     "react-native-gesture-handler": "~2.20.2",
+//     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+//     "react-native-modal-datetime-picker": "^17.1.0",
+//     "react-native-otp": "^1.0.0",
+//     "react-native-otp-textinput": "^1.1.5",
+//     "react-native-phone-number-input": "^2.1.0",
+//     "react-native-picker-select": "^9.1.3",
+//     "react-native-safe-area-context": "4.12.0",
+//     "react-native-screens": "~4.4.0",
+//     "react-native-swiper": "^1.6.0"
+//   },
+//   "devDependencies": {
+//     "@babel/core": "^7.20.0"
+//   },
+//   "private": true,
+//   "resolutions": {
+//     "react-native-picker-select/@react-native-picker/picker": "2.9.0",
+//     "metro": "^0.81.0",
+//     "metro-resolver": "~0.80.8",
+//     "metro-config": "~0.80.8"
+//   }
+// }

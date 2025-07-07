@@ -111,7 +111,7 @@ const Notifications = ({ navigation }) => {
         </View>
       </View>
       {/* icon view */}
-      <View
+      {/* <View
         style={{
           height: "auto",
           width: "10%",
@@ -120,7 +120,7 @@ const Notifications = ({ navigation }) => {
         }}
       >
         <AntDesign name="arrowright" size={24} color={Colors.white} />
-      </View>
+      </View> */}
     </TouchableOpacity>
   ));
   return (

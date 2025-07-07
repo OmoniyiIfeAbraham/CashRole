@@ -1,24 +1,38 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GeneralStyle from "../Style/General.style";
 import Colors from "../Style/ThemeColors";
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import Notifications from "../Components/Notifications/Notifications";
+import NoNotification from "../Components/Notifications/NoNotification";
 
 const History = ({ navigation }) => {
+  const [isNotification, setIsNotification] = useState(true);
   return (
     <SafeAreaView style={{ flex: 1, paddingHorizontal: 15 }}>
-      <ScrollView style={{ flex: 1 }}>
-        <Text
-          style={[
-            GeneralStyle.ExtraBoldText,
-            { color: Colors.midnightBlue, marginLeft: 15, fontSize: 30 },
-          ]}
-        >
-          History
-        </Text>
-        {/* create a seller */}
-        <TouchableOpacity
+      <Text
+        style={[
+          GeneralStyle.ExtraBoldText,
+          { color: Colors.midnightBlue, marginLeft: 15, fontSize: 30 },
+        ]}
+      >
+        History
+      </Text>
+
+      {isNotification ? (
+        <Notifications navigation={navigation} />
+      ) : (
+        <NoNotification navigation={navigation} />
+      )}
+      {/* create a seller */}
+      {/* <TouchableOpacity
           style={{
             width: "100%",
             height: 100,
@@ -71,8 +85,7 @@ const History = ({ navigation }) => {
             size={46}
             color={Colors.midnightBlue}
           />
-        </TouchableOpacity>
-      </ScrollView>
+        </TouchableOpacity> */}
     </SafeAreaView>
   );
 };

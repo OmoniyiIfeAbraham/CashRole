@@ -119,7 +119,7 @@ const HistoryNotifications = ({ navigation, route }) => {
         </View>
       </View>
       {/* icon view */}
-      <View
+      {/* <View
         style={{
           height: "auto",
           width: "10%",
@@ -128,7 +128,7 @@ const HistoryNotifications = ({ navigation, route }) => {
         }}
       >
         <AntDesign name="arrowright" size={24} color={Colors.white} />
-      </View>
+      </View> */}
     </TouchableOpacity>
   ));
   return (

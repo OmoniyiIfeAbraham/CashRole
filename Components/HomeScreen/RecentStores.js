@@ -141,6 +141,17 @@ const RecentStores = ({
         nestedScrollEnabled={true}
         onRefresh={onRefresh}
         refreshing={isRefreshing}
+        ListEmptyComponent={
+          <View
+            style={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text>No Stores Yet</Text>
+          </View>
+        }
       />
     </View>
   );
